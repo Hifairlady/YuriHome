@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+    android:theme="@style/ThemeOverlay.MaterialComponents.Light"
+    app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         app:title="@string/app_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents"
+        app:titleTextAppearance="@style/ToolbarTitleTextStyle"
+        app:titleTextColor="@android:color/white" />
 
 </com.google.android.material.appbar.AppBarLayout>
