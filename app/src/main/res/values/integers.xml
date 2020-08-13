@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="get_data_success">101</integer>
+    <integer name="get_data_failed">102</integer>
+    <integer name="exit_program">103</integer>
+    <integer name="fullscreen_message">104</integer>
+    <integer name="request_permission_storage_code">105</integer>
+    <integer name="animation_duration_fast">200</integer>
+    <integer name="animation_duration_medium">300</integer>
+</resources>

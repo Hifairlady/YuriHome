@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +41,8 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof FooterHolder) return;
         ComicItem item = comicItems.get(position);
         NormalHolder normalHolder = (NormalHolder) holder;
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.anim_slide_right);
+        normalHolder.itemView.startAnimation(animation);
         normalHolder.tvAuthor.setText(item.getAuthors());
         normalHolder.tvTitle.setText(item.getTitle());
         if (item.getStatus().equals(mContext.getString(R.string.const_string_status_finished))) {
