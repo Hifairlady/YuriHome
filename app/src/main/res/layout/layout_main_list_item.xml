@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="168dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
     android:layout_margin="4dp"
     app:cardElevation="4dp"
     app:cardCornerRadius="4dp">
@@ -56,6 +59,18 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_comic_author"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_finished"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@color/colorBlackAA"
+            android:gravity="center"
+            android:text="完"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_comic_title"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

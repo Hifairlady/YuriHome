@@ -5,4 +5,5 @@
     <string name="string_tv_comic_author">Author: %s</string>
     <string name="string_tv_comic_title">Title: %s</string>
     <string name="string_no_more_data">There is no more data!</string>
+    <string name="const_string_status_finished">已完结</string>
 </resources>

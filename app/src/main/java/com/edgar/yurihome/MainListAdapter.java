@@ -41,6 +41,11 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         NormalHolder normalHolder = (NormalHolder) holder;
         normalHolder.tvAuthor.setText(item.getAuthors());
         normalHolder.tvTitle.setText(item.getTitle());
+        if (item.getStatus().equals(mContext.getString(R.string.const_string_status_finished))) {
+            normalHolder.tvFinished.setVisibility(View.VISIBLE);
+        } else {
+            normalHolder.tvFinished.setVisibility(View.GONE);
+        }
         GlideApp.with(mContext)
                 .load(GlideUtil.getGlideUrl(item.getCover()))
                 .into(normalHolder.ivCover);
@@ -53,12 +58,12 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public long getItemId(int position) {
-        return (comicItems.size() == 0 ? 0 : comicItems.get(position).getId());
+        return (comicItems.isEmpty() ? 0 : comicItems.get(position).getId());
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (comicItems.size() == 0 ? 0 : comicItems.get(position).getItemType());
+        return (comicItems.isEmpty() ? 0 : comicItems.get(position).getItemType());
     }
 
     public void appendComicItem(ComicItem item) {
@@ -78,23 +83,29 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void removeFooterItem() {
-        if (comicItems.get(comicItems.size() - 1).getItemType() == ComicItem.ITEM_TYPE_FOOTER) {
+        if (!comicItems.isEmpty() && comicItems.get(comicItems.size() - 1).getItemType() == ComicItem.ITEM_TYPE_FOOTER) {
             comicItems.remove(comicItems.size() - 1);
             notifyItemRemoved(comicItems.size());
         }
+    }
+
+    public void addFooterItem() {
+        ComicItem item = new ComicItem(ComicItem.ITEM_TYPE_FOOTER);
+        appendComicItem(item);
     }
 
 
     private class NormalHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivCover;
-        private TextView tvAuthor, tvTitle;
+        private TextView tvAuthor, tvTitle, tvFinished;
 
         public NormalHolder(@NonNull View itemView) {
             super(itemView);
             ivCover = itemView.findViewById(R.id.iv_cover);
             tvAuthor = itemView.findViewById(R.id.tv_comic_author);
             tvTitle = itemView.findViewById(R.id.tv_comic_title);
+            tvFinished = itemView.findViewById(R.id.tv_finished);
 
         }
     }

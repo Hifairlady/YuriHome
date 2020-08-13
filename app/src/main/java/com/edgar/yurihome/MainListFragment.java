@@ -98,9 +98,19 @@ public class MainListFragment extends Fragment {
         fab = rootView.findViewById(R.id.fab_top);
         fab.hide();
         recyclerView = rootView.findViewById(R.id.rv_main);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
-        recyclerView.setLayoutManager(layoutManager);
         adapter = new MainListAdapter(getContext(), comicItems);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (adapter.getItemViewType(position) == ComicItem.ITEM_TYPE_FOOTER) {
+                    return 3;
+                } else {
+                    return 1;
+                }
+            }
+        });
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +124,7 @@ public class MainListFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
+                adapter.removeFooterItem();
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
                         if (comicItems.isEmpty()) {
@@ -161,6 +172,19 @@ public class MainListFragment extends Fragment {
         });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (isSlideToBottom(recyclerView, isLoading)) {
+                        page += 1;
+                        adapter.addFooterItem();
+                        loadPageData(mHandler, typeCode, regionCode, groupCode, statusCode, sortCode, page);
+                    }
+                }
+            }
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -170,10 +194,6 @@ public class MainListFragment extends Fragment {
                 }
                 if (layoutManager1 != null && layoutManager1.findLastCompletelyVisibleItemPosition() > 14 && !fab.isShown()) {
                     fab.show();
-                }
-                if (isSlideToBottom(recyclerView, isLoading)) {
-                    page += 1;
-                    loadPageData(mHandler, typeCode, regionCode, groupCode, statusCode, sortCode, page);
                 }
             }
         });

@@ -8,23 +8,6 @@
 
     <include layout="@layout/layout_appbar" />
 
-    <!--    <com.google.android.material.appbar.AppBarLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="?attr/actionBarSize"-->
-    <!--        android:theme="@style/ThemeOverlay.MaterialComponents.Light">-->
-
-    <!--        <com.google.android.material.appbar.MaterialToolbar-->
-    <!--            android:id="@+id/toolbar"-->
-    <!--            app:title="@string/app_name"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            app:popupTheme="@style/ThemeOverlay.MaterialComponents"-->
-    <!--            app:titleTextAppearance="@style/ToolbarTitleTextStyle"-->
-    <!--            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"-->
-    <!--            app:titleTextColor="@android:color/white" />-->
-
-    <!--    </com.google.android.material.appbar.AppBarLayout>-->
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/srl_main"
         android:layout_width="match_parent"
@@ -43,6 +26,7 @@
         android:id="@+id/fab_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_top_24" />
 
