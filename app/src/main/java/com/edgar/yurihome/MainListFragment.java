@@ -1,12 +1,21 @@
 package com.edgar.yurihome;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +32,12 @@ public class MainListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView recyclerView;
+    private MainListAdapter adapter;
+    private SwipeRefreshLayout srlMain;
+    private ArrayList<ComicItem> comicItems = new ArrayList<>();
+    private Handler mHandler;
 
     public MainListFragment() {
         // Required empty public constructor
@@ -59,6 +74,41 @@ public class MainListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main_list, container, false);
+        srlMain = rootView.findViewById(R.id.srl_main);
+        recyclerView = rootView.findViewById(R.id.rv_main);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new MainListAdapter(getContext(), comicItems);
+        recyclerView.setAdapter(adapter);
+
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+            }
+        };
+
+        srlMain.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
+
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }
