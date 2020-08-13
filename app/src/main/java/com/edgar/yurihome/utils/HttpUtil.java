@@ -1,4 +1,4 @@
-package com.edgar.yurihome;
+package com.edgar.yurihome.utils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

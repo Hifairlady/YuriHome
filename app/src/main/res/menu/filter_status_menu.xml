@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.edgar.yurihouse.MainActivity">
+
+    <!--    <item-->
+    <!--        android:id="@+id/filter_status_action_all"-->
+    <!--        android:orderInCategory="0"-->
+    <!--        android:title="@string/filter_status_all_string"-->
+    <!--        app:showAsAction="never" />-->
+
+    <!--    <item-->
+    <!--        android:id="@+id/filter_status_action_serializing"-->
+    <!--        android:orderInCategory="1"-->
+    <!--        android:title="@string/filter_status_serializing_string"-->
+    <!--        app:showAsAction="never" />-->
+
+    <!--    <item-->
+    <!--        android:id="@+id/filter_status_action_finished"-->
+    <!--        android:orderInCategory="2"-->
+    <!--        android:title="@string/filter_status_finished_string"-->
+    <!--        app:showAsAction="never" />-->
+
+</menu>

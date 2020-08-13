@@ -1,4 +1,4 @@
-package com.edgar.yurihome;
+package com.edgar.yurihome.utils;
 
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;

@@ -1,4 +1,4 @@
-package com.edgar.yurihome;
+package com.edgar.yurihome.utils;
 
 public class Config {
 

@@ -1,4 +1,4 @@
-package com.edgar.yurihome;
+package com.edgar.yurihome.beans;
 
 import com.google.gson.annotations.SerializedName;
 

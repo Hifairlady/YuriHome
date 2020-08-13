@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainListFragment">
+    tools:context=".fragments.MainListFragment">
 
     <include layout="@layout/layout_appbar" />
 
@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_gravity="bottom|end"
+        android:elevation="8dp"
         android:src="@drawable/ic_top_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

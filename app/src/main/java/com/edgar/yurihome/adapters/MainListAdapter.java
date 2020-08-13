@@ -1,4 +1,4 @@
-package com.edgar.yurihome;
+package com.edgar.yurihome.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.edgar.yurihome.GlideApp;
+import com.edgar.yurihome.R;
+import com.edgar.yurihome.beans.ComicItem;
+import com.edgar.yurihome.utils.GlideUtil;
 
 import java.util.ArrayList;
 
