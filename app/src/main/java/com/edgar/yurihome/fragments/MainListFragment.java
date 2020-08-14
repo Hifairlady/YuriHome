@@ -28,6 +28,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -38,23 +39,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainListFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_CLASSIFY_FILTERS = "ARG_CLASSIFY_FILTERS";
 
     private static final int MSG_LOAD_NEXT_PAGE = 1000;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private RecyclerView recyclerView;
     private MainListAdapter adapter;
@@ -67,25 +55,16 @@ public class MainListFragment extends Fragment {
     private boolean isFinalPage = false;
 
     private int typeCode = 3243, regionCode = 2304, groupCode = 0, statusCode = 0, sortCode = 1, page = 0;
+    private int[] classifyFilters = new int[5];
 
     public MainListFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MainListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MainListFragment newInstance(String param1, String param2) {
+    public static MainListFragment newInstance(int[] filters) {
         MainListFragment fragment = new MainListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putIntArray(ARG_CLASSIFY_FILTERS, filters);
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,8 +74,13 @@ public class MainListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            classifyFilters = getArguments().getIntArray(ARG_CLASSIFY_FILTERS);
+            if (classifyFilters == null || classifyFilters.length != 5) return;
+            typeCode = classifyFilters[0];
+            regionCode = classifyFilters[1];
+            groupCode = classifyFilters[2];
+            statusCode = classifyFilters[3];
+            sortCode = classifyFilters[4];
         }
     }
 
@@ -190,7 +174,8 @@ public class MainListFragment extends Fragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (isSlideToBottom(recyclerView, isLoading)) {
+                    //load next page
+                    if (isSlideToBottom(recyclerView, isLoading) && adapter.getItemCount() > 0) {
                         page += 1;
                         adapter.addFooterItem();
                         loadPageData(mHandler, typeCode, regionCode, groupCode, statusCode, sortCode, page);
@@ -280,7 +265,7 @@ public class MainListFragment extends Fragment {
             ArrayList<ComicItem> items = gson.fromJson(jsonString, type);
             comicItems = new ArrayList<>(items);
             result = HttpUtil.REQUEST_JSON_SUCCESS;
-        } catch (IOException e) {
+        } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
         }
         return result;

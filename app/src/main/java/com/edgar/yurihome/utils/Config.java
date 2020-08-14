@@ -1,6 +1,10 @@
 package com.edgar.yurihome.utils;
 
+import android.util.Log;
+
 public class Config {
+
+    private static final String TAG = "=======================" + Config.class.getSimpleName();
 
     //https://v3api.dmzj.com/classify/3243-2304-26310-3263/1/0.json
     public static final String BASE_URL_CLASSIFY = "https://v3api.dmzj.com/classify/";
@@ -48,47 +52,60 @@ public class Config {
     public static final String BASE_URL_TRANSLATOR = "https://m.dmzj.com/view/";
 
     public static String getComicsUrlByFilter(int typeCode, int regionCode, int groupCode, int statusCode, int sortCode, int page) {
-        String result = BASE_URL_CLASSIFY + typeCode + "-" + regionCode + "-" + groupCode + "-" + statusCode + "/" + sortCode + "/" + page + ".json";
+        String typeCodeStr = (typeCode == 0 ? "" : String.valueOf(typeCode));
+        String regionCodeStr = (regionCode == 0 ? "" : ("-" + regionCode));
+        String groupCodeStr = (groupCode == 0 ? "" : ("-" + groupCode));
+        String statusCodeStr = (statusCode == 0 ? "" : ("-" + statusCode));
+        String result = BASE_URL_CLASSIFY + typeCodeStr + regionCodeStr + groupCodeStr + statusCodeStr + "/" + sortCode + "/" + page + ".json";
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
     public static String getChapterImagesUrl(int comicId, int chapterId) {
         String result = BASE_URL_CHAPTER + comicId + "/" + chapterId + ".json";
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
     public static String getRelatedComicsUrl(int comicId) {
         String result = BASE_URL_RELATED_COMICS + comicId + ".json";
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
     public static String getAuthorComicsUrl(int authorId) {
         String result = BASE_URL_AUTHOR_COMICS + authorId + ".json";
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
     public static String getComicDetailsUrl(int comicId) {
         String result = BASE_URL_COMIC_DETAILS + comicId + ".json";
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
     public static String getLatestCommentsUrl(int comicId, int page, int limit) {
         String result = BASE_URL_LATEST_COMMENTS + comicId + "?page_index=" + page + "&limit=" + limit;
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
     public static String getTopCommentBoardUrl(int comicId) {
         String result = BASE_URL_TOP_COMMENT_BOARD + comicId + ".json";
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
     public static String getTopCommentUrl(int comicId) {
         String result = BASE_URL_TOP_COMMENT + comicId + ".json";
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
     public static String getHotCommentUrl(int comicId, int page) {
         String result = BASE_URL_HOT_COMMENTS + comicId + "&hot=1&page_index=" + page;
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
@@ -96,6 +113,7 @@ public class Config {
         String prefix = imageName.substring(0, imageName.lastIndexOf("."));
         String suffix = imageName.substring(imageName.lastIndexOf("."));
         String result = BASE_URL_COMMENT_IMAGE + prefix + "_small" + suffix;
+        Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }
 
