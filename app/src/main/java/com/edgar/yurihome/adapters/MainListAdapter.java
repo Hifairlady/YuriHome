@@ -12,9 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.edgar.yurihome.GlideApp;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ComicItem;
+import com.edgar.yurihome.interfaces.OnMainListItemClickListener;
 import com.edgar.yurihome.utils.GlideUtil;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context mContext;
     private ArrayList<ComicItem> comicItems = new ArrayList<>();
+    private OnMainListItemClickListener clickListener;
 
     public MainListAdapter(Context mContext, ArrayList<ComicItem> comicItems) {
         this.mContext = mContext;
@@ -46,7 +49,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof FooterHolder) return;
         ComicItem item = comicItems.get(position);
         NormalHolder normalHolder = (NormalHolder) holder;
@@ -59,8 +62,17 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else {
             normalHolder.tvFinished.setVisibility(View.GONE);
         }
-        GlideApp.with(mContext)
+        normalHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (clickListener != null) {
+                    clickListener.onItemClick(position);
+                }
+            }
+        });
+        GlideApp.with(normalHolder.ivCover)
                 .load(GlideUtil.getGlideUrl(item.getCover()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(normalHolder.ivCover);
     }
 
@@ -77,6 +89,13 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemViewType(int position) {
         return (comicItems.isEmpty() ? 0 : comicItems.get(position).getItemType());
+    }
+
+    public ComicItem getComicItemAt(int position) {
+        if (comicItems.isEmpty() || position >= comicItems.size() || position < 0) {
+            return null;
+        }
+        return comicItems.get(position);
     }
 
     public void appendComicItem(ComicItem item) {
@@ -127,6 +146,10 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public FooterHolder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+    public void setOnMainListItemClickListener(OnMainListItemClickListener itemClickListener) {
+        this.clickListener = itemClickListener;
     }
 
 }

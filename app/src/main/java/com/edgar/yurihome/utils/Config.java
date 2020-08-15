@@ -51,11 +51,22 @@ public class Config {
     //https://m.dmzj.com/view/42571/106671.html
     public static final String BASE_URL_TRANSLATOR = "https://m.dmzj.com/view/";
 
+    public static String getClassifyFiltersUrl() {
+        String result = BASE_URL_CLASSIFY + "filter.json";
+        Log.d(TAG, "getClassifyFiltersUrl: " + result);
+        return result;
+    }
+
     public static String getComicsUrlByFilter(int typeCode, int regionCode, int groupCode, int statusCode, int sortCode, int page) {
         String typeCodeStr = (typeCode == 0 ? "" : String.valueOf(typeCode));
         String regionCodeStr = (regionCode == 0 ? "" : ("-" + regionCode));
         String groupCodeStr = (groupCode == 0 ? "" : ("-" + groupCode));
         String statusCodeStr = (statusCode == 0 ? "" : ("-" + statusCode));
+
+        if ((typeCode + regionCode + groupCode + statusCode) == 0) {
+            typeCodeStr = "3243";
+        }
+
         String result = BASE_URL_CLASSIFY + typeCodeStr + regionCodeStr + groupCodeStr + statusCodeStr + "/" + sortCode + "/" + page + ".json";
         Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;

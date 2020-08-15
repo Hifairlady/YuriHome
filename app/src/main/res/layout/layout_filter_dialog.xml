@@ -16,7 +16,7 @@
 
             <TextView
                 android:id="@+id/tv_dialog_title"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
@@ -27,6 +27,7 @@
                 android:textSize="32sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,12 +36,13 @@
                 style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
                 android:layout_width="88dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:padding="16dp"
+                android:textSize="20sp"
                 android:text="@string/string_filter_dialog_apply"
                 android:textColor="@color/colorBlackText"
                 android:textStyle="bold"
@@ -60,8 +62,9 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:padding="16dp"
+                android:textColor="@color/colorBlackText77"
                 android:text="@string/string_dialog_filter_cancel"
-                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_apply"
@@ -128,7 +131,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:entries="@array/classify_types"
                 android:gravity="center"
                 android:padding="8dp"
@@ -143,7 +146,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:entries="@array/classify_region"
                 android:gravity="center"
                 android:padding="8dp"
@@ -158,7 +161,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:entries="@array/classify_status"
                 android:gravity="center"
                 android:padding="8dp"
@@ -173,7 +176,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:entries="@array/classify_sort"
                 android:gravity="center"
                 android:padding="8dp"
@@ -182,6 +185,20 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/tv_sort"
                 app:layout_constraintTop_toTopOf="@+id/tv_sort" />
+
+            <ImageButton
+                android:id="@+id/btn_refresh_filter"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="16dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_dialog_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_dialog_title"
+                app:srcCompat="@drawable/ic_refresh_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents"
         app:titleTextAppearance="@style/ToolbarTitleTextStyle"
-        app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
         app:titleTextColor="@color/colorBlackText" />
 
 </com.google.android.material.appbar.AppBarLayout>

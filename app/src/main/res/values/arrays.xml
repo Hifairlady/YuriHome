@@ -77,6 +77,5 @@
     <string-array name="classify_sort">
         <item>按人气</item>
         <item>按更新</item>
-        <item>默认</item>
     </string-array>
 </resources>
