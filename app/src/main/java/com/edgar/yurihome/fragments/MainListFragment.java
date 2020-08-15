@@ -26,11 +26,10 @@ import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.MainListAdapter;
 import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.beans.ComicItem;
-import com.edgar.yurihome.beans.JsonResponseItem;
+import com.edgar.yurihome.beans.ComicJsonResponse;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
 import com.edgar.yurihome.utils.JsonUtil;
-import com.edgar.yurihome.utils.JsonUtil1;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -46,11 +45,10 @@ public class MainListFragment extends Fragment {
     private MainListAdapter adapter;
     private SwipeRefreshLayout srlMain;
     private FloatingActionButton fab;
-    private ArrayList<ComicItem> comicItems = new ArrayList<>();
     private ArrayList<ClassifyFilterBean> classifyFilterBeans = new ArrayList<>();
     private Handler mHandler;
 
-    private JsonResponseItem<ComicItem> comicJsonResponse = new JsonResponseItem<>();
+    private ComicJsonResponse comicJsonResponse = new ComicJsonResponse();
 
     private boolean isLoading = false;
     private boolean isFinalPage = false;
@@ -99,29 +97,6 @@ public class MainListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        JsonUtil.fetchClassifyData(new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                classifyFilterBeans = new ArrayList<>(JsonUtil.getClassifyFilterBeans());
-                switch (msg.what) {
-                    case HttpUtil.REQUEST_JSON_SUCCESS:
-                        if (comicItems.isEmpty()) {
-                            Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
-                        }
-                        break;
-
-                    case HttpUtil.REQUEST_JSON_FAILED:
-                        Snackbar.make(recyclerView, HttpUtil.MESSAGE_NETWORK_ERROR, Snackbar.LENGTH_SHORT).show();
-                        break;
-
-                    case HttpUtil.PARSE_JSON_DATA_ERROR:
-                        Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
-                        break;
-
-                }
-            }
-        });
         loadPageData(mHandler, typeCode, regionCode, groupCode, statusCode, sortCode, page);
     }
 
@@ -163,8 +138,7 @@ public class MainListFragment extends Fragment {
         if (isFinalPage) return;
         isLoading = true;
         String urlString = Config.getComicsUrlByFilter(type, region, group, status, sort, pageNum);
-//        JsonUtil.fetchComicsData(handler, urlString);
-        JsonUtil1.fetchJsonData(handler, urlString, comicJsonResponse);
+        JsonUtil.fetchComicsData(handler, urlString, comicJsonResponse);
     }
 
     private void initView(View rootView) {
@@ -172,7 +146,7 @@ public class MainListFragment extends Fragment {
         fab = rootView.findViewById(R.id.fab_top);
         fab.hide();
         recyclerView = rootView.findViewById(R.id.rv_main);
-        adapter = new MainListAdapter(getContext(), comicItems);
+        adapter = new MainListAdapter(getContext());
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -198,7 +172,7 @@ public class MainListFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-//                comicItems = new ArrayList<>(JsonUtil.getComicItems());
+                ArrayList<ComicItem> comicItems = comicJsonResponse.getDataItems();
                 adapter.removeFooterItem();
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
@@ -208,7 +182,6 @@ public class MainListFragment extends Fragment {
                         } else {
                             if (srlMain.isRefreshing()) {
                                 adapter.setComicItems(comicItems);
-                                adapter.setComicItems((ArrayList<ComicItem>) comicJsonResponse.getDataItems());
                             } else {
                                 adapter.appendComicItems(comicItems);
                             }

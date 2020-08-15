@@ -5,6 +5,7 @@ import android.os.Message;
 
 import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.beans.ComicItem;
+import com.edgar.yurihome.beans.ComicJsonResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -20,7 +21,6 @@ import okhttp3.Response;
 public class JsonUtil {
 
     private static ArrayList<ClassifyFilterBean> classifyFilterBeans = new ArrayList<>();
-    private static ArrayList<ComicItem> comicItems = new ArrayList<>();
 
     public static void fetchClassifyData(final Handler handler) {
         HttpUtil.sendRequestWithOkhttp(Config.BASE_URL_CLASSIFY, new Callback() {
@@ -62,7 +62,8 @@ public class JsonUtil {
     }
 
 
-    public static void fetchComicsData(final Handler handler, String urlString) {
+    //fetch main list json data
+    public static void fetchComicsData(final Handler handler, String urlString, final ComicJsonResponse comicResponse) {
         HttpUtil.sendRequestWithOkhttp(urlString, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -74,30 +75,30 @@ public class JsonUtil {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Message message = Message.obtain();
-                message.what = parseComicJsonString(response);
+                parseComicJsonString(response, comicResponse);
+                message.what = comicResponse.getResponseCode();
                 handler.sendMessage(message);
             }
         });
     }
 
-    private static int parseComicJsonString(Response response) {
+    private static void parseComicJsonString(Response response, ComicJsonResponse comicResponse) {
         int result = HttpUtil.PARSE_JSON_DATA_ERROR;
         try {
-            if (response.body() == null) return result;
+            if (response.body() == null) {
+                comicResponse.setResponseCode(result);
+                return;
+            }
             String jsonString = response.body().string();
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<ComicItem>>() {
             }.getType();
             ArrayList<ComicItem> items = gson.fromJson(jsonString, type);
-            comicItems = new ArrayList<>(items);
+            comicResponse.setDataItems(items);
             result = HttpUtil.REQUEST_JSON_SUCCESS;
         } catch (IOException | JsonSyntaxException e) {
             e.printStackTrace();
         }
-        return result;
-    }
-
-    public static ArrayList<ComicItem> getComicItems() {
-        return comicItems;
+        comicResponse.setResponseCode(result);
     }
 }

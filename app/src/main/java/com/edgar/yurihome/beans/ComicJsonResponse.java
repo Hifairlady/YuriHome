@@ -4,9 +4,9 @@ import com.edgar.yurihome.utils.HttpUtil;
 
 import java.util.ArrayList;
 
-public class JsonResponseItem<T> {
+public class ComicJsonResponse {
     private int responseCode = HttpUtil.REQUEST_JSON_FAILED;
-    private ArrayList<?> dataItems = new ArrayList<T>();
+    private ArrayList<ComicItem> dataItems = new ArrayList<>();
 
     public int getResponseCode() {
         return responseCode;
@@ -16,11 +16,11 @@ public class JsonResponseItem<T> {
         this.responseCode = responseCode;
     }
 
-    public ArrayList<?> getDataItems() {
+    public ArrayList<ComicItem> getDataItems() {
         return dataItems;
     }
 
-    public void setDataItems(ArrayList<?> dataItems) {
+    public void setDataItems(ArrayList<ComicItem> dataItems) {
         this.dataItems = dataItems;
     }
 }

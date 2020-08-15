@@ -29,6 +29,10 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.comicItems = comicItems;
     }
 
+    public MainListAdapter(Context mContext) {
+        this.mContext = mContext;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
