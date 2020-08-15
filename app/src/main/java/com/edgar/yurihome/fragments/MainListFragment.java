@@ -1,5 +1,6 @@
 package com.edgar.yurihome.fragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,23 +24,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.MainListAdapter;
+import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.beans.ComicItem;
+import com.edgar.yurihome.beans.JsonResponseItem;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
+import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.JsonUtil1;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class MainListFragment extends Fragment {
     private static final String ARG_CLASSIFY_FILTERS = "ARG_CLASSIFY_FILTERS";
@@ -49,7 +47,10 @@ public class MainListFragment extends Fragment {
     private SwipeRefreshLayout srlMain;
     private FloatingActionButton fab;
     private ArrayList<ComicItem> comicItems = new ArrayList<>();
+    private ArrayList<ClassifyFilterBean> classifyFilterBeans = new ArrayList<>();
     private Handler mHandler;
+
+    private JsonResponseItem<ComicItem> comicJsonResponse = new JsonResponseItem<>();
 
     private boolean isLoading = false;
     private boolean isFinalPage = false;
@@ -91,6 +92,82 @@ public class MainListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main_list, container, false);
         MaterialToolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        initView(rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        JsonUtil.fetchClassifyData(new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                classifyFilterBeans = new ArrayList<>(JsonUtil.getClassifyFilterBeans());
+                switch (msg.what) {
+                    case HttpUtil.REQUEST_JSON_SUCCESS:
+                        if (comicItems.isEmpty()) {
+                            Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
+                        }
+                        break;
+
+                    case HttpUtil.REQUEST_JSON_FAILED:
+                        Snackbar.make(recyclerView, HttpUtil.MESSAGE_NETWORK_ERROR, Snackbar.LENGTH_SHORT).show();
+                        break;
+
+                    case HttpUtil.PARSE_JSON_DATA_ERROR:
+                        Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
+                        break;
+
+                }
+            }
+        });
+        loadPageData(mHandler, typeCode, regionCode, groupCode, statusCode, sortCode, page);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.main_list_frag_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_menu_action_search:
+                break;
+
+            case R.id.main_menu_action_filter:
+                Dialog dialog = new Dialog(getContext());
+                View rootView = LayoutInflater.from(getContext()).inflate(R.layout.layout_filter_dialog, null, false);
+                dialog.setContentView(rootView);
+                initDialogView(rootView, dialog);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.setTitle("Filter");
+                dialog.show();
+                break;
+
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isSlideToBottom(RecyclerView rvArg, boolean isLoadingArg) {
+        return !isLoadingArg && rvArg != null &&
+                rvArg.computeVerticalScrollExtent() + rvArg.computeVerticalScrollOffset() >=
+                        rvArg.computeVerticalScrollRange();
+    }
+
+    private void loadPageData(final Handler handler, int type, int region, int group, int status, int sort, int pageNum) {
+        if (isFinalPage) return;
+        isLoading = true;
+        String urlString = Config.getComicsUrlByFilter(type, region, group, status, sort, pageNum);
+//        JsonUtil.fetchComicsData(handler, urlString);
+        JsonUtil1.fetchJsonData(handler, urlString, comicJsonResponse);
+    }
+
+    private void initView(View rootView) {
         srlMain = rootView.findViewById(R.id.srl_main);
         fab = rootView.findViewById(R.id.fab_top);
         fab.hide();
@@ -121,6 +198,7 @@ public class MainListFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
+//                comicItems = new ArrayList<>(JsonUtil.getComicItems());
                 adapter.removeFooterItem();
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
@@ -130,6 +208,7 @@ public class MainListFragment extends Fragment {
                         } else {
                             if (srlMain.isRefreshing()) {
                                 adapter.setComicItems(comicItems);
+                                adapter.setComicItems((ArrayList<ComicItem>) comicJsonResponse.getDataItems());
                             } else {
                                 adapter.appendComicItems(comicItems);
                             }
@@ -195,79 +274,31 @@ public class MainListFragment extends Fragment {
                 }
             }
         });
-
-
-        return rootView;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        loadPageData(mHandler, typeCode, regionCode, groupCode, statusCode, sortCode, page);
-    }
+    private void initDialogView(View rootView, final Dialog dialog) {
+        TextView btnCancel, btnApply;
+        Spinner spType, spRegion, spStatus, spSort;
+        int curTypeCode = classifyFilters[0];
+        int curRegionCode = classifyFilters[1];
+        int curStatusCode = classifyFilters[3];
+        int curSortCode = classifyFilters[4];
+        ArrayList<ClassifyFilterBean.FilterItem> typeFilterItems = new ArrayList<ClassifyFilterBean.FilterItem>(classifyFilterBeans.get(0).getFilterItems());
+        ArrayList<ClassifyFilterBean.FilterItem> regionFilterItems = new ArrayList<ClassifyFilterBean.FilterItem>(classifyFilterBeans.get(3).getFilterItems());
+        ArrayList<ClassifyFilterBean.FilterItem> statusFilterItems = new ArrayList<ClassifyFilterBean.FilterItem>(classifyFilterBeans.get(2).getFilterItems());
+        ClassifyFilterBean.FilterItem typeFilterItem =
+                ClassifyFilterBean.findFilterItemById(new ArrayList<ClassifyFilterBean.FilterItem>(classifyFilterBeans.get(3).getFilterItems()), curTypeCode);
+        int[] filtersTemp = new int[5];
+        btnCancel = rootView.findViewById(R.id.tv_cancel);
+        btnApply = rootView.findViewById(R.id.tv_apply);
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.main_list_frag_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.main_menu_action_search:
-                break;
-
-            case R.id.main_menu_action_filter:
-                break;
-
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private boolean isSlideToBottom(RecyclerView rvArg, boolean isLoadingArg) {
-        return !isLoadingArg && rvArg != null &&
-                rvArg.computeVerticalScrollExtent() + rvArg.computeVerticalScrollOffset() >=
-                        rvArg.computeVerticalScrollRange();
-    }
-
-    private void loadPageData(final Handler handler, int type, int region, int group, int status, int sort, int pageNum) {
-        if (isFinalPage) return;
-        isLoading = true;
-        String urlString = Config.getComicsUrlByFilter(type, region, group, status, sort, pageNum);
-        HttpUtil.sendRequestWithOkhttp(urlString, new Callback() {
+        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                Message message = Message.obtain();
-                message.what = HttpUtil.REQUEST_JSON_FAILED;
-                handler.sendMessage(message);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Message message = Message.obtain();
-                message.what = parseJsonString(response);
-                handler.sendMessage(message);
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
     }
 
-    private int parseJsonString(Response response) {
-        int result = HttpUtil.PARSE_JSON_DATA_ERROR;
-        try {
-            if (response.body() == null) return result;
-            String jsonString = response.body().string();
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<ComicItem>>() {
-            }.getType();
-            ArrayList<ComicItem> items = gson.fromJson(jsonString, type);
-            comicItems = new ArrayList<>(items);
-            result = HttpUtil.REQUEST_JSON_SUCCESS;
-        } catch (IOException | JsonSyntaxException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 }

@@ -8,4 +8,11 @@
     <string name="const_string_status_finished">已完结</string>
     <string name="string_menu_filter">Filter</string>
     <string name="string_menu_search">Search</string>
+    <string name="string_filter_dialog_title">Filter</string>
+    <string name="string_filter_dialog_apply">应用</string>
+    <string name="string_dialog_filter_cancel">取消</string>
+    <string name="string_classify_type_text">题材</string>
+    <string name="string_classify_region_text">地域</string>
+    <string name="string_classify_status_text">进度</string>
+    <string name="string_classify_sort_text">排序</string>
 </resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="classify_types">
+        <item>全部</item>
+        <item>冒险</item>
+        <item>欢乐向</item>
+        <item>格斗</item>
+        <item>科幻</item>
+        <item>爱情</item>
+        <item>侦探</item>
+        <item>竞技</item>
+        <item>魔法</item>
+        <item>神鬼</item>
+        <item>校园</item>
+        <item>惊悚</item>
+        <item>其他</item>
+        <item>四格</item>
+        <item>生活</item>
+        <item>百合</item>
+        <item>秀吉</item>
+        <item>悬疑</item>
+        <item>纯爱</item>
+        <item>热血</item>
+        <item>后宫</item>
+        <item>历史</item>
+        <item>战争</item>
+        <item>萌系</item>
+        <item>宅系</item>
+        <item>治愈</item>
+        <item>励志</item>
+        <item>武侠</item>
+        <item>机战</item>
+        <item>音乐舞蹈</item>
+        <item>美食</item>
+        <item>职场</item>
+        <item>西方魔幻</item>
+        <item>高清单行</item>
+        <item>性转换</item>
+        <item>东方</item>
+        <item>扶她</item>
+        <item>魔幻</item>
+        <item>奇幻</item>
+        <item>节操</item>
+        <item>轻小说</item>
+        <item>颜艺</item>
+        <item>搞笑</item>
+        <item>仙侠</item>
+        <item>舰娘</item>
+        <item>动画</item>
+        <item>AA</item>
+    </string-array>
+
+    <string-array name="classify_group">
+        <item>全部</item>
+        <item>少年漫画</item>
+        <item>少女漫画</item>
+        <item>青年漫画</item>
+        <item>女青漫画</item>
+    </string-array>
+
+    <string-array name="classify_status">
+        <item>全部</item>
+        <item>连载中</item>
+        <item>已完结</item>
+    </string-array>
+
+    <string-array name="classify_region">
+        <item>全部</item>
+        <item>日本</item>
+        <item>韩国</item>
+        <item>欧美</item>
+        <item>港台</item>
+        <item>内地</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="classify_sort">
+        <item>按人气</item>
+        <item>按更新</item>
+        <item>默认</item>
+    </string-array>
+</resources>
