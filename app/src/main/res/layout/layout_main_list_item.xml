@@ -54,6 +54,7 @@
             android:gravity="center"
             android:paddingBottom="2dp"
             android:paddingEnd="2dp"
+            android:paddingTop="2dp"
             android:singleLine="true"
             android:text="@string/string_tv_comic_author"
             android:textColor="@android:color/white"

@@ -1,4 +1,6 @@
-package com.edgar.yurihome.utils;
+package com.edgar.yurihome.beans;
+
+import com.edgar.yurihome.utils.HttpUtil;
 
 public class JsonResponseItem {
     private int responseCode = HttpUtil.REQUEST_JSON_FAILED;

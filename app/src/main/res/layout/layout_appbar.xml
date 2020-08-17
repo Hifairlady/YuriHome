@@ -7,7 +7,7 @@
     android:theme="@style/ThemeOverlay.MaterialComponents.Light">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/full_chapter_list_toolbar"
         app:title="@string/app_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

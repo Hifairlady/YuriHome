@@ -2,6 +2,7 @@ package com.edgar.yurihome.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -29,6 +30,7 @@ import com.edgar.yurihome.adapters.MainListAdapter;
 import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.beans.ComicItem;
 import com.edgar.yurihome.interfaces.OnMainListItemClickListener;
+import com.edgar.yurihome.scenarios.ComicDetailsActivity;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
 import com.edgar.yurihome.utils.JsonUtil;
@@ -72,9 +74,19 @@ public class MainListFragment extends Fragment {
         public void onItemClick(int position) {
             ComicItem comicItem = adapter.getComicItemAt(position);
             if (comicItem == null) return;
-            Snackbar.make(recyclerView, comicItem.getTitle(), Snackbar.LENGTH_SHORT).show();
+//            Snackbar.make(recyclerView, comicItem.getTitle(), Snackbar.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), ComicDetailsActivity.class);
+            intent.putExtra("COMIC_DETAILS_URL", Config.getComicDetailsUrl(comicItem.getId()));
+            intent.putExtra("COMIC_COVER_URL", comicItem.getCover());
+            intent.putExtra("COMIC_TITLE", comicItem.getTitle());
+            intent.putExtra("COMIC_AUTHORS", comicItem.getAuthors());
+            intent.putExtra("COMIC_STATUS", comicItem.getStatus());
+            intent.putExtra("COMIC_TYPES", comicItem.getTypes());
+            intent.putExtra("COMIC_LAST_UPDATE_TIME", comicItem.getLastUpdateTime());
+            startActivity(intent);
         }
     };
+
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -94,7 +106,7 @@ public class MainListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main_list, container, false);
-        MaterialToolbar toolbar = rootView.findViewById(R.id.toolbar);
+        MaterialToolbar toolbar = rootView.findViewById(R.id.full_chapter_list_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         initView(rootView);
         return rootView;
@@ -197,13 +209,13 @@ public class MainListFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
+                adapter.removeFooterItem();
                 String jsonString = (String) msg.obj;
                 try {
                     Gson gson = new Gson();
                     Type type = new TypeToken<ArrayList<ComicItem>>() {
                     }.getType();
                     ArrayList<ComicItem> comicItems = gson.fromJson(jsonString, type);
-                    adapter.removeFooterItem();
                     switch (msg.what) {
                         case HttpUtil.REQUEST_JSON_SUCCESS:
                             if (comicItems.isEmpty()) {
@@ -262,7 +274,7 @@ public class MainListFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     //load next page
-                    if (isSlideToBottom(recyclerView, isLoading) && adapter.getItemCount() > 0) {
+                    if (isSlideToBottom(recyclerView, isLoading) && adapter.getItemCount() > 0 && !isFinalPage) {
                         page += 1;
                         adapter.addFooterItem();
                         loadPageData(mHandler, typeCode, regionCode, groupCode, statusCode, sortCode, page);

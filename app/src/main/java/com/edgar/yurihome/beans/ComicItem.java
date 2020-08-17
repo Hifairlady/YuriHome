@@ -24,7 +24,7 @@ public class ComicItem {
     private String cover;
     private String types;
     @SerializedName("last_updatetime")
-    private int lastUpdateTime;
+    private long lastUpdateTime;
     private int num;
     private int itemType = 0;
 
@@ -88,11 +88,11 @@ public class ComicItem {
         this.types = types;
     }
 
-    public int getLastUpdateTime() {
+    public long getLastUpdateTime() {
         return lastUpdateTime;
     }
 
-    public void setLastUpdateTime(int lastUpdateTime) {
+    public void setLastUpdateTime(long lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }
 

@@ -3,6 +3,7 @@ package com.edgar.yurihome.utils;
 import android.os.Handler;
 import android.os.Message;
 
+import com.edgar.yurihome.beans.JsonResponseItem;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;

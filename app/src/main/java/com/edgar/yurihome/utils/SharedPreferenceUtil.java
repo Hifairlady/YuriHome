@@ -82,6 +82,10 @@ public class SharedPreferenceUtil {
         String[] temp = typeTagIdString.split("_");
         int[] result = new int[temp.length];
         for (int i = 0; i < temp.length; i++) {
+            if (temp[i].equals("")) {
+                result[i] = 0;
+                continue;
+            }
             result[i] = Integer.parseInt(temp[i]);
         }
         return result;
@@ -101,6 +105,10 @@ public class SharedPreferenceUtil {
         String[] temp = statTagIdString.split("_");
         int[] result = new int[temp.length];
         for (int i = 0; i < temp.length; i++) {
+            if (temp[i].equals("")) {
+                result[i] = 0;
+                continue;
+            }
             result[i] = Integer.parseInt(temp[i]);
         }
         return result;
@@ -120,6 +128,10 @@ public class SharedPreferenceUtil {
         String[] temp = regionTagIdString.split("_");
         int[] result = new int[temp.length];
         for (int i = 0; i < temp.length; i++) {
+            if (temp[i].equals("")) {
+                result[i] = 0;
+                continue;
+            }
             result[i] = Integer.parseInt(temp[i]);
         }
         return result;

@@ -73,6 +73,8 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         GlideApp.with(normalHolder.ivCover)
                 .load(GlideUtil.getGlideUrl(item.getCover()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_loading)
+                .error(R.drawable.image_error)
                 .into(normalHolder.ivCover);
     }
 

@@ -1,4 +1,4 @@
-package com.edgar.yurihome;
+package com.edgar.yurihome.scenarios;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,11 +11,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ClassifyFilterBean;
+import com.edgar.yurihome.beans.JsonResponseItem;
 import com.edgar.yurihome.fragments.MainListFragment;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonResponseItem;
 import com.edgar.yurihome.utils.JsonUtil;
 import com.edgar.yurihome.utils.SharedPreferenceUtil;
 import com.google.android.material.snackbar.Snackbar;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
-        initData();
+        fetchFilterData();
 
     }
 
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void initData() {
+    private void fetchFilterData() {
         String urlString = Config.getClassifyFiltersUrl();
         JsonUtil.fetchJsonData(mHandler, urlString);
     }

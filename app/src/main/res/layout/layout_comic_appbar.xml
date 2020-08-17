@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="8dp"
+    android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:contentScrim="@color/colorPrimaryDark"
+        app:expandedTitleTextAppearance="@style/TransparentTitleTextStyle"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:titleEnabled="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="224dp"
+            android:layout_marginTop="?attr/actionBarSize">
+
+            <ImageView
+                android:id="@+id/iv_comic_last_update_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_comic_details_cover"
+                app:layout_constraintTop_toBottomOf="@+id/imageView7"
+                app:srcCompat="@drawable/ic_time_24" />
+
+            <ImageView
+                android:id="@+id/iv_comic_details_cover"
+                android:layout_width="128dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/iv_comic_details_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/iv_comic_type_tags"
+                app:layout_constraintStart_toEndOf="@+id/iv_comic_details_cover"
+                app:srcCompat="@drawable/ic_author_24" />
+
+            <ImageView
+                android:id="@+id/iv_comic_type_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/iv_comic_latest_chapter"
+                app:layout_constraintStart_toEndOf="@+id/iv_comic_details_cover"
+                app:srcCompat="@drawable/ic_tag_24" />
+
+            <ImageView
+                android:id="@+id/iv_comic_latest_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_comic_details_cover"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_latest_chapter_24" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_comic_details_cover"
+                app:layout_constraintTop_toBottomOf="@+id/iv_comic_latest_chapter"
+                app:srcCompat="@drawable/ic_status_24" />
+
+            <TextView
+                android:id="@+id/tv_comic_details_tags"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@string/string_comic_details_tags_text"
+                android:textColor="@color/colorBlackText"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_comic_type_tags"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_comic_type_tags"
+                app:layout_constraintTop_toTopOf="@+id/iv_comic_type_tags" />
+
+            <TextView
+                android:id="@+id/tv_comic_details_status"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@string/string_comic_details_status_text"
+                android:textColor="@color/colorBlackText"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                app:layout_constraintTop_toTopOf="@+id/imageView7" />
+
+            <TextView
+                android:id="@+id/tv_details_last_chapter"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@string/string_comic_details_last_chapter_text"
+                android:textColor="@color/colorBlackText"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_comic_latest_chapter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_comic_latest_chapter"
+                app:layout_constraintTop_toTopOf="@+id/iv_comic_latest_chapter" />
+
+            <TextView
+                android:id="@+id/tv_details_last_update_time"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@string/string_comic_details_last_update_text"
+                android:textColor="@color/colorBlackText"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_comic_last_update_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_comic_last_update_time"
+                app:layout_constraintTop_toTopOf="@+id/iv_comic_last_update_time" />
+
+            <TextView
+                android:id="@+id/tv_comic_details_authors"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/rubik"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@string/string_comic_details_authors_text"
+                android:textColor="@color/colorBlackText"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_comic_details_author"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_comic_details_author"
+                app:layout_constraintTop_toTopOf="@+id/iv_comic_details_author" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/comic_details_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_arrow_back_24"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+            app:title="Hello World!"
+            app:titleTextAppearance="@style/ToolbarTitleTextStyle" />
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/details_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_scrollFlags="scroll"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextAppearance="@style/ToolbarTitleTextStyle"
+        app:tabTextColor="@color/colorBlackText77">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/string_related_comics_text" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/string_chapter_infos_text" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/string_comic_comments_text" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+</com.google.android.material.appbar.AppBarLayout>
