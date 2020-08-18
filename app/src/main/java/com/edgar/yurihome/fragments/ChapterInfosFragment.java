@@ -158,6 +158,7 @@ public class ChapterInfosFragment extends Fragment {
 
     private void initChaptersData(Context context) {
         if (mDetailsBean == null) return;
+        int comicId = mDetailsBean.getId();
         listAdapters = new ArrayList<>();
         for (ComicDetailsBean.ChaptersBean chaptersBean : mDetailsBean.getChapters()) {
 //            ComicDetailsBean.ChaptersBean chaptersBean = mDetailsBean.getChapters().get(0);
@@ -168,7 +169,7 @@ public class ChapterInfosFragment extends Fragment {
             RecyclerView rvChapterPartList = chapterView.findViewById(R.id.rv_chapter_list);
             GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
             rvChapterPartList.setLayoutManager(layoutManager);
-            ChapterListAdapter mAdapter = new ChapterListAdapter(getContext(), chaptersBean.getData(), mDetailsBean.getLastUpdateChapterId(), false);
+            ChapterListAdapter mAdapter = new ChapterListAdapter(getContext(), chaptersBean.getData(), mDetailsBean.getLastUpdateChapterId(), false, comicId);
             rvChapterPartList.setAdapter(mAdapter);
             listAdapters.add(mAdapter);
         }

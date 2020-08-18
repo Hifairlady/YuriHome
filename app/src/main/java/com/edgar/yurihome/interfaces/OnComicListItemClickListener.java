@@ -1,5 +1,5 @@
 package com.edgar.yurihome.interfaces;
 
-public interface OnMainListItemClickListener {
+public interface OnComicListItemClickListener {
     void onItemClick(int position);
 }

@@ -40,4 +40,7 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 
+//    implementation 'com.otaliastudios:zoomlayout:1.8.0'
+    implementation 'com.xlw.zoom:zoomlayout:1.0.0'
+
 }

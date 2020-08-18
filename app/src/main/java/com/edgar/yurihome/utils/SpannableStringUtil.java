@@ -81,4 +81,73 @@ public class SpannableStringUtil {
         tvDisplay.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    public static void setAuthorSpanString(String authorsText, final ArrayList<ComicDetailsBean.AuthorsBean> authorsBeans, TextView tvAuthors) {
+        SpannableString spannableString = new SpannableString(authorsText);
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(0xff3f51b5);
+        UnderlineSpan underlineSpan = new UnderlineSpan();
+        spannableString.setSpan(foregroundColorSpan, 0, 2, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        spannableString.setSpan(underlineSpan, 0, 2, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                final PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+                for (ComicDetailsBean.AuthorsBean authorsBean : authorsBeans) {
+                    popupMenu.getMenu().add(Menu.NONE, authorsBean.getTagId(), Menu.NONE, authorsBean.getTagName());
+                }
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        popupMenu.dismiss();
+//                        String displayString = item.getTitle() + String.valueOf(item.getItemId());
+//                        Snackbar.make(detailsRootView, displayString, Snackbar.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        };
+        spannableString.setSpan(clickableSpan, 0, 2, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tvAuthors.setText(spannableString);
+        tvAuthors.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    public static void setTagSpanString(String tagText, final ArrayList<ComicDetailsBean.TypesBean> typesBeans, TextView tvTags) {
+        SpannableString spannableString = new SpannableString(tagText);
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(0xff3f51b5);
+        UnderlineSpan underlineSpan = new UnderlineSpan();
+        spannableString.setSpan(foregroundColorSpan, 0, 2, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        spannableString.setSpan(underlineSpan, 0, 2, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                final PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+                StringBuilder stringBuilder = new StringBuilder();
+                int count = 0;
+                for (ComicDetailsBean.TypesBean typesBean : typesBeans) {
+                    stringBuilder.append(typesBean.getTagName());
+                    if (count < typesBeans.size() - 1) {
+                        stringBuilder.append("/");
+                    }
+//                        popupMenu.getMenu().add(Menu.NONE, typesBean.getTagId(), Menu.NONE, typesBean.getTagName());
+                    count++;
+                }
+                String typeString = stringBuilder.toString();
+                popupMenu.getMenu().add(Menu.NONE, Menu.NONE, Menu.NONE, typeString);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        popupMenu.dismiss();
+//                        String displayString = item.getTitle() + String.valueOf(item.getItemId());
+//                        Snackbar.make(detailsRootView, displayString, Snackbar.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+                popupMenu.show();
+            }
+        };
+        spannableString.setSpan(clickableSpan, 0, 2, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tvTags.setText(spannableString);
+        tvTags.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
 }

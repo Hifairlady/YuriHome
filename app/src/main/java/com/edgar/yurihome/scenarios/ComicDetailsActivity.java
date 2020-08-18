@@ -32,6 +32,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
+import java.util.ArrayList;
+
 public class ComicDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "======================" + ComicDetailsActivity.class.getSimpleName();
@@ -73,13 +75,10 @@ public class ComicDetailsActivity extends AppCompatActivity {
                         try {
                             Gson gson = new Gson();
                             comicDetailsBean = gson.fromJson(jsonString, ComicDetailsBean.class);
-//                            mPagerAdapter.setData(comicDetailsBean);
                             mPagerAdapter = new DetailsViewPagerAdapter(ComicDetailsActivity.this, comicDetailsBean);
                             initViewPager(mPagerAdapter);
-                            String lastUpdateChapterName = comicDetailsBean.getLastUpdateChapterName();
-                            tvLastUpdateChapter.setText(getString(R.string.string_comic_details_last_chapter_text, lastUpdateChapterName));
-                            SpannableStringUtil.setupSpannableString(getString(R.string.string_comic_details_authors_text, comicAuthors), comicDetailsBean, tvComicAuthors, 0);
-                            SpannableStringUtil.setupSpannableString(getString(R.string.string_comic_details_tags_text, comicTypes), comicDetailsBean, tvComicTags, 1);
+                            initTextViews();
+
                         } catch (JsonSyntaxException e) {
                             e.printStackTrace();
                             Snackbar.make(detailsRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
@@ -95,6 +94,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
                         break;
 
                     default:
+                        Snackbar.make(detailsRootView, HttpUtil.MESSAGE_UNKNOWN_ERROR, Snackbar.LENGTH_SHORT).show();
                         break;
                 }
 
@@ -106,6 +106,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
     }
 
 
+    //comic url, cover url, comic title
     private void initView() {
 
         Intent intent = getIntent();
@@ -114,12 +115,10 @@ public class ComicDetailsActivity extends AppCompatActivity {
         comicDetailsUrl = bundle.getString("COMIC_DETAILS_URL", "");
         coverUrl = bundle.getString("COMIC_COVER_URL", "");
         comicTitle = bundle.getString("COMIC_TITLE", "");
-        comicAuthors = bundle.getString("COMIC_AUTHORS", "");
-        comicStatus = bundle.getString("COMIC_STATUS", "");
-        comicTypes = bundle.getString("COMIC_TYPES", "");
-        lastUpdateTime = bundle.getLong("COMIC_LAST_UPDATE_TIME", 0);
-        Log.d(TAG, "onCreate: " + lastUpdateTime);
-        Log.d(TAG, "initView: " + comicTitle);
+//        comicAuthors = bundle.getString("COMIC_AUTHORS", "");
+//        comicStatus = bundle.getString("COMIC_STATUS", "");
+//        comicTypes = bundle.getString("COMIC_TYPES", "");
+//        lastUpdateTime = bundle.getLong("COMIC_LAST_UPDATE_TIME", 0);
 
         detailsRootView = findViewById(R.id.details_root_view);
         tvComicTags = findViewById(R.id.tv_comic_details_tags);
@@ -140,10 +139,12 @@ public class ComicDetailsActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.details_view_pager);
         mTabLayout = findViewById(R.id.details_tab_layout);
 
-        tvComicTags.setText(getString(R.string.string_comic_details_tags_text, comicTypes));
-        tvComicStatus.setText(getString(R.string.string_comic_details_status_text, comicStatus));
-//        tvComicAuthors.setText(getString(R.string.string_comic_details_authors_text, comicAuthors));
-        tvLastUpdateTime.setText(DateUtil.getTimeString(lastUpdateTime));
+        tvComicTags.setText(getString(R.string.string_comic_details_tags_text, "Loading..."));
+        tvLastUpdateChapter.setText(getString(R.string.string_comic_details_last_chapter_text, "Loading..."));
+        tvComicStatus.setText(getString(R.string.string_comic_details_status_text, "Loading..."));
+        tvLastUpdateTime.setText(getString(R.string.string_comic_details_last_update_time_text, "Loading..."));
+        tvComicAuthors.setText(getString(R.string.string_comic_details_authors_text, "Loading..."));
+//        tvLastUpdateTime.setText(DateUtil.getTimeString(lastUpdateTime));
 
         GlideApp.with(ivComicCover)
                 .load(GlideUtil.getGlideUrl(coverUrl))
@@ -152,9 +153,45 @@ public class ComicDetailsActivity extends AppCompatActivity {
                 .error(R.drawable.image_error)
                 .into(ivComicCover);
 
-//        mPagerAdapter = new DetailsViewPagerAdapter(ComicDetailsActivity.this);
-//        initViewPager(mPagerAdapter);
+    }
 
+    private void initTextViews() {
+        StringBuilder tagTypeStringBuilder = new StringBuilder();
+        ArrayList<ComicDetailsBean.TypesBean> typesBeans = new ArrayList<>(comicDetailsBean.getTypes());
+        for (ComicDetailsBean.TypesBean typesBean : typesBeans) {
+            tagTypeStringBuilder.append(typesBean.getTagName());
+            tagTypeStringBuilder.append("/");
+        }
+        String tagTypeText = tagTypeStringBuilder.toString();
+        tagTypeText = tagTypeText.substring(0, tagTypeText.length() - 1);
+        Log.d(TAG, "initTextViews: " + tagTypeText);
+        tvComicTags.setText(getString(R.string.string_comic_details_tags_text, tagTypeText));
+
+        String lastUpdateChapterName = comicDetailsBean.getLastUpdateChapterName();
+        tvLastUpdateChapter.setText(getString(R.string.string_comic_details_last_chapter_text, lastUpdateChapterName));
+
+        String comicStatusText = comicDetailsBean.getStatus().get(0).getTagName();
+        tvComicStatus.setText(getString(R.string.string_comic_details_status_text, comicStatusText));
+
+        long lastUpdateTime = comicDetailsBean.getLastUpdateTime();
+        tvLastUpdateTime.setText(DateUtil.getTimeString(lastUpdateTime));
+
+        StringBuilder authorsStringBuilder = new StringBuilder();
+        ArrayList<ComicDetailsBean.AuthorsBean> authorsBeans = new ArrayList<>(comicDetailsBean.getAuthors());
+        for (ComicDetailsBean.AuthorsBean authorsBean : authorsBeans) {
+            authorsStringBuilder.append(authorsBean.getTagName());
+            authorsStringBuilder.append("/");
+        }
+        String authorsText = authorsStringBuilder.toString();
+        authorsText = authorsText.substring(0, authorsText.length() - 1);
+        Log.d(TAG, "initTextViews: " + authorsText);
+        tvComicAuthors.setText(getString(R.string.string_comic_details_tags_text, authorsText));
+
+//        SpannableStringUtil.setupSpannableString(getString(R.string.string_comic_details_authors_text, authorsText), comicDetailsBean, tvComicAuthors, 0);
+//        SpannableStringUtil.setupSpannableString(getString(R.string.string_comic_details_tags_text, tagTypeText), comicDetailsBean, tvComicTags, 1);
+
+        SpannableStringUtil.setAuthorSpanString(getString(R.string.string_comic_details_authors_text, authorsText), authorsBeans, tvComicAuthors);
+        SpannableStringUtil.setTagSpanString(getString(R.string.string_comic_details_tags_text, tagTypeText), typesBeans, tvComicTags);
 
     }
 

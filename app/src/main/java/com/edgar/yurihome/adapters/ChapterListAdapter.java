@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ComicDetailsBean;
 import com.edgar.yurihome.interfaces.OnChapterListItemClickListener;
+import com.edgar.yurihome.scenarios.ComicReaderActivity;
 import com.edgar.yurihome.scenarios.FullChapterListActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,18 +36,15 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private boolean isCurOrderAsc = false;
     private boolean viewFullList = false;
     private OnChapterListItemClickListener itemClickListener;
+    private int comicId;
 
-    public ChapterListAdapter(Context mContext, List<ComicDetailsBean.ChaptersBean.DataBean> shortDataList) {
-        this.mContext = mContext;
-        this.shortDataList = new ArrayList<>(shortDataList);
-    }
-
-    public ChapterListAdapter(Context mContext, List<ComicDetailsBean.ChaptersBean.DataBean> dataList, int lastChapterId, boolean fullList) {
+    public ChapterListAdapter(Context mContext, List<ComicDetailsBean.ChaptersBean.DataBean> dataList, int lastChapterId, boolean fullList, int comicId) {
         this.mContext = mContext;
 //        this.shortDataList = new ArrayList<>(dataList);
         this.fullDataList = new ArrayList<>(dataList);
         this.lastChapterId = lastChapterId;
         this.viewFullList = fullList;
+        this.comicId = comicId;
         initData();
     }
 
@@ -81,8 +79,15 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     Intent intent = new Intent(mContext, FullChapterListActivity.class);
                     intent.putExtra("FULL_DATA_LIST_JSON", getFullListJson());
                     intent.putExtra("LAST_CHAPTER_ID", lastChapterId);
+                    intent.putExtra("COMIC_ID", comicId);
                     mContext.startActivity(intent);
+                } else {
+                    Intent readerIntent = new Intent(mContext, ComicReaderActivity.class);
+                    readerIntent.putExtra("COMIC_ID", comicId);
+                    readerIntent.putExtra("CHAPTER_ID", dataBean.getChapterId());
+                    mContext.startActivity(readerIntent);
                 }
+
             }
         });
     }

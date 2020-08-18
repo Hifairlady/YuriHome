@@ -23,7 +23,7 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="string_comic_details_tags_text">标签：%s</string>
     <string name="string_comic_details_status_text">状态：%s</string>
-    <string name="string_comic_details_last_update_text">最后更新于：%s</string>
+    <string name="string_comic_details_last_update_time_text">最后更新于：%s</string>
     <string name="string_comic_details_last_chapter_text">更新至：%s</string>
     <string name="string_comic_details_authors_text">作者：%s</string>
     <string name="string_test_text">
@@ -37,4 +37,13 @@
     <string name="string_chapter_list_item_name">Title</string>
     <string name="string_chapter_list_item_new_label_text">NEW</string>
     <string name="string_chapter_part_title_text">连载</string>
+    <string name="string_related_comic_author_title_text">%s的作品</string>
+    <string name="string_related_similar_comics_text">同类作品</string>
+    <string name="string_related_comic_item_title">Title:</string>
+    <string name="string_related_comic_item_finished_text">完</string>
+    <string name="string_related_comic_item_author_text">Author:</string>
+    <string name="string_seekbar_cur_page_text">curPage</string>
+    <string name="string_seekbar_max_page">maxPage</string>
+    <string name="string_reader_title_text">Title</string>
+    <string name="string_reader_more_actions_text">More</string>
 </resources>

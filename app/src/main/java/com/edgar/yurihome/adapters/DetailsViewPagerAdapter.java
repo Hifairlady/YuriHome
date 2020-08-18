@@ -28,7 +28,11 @@ public class DetailsViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return RelatedComicsFragment.newInstance(null, null);
+                int comicId = 0;
+                if (mDetailsBean != null) {
+                    comicId = mDetailsBean.getId();
+                }
+                return RelatedComicsFragment.newInstance(comicId);
 
             case 1:
                 String comicTitle = null, comicDesc = null;
@@ -55,9 +59,4 @@ public class DetailsViewPagerAdapter extends FragmentStateAdapter {
         return super.getItemId(position);
     }
 
-
-    public void setData(ComicDetailsBean comicDetailsBean) {
-        this.mDetailsBean = comicDetailsBean;
-        notifyDataSetChanged();
-    }
 }

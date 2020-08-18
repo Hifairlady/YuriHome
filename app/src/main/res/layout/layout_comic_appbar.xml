@@ -147,7 +147,7 @@
                 android:fontFamily="@font/rubik"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:text="@string/string_comic_details_last_update_text"
+                android:text="@string/string_comic_details_last_update_time_text"
                 android:textColor="@color/colorBlackText"
                 android:textSize="16sp"
                 android:textStyle="bold"

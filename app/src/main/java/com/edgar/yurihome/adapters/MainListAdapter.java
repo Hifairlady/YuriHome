@@ -16,7 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.edgar.yurihome.GlideApp;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ComicItem;
-import com.edgar.yurihome.interfaces.OnMainListItemClickListener;
+import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
 import com.edgar.yurihome.utils.GlideUtil;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context mContext;
     private ArrayList<ComicItem> comicItems = new ArrayList<>();
-    private OnMainListItemClickListener clickListener;
+    private OnComicListItemClickListener clickListener;
 
     public MainListAdapter(Context mContext, ArrayList<ComicItem> comicItems) {
         this.mContext = mContext;
@@ -150,7 +150,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public void setOnMainListItemClickListener(OnMainListItemClickListener itemClickListener) {
+    public void setOnMainListItemClickListener(OnComicListItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
 

@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     default:
+                        Snackbar.make(mainRootView, HttpUtil.MESSAGE_UNKNOWN_ERROR, Snackbar.LENGTH_SHORT).show();
                         break;
                 }
             }

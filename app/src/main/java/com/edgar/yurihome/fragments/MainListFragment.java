@@ -29,7 +29,7 @@ import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.MainListAdapter;
 import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.beans.ComicItem;
-import com.edgar.yurihome.interfaces.OnMainListItemClickListener;
+import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
 import com.edgar.yurihome.scenarios.ComicDetailsActivity;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
@@ -69,20 +69,15 @@ public class MainListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private OnMainListItemClickListener mListItemClickListener = new OnMainListItemClickListener() {
+    private OnComicListItemClickListener mListItemClickListener = new OnComicListItemClickListener() {
         @Override
         public void onItemClick(int position) {
             ComicItem comicItem = adapter.getComicItemAt(position);
             if (comicItem == null) return;
-//            Snackbar.make(recyclerView, comicItem.getTitle(), Snackbar.LENGTH_SHORT).show();
             Intent intent = new Intent(getActivity(), ComicDetailsActivity.class);
             intent.putExtra("COMIC_DETAILS_URL", Config.getComicDetailsUrl(comicItem.getId()));
             intent.putExtra("COMIC_COVER_URL", comicItem.getCover());
             intent.putExtra("COMIC_TITLE", comicItem.getTitle());
-            intent.putExtra("COMIC_AUTHORS", comicItem.getAuthors());
-            intent.putExtra("COMIC_STATUS", comicItem.getStatus());
-            intent.putExtra("COMIC_TYPES", comicItem.getTypes());
-            intent.putExtra("COMIC_LAST_UPDATE_TIME", comicItem.getLastUpdateTime());
             startActivity(intent);
         }
     };
@@ -245,6 +240,10 @@ public class MainListFragment extends Fragment {
                             break;
 
                         default:
+                            Snackbar.make(recyclerView, HttpUtil.MESSAGE_UNKNOWN_ERROR, Snackbar.LENGTH_SHORT).show();
+                            if (page >= 1) {
+                                page -= 1;
+                            }
                             break;
                     }
                 } catch (JsonSyntaxException e) {

@@ -25,6 +25,7 @@ public class FullChapterListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChapterListAdapter adapter;
     private int lastChapterId;
+    private int comicId;
     private boolean isCurOrderAsc = false;
 
     @Override
@@ -42,7 +43,7 @@ public class FullChapterListActivity extends AppCompatActivity {
         });
         initData();
         recyclerView = findViewById(R.id.rv_full_chapter_list);
-        adapter = new ChapterListAdapter(FullChapterListActivity.this, dataBeans, lastChapterId, true);
+        adapter = new ChapterListAdapter(FullChapterListActivity.this, dataBeans, lastChapterId, true, comicId);
         GridLayoutManager layoutManager = new GridLayoutManager(FullChapterListActivity.this, 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -55,6 +56,7 @@ public class FullChapterListActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         if (bundle == null) return;
         lastChapterId = bundle.getInt("LAST_CHAPTER_ID", 0);
+        comicId = bundle.getInt("COMIC_ID", 0);
         String jsonString = bundle.getString("FULL_DATA_LIST_JSON", "");
 
         try {

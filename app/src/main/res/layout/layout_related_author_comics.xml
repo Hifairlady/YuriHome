@@ -3,60 +3,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="8dp">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
 
             <ImageView
-                android:id="@+id/iv_book_icon"
+                android:id="@+id/iv_related_comic_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic__book_24" />
+                app:srcCompat="@drawable/ic_related_comic_24" />
 
             <TextView
-                android:id="@+id/tv_chapter_part_title"
+                android:id="@+id/tv_related_comic_author_title"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:gravity="center_vertical"
-                android:text="@string/string_chapter_part_title_text"
+                android:text="@string/string_related_comic_author_title_text"
                 android:textAppearance="@style/ToolbarTitleTextStyle"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_book_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_related_comic_icon"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_book_icon"
-                app:layout_constraintTop_toTopOf="@+id/iv_book_icon" />
+                app:layout_constraintStart_toEndOf="@+id/iv_related_comic_icon"
+                app:layout_constraintTop_toTopOf="@+id/iv_related_comic_icon" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_chapter_list"
+                android:id="@+id/rv_related_theme_comic_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_book_icon"
+                app:layout_constraintTop_toBottomOf="@+id/iv_related_comic_icon"
                 app:layout_constraintVertical_bias="0.0"
-                tools:listitem="@layout/layout_chapter_list_item" />
+                tools:listitem="@layout/layout_related_comic_list_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
