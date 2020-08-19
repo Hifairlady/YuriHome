@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -164,7 +163,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
         }
         String tagTypeText = tagTypeStringBuilder.toString();
         tagTypeText = tagTypeText.substring(0, tagTypeText.length() - 1);
-        Log.d(TAG, "initTextViews: " + tagTypeText);
+//        Log.d(TAG, "initTextViews: " + tagTypeText);
         tvComicTags.setText(getString(R.string.string_comic_details_tags_text, tagTypeText));
 
         String lastUpdateChapterName = comicDetailsBean.getLastUpdateChapterName();
@@ -184,7 +183,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
         }
         String authorsText = authorsStringBuilder.toString();
         authorsText = authorsText.substring(0, authorsText.length() - 1);
-        Log.d(TAG, "initTextViews: " + authorsText);
+//        Log.d(TAG, "initTextViews: " + authorsText);
         tvComicAuthors.setText(getString(R.string.string_comic_details_tags_text, authorsText));
 
 //        SpannableStringUtil.setupSpannableString(getString(R.string.string_comic_details_authors_text, authorsText), comicDetailsBean, tvComicAuthors, 0);

@@ -2,7 +2,6 @@ package com.edgar.yurihome.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.edgar.yurihome.beans.ClassifyFilterBean;
 
@@ -41,8 +40,8 @@ public class SharedPreferenceUtil {
         editor.putString(SP_FILTERS_TYPE_TAG_ID, typeTagIdString);
         editor.putString(SP_FILTERS_TYPE_TAG_NAME, typeTagNameString);
 
-        Log.d(TAG, "storeFiltersFromNetwork: typeTagIdString " + typeTagIdString);
-        Log.d(TAG, "storeFiltersFromNetwork: typeTagNameString " + typeTagNameString);
+//        Log.d(TAG, "storeFiltersFromNetwork: typeTagIdString " + typeTagIdString);
+//        Log.d(TAG, "storeFiltersFromNetwork: typeTagNameString " + typeTagNameString);
 
         String statTagIdString = "", statTagNameString = "";
         for (ClassifyFilterBean.FilterItem statItem : statusFilterItems) {
@@ -55,8 +54,8 @@ public class SharedPreferenceUtil {
         editor.putString(SP_FILTERS_STATUS_TAG_ID, statTagIdString);
         editor.putString(SP_FILTERS_STATUS_TAG_NAME, statTagNameString);
 
-        Log.d(TAG, "storeFiltersFromNetwork: statTagIdString " + statTagIdString);
-        Log.d(TAG, "storeFiltersFromNetwork: statTagNameString " + statTagNameString);
+//        Log.d(TAG, "storeFiltersFromNetwork: statTagIdString " + statTagIdString);
+//        Log.d(TAG, "storeFiltersFromNetwork: statTagNameString " + statTagNameString);
 
         String regionTagIdString = "", regionTagNameString = "";
         for (ClassifyFilterBean.FilterItem regionItem : regionFilterItems) {
@@ -69,8 +68,8 @@ public class SharedPreferenceUtil {
         editor.putString(SP_FILTERS_REGION_TAG_ID, regionTagIdString);
         editor.putString(SP_FILTERS_REGION_TAG_NAME, regionTagNameString);
 
-        Log.d(TAG, "storeFiltersFromNetwork: regionTagIdString " + regionTagIdString);
-        Log.d(TAG, "storeFiltersFromNetwork: regionTagNameString " + regionTagNameString);
+//        Log.d(TAG, "storeFiltersFromNetwork: regionTagIdString " + regionTagIdString);
+//        Log.d(TAG, "storeFiltersFromNetwork: regionTagNameString " + regionTagNameString);
 
         editor.apply();
     }

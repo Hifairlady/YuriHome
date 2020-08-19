@@ -74,49 +74,49 @@ public class Config {
 
     public static String getChapterImagesUrl(int comicId, int chapterId) {
         String result = BASE_URL_CHAPTER + comicId + "/" + chapterId + ".json";
-        Log.d(TAG, "getComicsUrlByFilter: " + result);
+        Log.d(TAG, "getChapterImagesUrl: " + result);
         return result;
     }
 
     public static String getRelatedComicsUrl(int comicId) {
         String result = BASE_URL_RELATED_COMICS + comicId + ".json";
-        Log.d(TAG, "getComicsUrlByFilter: " + result);
+        Log.d(TAG, "getRelatedComicsUrl: " + result);
         return result;
     }
 
     public static String getAuthorComicsUrl(int authorId) {
         String result = BASE_URL_AUTHOR_COMICS + authorId + ".json";
-        Log.d(TAG, "getComicsUrlByFilter: " + result);
+        Log.d(TAG, "getAuthorComicsUrl: " + result);
         return result;
     }
 
     public static String getComicDetailsUrl(int comicId) {
         String result = BASE_URL_COMIC_DETAILS + comicId + ".json";
-        Log.d(TAG, "getComicsUrlByFilter: " + result);
+        Log.d(TAG, "getComicDetailsUrl: " + result);
         return result;
     }
 
     public static String getLatestCommentsUrl(int comicId, int page, int limit) {
         String result = BASE_URL_LATEST_COMMENTS + comicId + "?page_index=" + page + "&limit=" + limit;
-        Log.d(TAG, "getComicsUrlByFilter: " + result);
+        Log.d(TAG, "getLatestCommentsUrl: " + result);
         return result;
     }
 
     public static String getTopCommentBoardUrl(int comicId) {
         String result = BASE_URL_TOP_COMMENT_BOARD + comicId + ".json";
-        Log.d(TAG, "getComicsUrlByFilter: " + result);
+        Log.d(TAG, "getTopCommentBoardUrl: " + result);
         return result;
     }
 
     public static String getTopCommentUrl(int comicId) {
         String result = BASE_URL_TOP_COMMENT + comicId + ".json";
-        Log.d(TAG, "getComicsUrlByFilter: " + result);
+        Log.d(TAG, "getTopCommentUrl: " + result);
         return result;
     }
 
     public static String getHotCommentUrl(int comicId, int page) {
         String result = BASE_URL_HOT_COMMENTS + comicId + "&hot=1&page_index=" + page;
-        Log.d(TAG, "getComicsUrlByFilter: " + result);
+        Log.d(TAG, "getHotCommentUrl: " + result);
         return result;
     }
 
@@ -124,7 +124,25 @@ public class Config {
         String prefix = imageName.substring(0, imageName.lastIndexOf("."));
         String suffix = imageName.substring(imageName.lastIndexOf("."));
         String result = BASE_URL_COMMENT_IMAGE + prefix + "_small" + suffix;
-        Log.d(TAG, "getComicsUrlByFilter: " + result);
+        Log.d(TAG, "getCommentSmallImageUrl: " + result);
+        return result;
+    }
+
+    public static String getHotViewsUrl(int comicId, int chapterId) {
+        String result = BASE_URL_HOT_VIEWS + comicId + "/" + chapterId + ".json";
+        Log.d(TAG, "getHotViewsUrl: " + result);
+        return result;
+    }
+
+    public static String getAllViewsUrl(int comicId, int chapterId) {
+        String result = BASE_URL_ALL_VIEWS + comicId + "/" + chapterId + ".json";
+        Log.d(TAG, "getAllViewsUrl: " + result);
+        return result;
+    }
+
+    public static String getTranslatorUrl(int comicId, int chapterId) {
+        String result = BASE_URL_TRANSLATOR + comicId + "/" + chapterId + ".html";
+        Log.d(TAG, "getTranslatorUrl: " + result);
         return result;
     }
 

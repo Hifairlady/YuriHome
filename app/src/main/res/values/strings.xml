@@ -46,4 +46,13 @@
     <string name="string_seekbar_max_page">maxPage</string>
     <string name="string_reader_title_text">Title</string>
     <string name="string_reader_more_actions_text">More</string>
+    <string name="string_reader_bottom_time_text">Time</string>
+    <string name="string_reader_bottom_network_text">Network</string>
+    <string name="string_reader_bottom_page_text">%1$d/%2$d</string>
+    <string name="string_reader_bottom_chapter_text">Chapter</string>
+    <string name="string_view_point_page_text">\@P%d</string>
+    <string name="string_view_point_num">+%d</string>
+    <string name="string_view_point_content_text">%1$s @P%2$d +%3$d</string>
+    <string name="string_view_points_title_text">吐槽观点：</string>
+    <string name="string_translator_loading_text">Loading...</string>
 </resources>

@@ -6,7 +6,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +35,7 @@ public class SpannableStringUtil {
                 if (flag == 0) {
                     ArrayList<ComicDetailsBean.AuthorsBean> authorsBeans = new ArrayList<>(comicDetailsBean.getAuthors());
                     for (ComicDetailsBean.AuthorsBean authorsBean : authorsBeans) {
-                        Log.d(TAG, "onClick: " + authorsBean.getTagId() + "_" + authorsBean.getTagName());
+//                        Log.d(TAG, "onClick: " + authorsBean.getTagId() + "_" + authorsBean.getTagName());
                         popupMenu.getMenu().add(Menu.NONE, authorsBean.getTagId(), Menu.NONE, authorsBean.getTagName());
                     }
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -53,7 +52,7 @@ public class SpannableStringUtil {
                     StringBuilder stringBuilder = new StringBuilder();
                     int count = 0;
                     for (ComicDetailsBean.TypesBean typesBean : typesBeans) {
-                        Log.d(TAG, "onClick: " + typesBean.getTagId() + "_" + typesBean.getTagName());
+//                        Log.d(TAG, "onClick: " + typesBean.getTagId() + "_" + typesBean.getTagName());
                         stringBuilder.append(typesBean.getTagName());
                         if (count < typesBeans.size() - 1) {
                             stringBuilder.append("/");

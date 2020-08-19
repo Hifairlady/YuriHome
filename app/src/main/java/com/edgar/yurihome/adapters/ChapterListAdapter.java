@@ -37,14 +37,19 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private boolean viewFullList = false;
     private OnChapterListItemClickListener itemClickListener;
     private int comicId;
+    private String comicName, chapterLongTitle, chapterPartTitle;
+    private long chapterUpdateTime;
 
-    public ChapterListAdapter(Context mContext, List<ComicDetailsBean.ChaptersBean.DataBean> dataList, int lastChapterId, boolean fullList, int comicId) {
+    public ChapterListAdapter(Context mContext, List<ComicDetailsBean.ChaptersBean.DataBean> dataList,
+                              int lastChapterId, boolean fullList, int comicId, String comicName, String chapterPartTitle) {
         this.mContext = mContext;
 //        this.shortDataList = new ArrayList<>(dataList);
         this.fullDataList = new ArrayList<>(dataList);
         this.lastChapterId = lastChapterId;
         this.viewFullList = fullList;
         this.comicId = comicId;
+        this.comicName = comicName;
+        this.chapterPartTitle = chapterPartTitle;
         initData();
     }
 
@@ -75,16 +80,25 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                if (itemClickListener != null) {
 //                    itemClickListener.onItemClick(position);
 //                }
+                chapterUpdateTime = dataBean.getUpdatetime();
+                chapterLongTitle = chapterPartTitle + "/" + dataBean.getChapterTitle();
                 if (dataBean.getItemType() == ComicDetailsBean.ChaptersBean.DataBean.MORE_ITEM_TYPE) {
                     Intent intent = new Intent(mContext, FullChapterListActivity.class);
                     intent.putExtra("FULL_DATA_LIST_JSON", getFullListJson());
                     intent.putExtra("LAST_CHAPTER_ID", lastChapterId);
                     intent.putExtra("COMIC_ID", comicId);
+                    intent.putExtra("COMIC_NAME", comicName);
+                    intent.putExtra("CHAPTER_ID", dataBean.getChapterId());
+                    intent.putExtra("CHAPTER_UPDATE_TIME", chapterUpdateTime);
+                    intent.putExtra("CHAPTER_PART_TITLE", chapterPartTitle);
                     mContext.startActivity(intent);
                 } else {
                     Intent readerIntent = new Intent(mContext, ComicReaderActivity.class);
                     readerIntent.putExtra("COMIC_ID", comicId);
+                    readerIntent.putExtra("COMIC_NAME", comicName);
                     readerIntent.putExtra("CHAPTER_ID", dataBean.getChapterId());
+                    readerIntent.putExtra("CHAPTER_UPDATE_TIME", chapterUpdateTime);
+                    readerIntent.putExtra("CHAPTER_LONG_TITLE", chapterLongTitle);
                     mContext.startActivity(readerIntent);
                 }
 

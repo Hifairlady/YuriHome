@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateUtil {
@@ -23,5 +24,13 @@ public class DateUtil {
         Date date = new Date(timeStamp);
         return simpleDateFormat.format(date);
     }
+
+    public static String getCurrentTimeString() {
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm", Locale.CHINA);
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        return formatter.format(date);
+    }
+
 
 }

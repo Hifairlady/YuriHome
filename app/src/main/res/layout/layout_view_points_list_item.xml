@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorTransparent">
+
+    <TextView
+        android:id="@+id/tv_view_point_content"
+        style="@style/ToolbarTitleTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/string_view_point_content_text"
+        android:textColor="@color/colorAccent" />
+
+</FrameLayout>

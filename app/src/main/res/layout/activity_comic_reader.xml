@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/reader_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/reader_drawer_layout"
+    android:fitsSystemWindows="true"
     tools:context=".scenarios.ComicReaderActivity">
 
-    <com.xuliwen.zoom.ZoomLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/black"
-        app:double_click_zoom="2.0"
-        app:max_zoom="2.5"
-        app:min_zoom="1.0">
+    <FrameLayout
+        android:id="@+id/reader_root_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_reader_list"
+        <com.xuliwen.zoom.ZoomLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true" />
+            android:background="@android:color/black"
+            android:gravity="center"
+            app:double_click_zoom="2.0"
+            app:max_zoom="2.5"
+            app:min_zoom="1.0">
 
-    </com.xuliwen.zoom.ZoomLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_reader_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    <include layout="@layout/layout_reader_actions" />
+        </com.xuliwen.zoom.ZoomLayout>
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="234dp"-->
-    <!--        android:layout_height="32dp"-->
-    <!--        android:background="@color/colorPrimaryDark"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        android:layout_gravity="bottom|end">-->
-    <!--        -->
-    <!--        -->
-    <!--        -->
-    <!--        -->
-    <!--    </LinearLayout>-->
-</FrameLayout>
+        <include layout="@layout/layout_reader_bottom_infos" />
+
+        <include layout="@layout/layout_reader_actions" />
+
+    </FrameLayout>
+
+    <include layout="@layout/layout_reader_drawer" />
+</androidx.drawerlayout.widget.DrawerLayout>

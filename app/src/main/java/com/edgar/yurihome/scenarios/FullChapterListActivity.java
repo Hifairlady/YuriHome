@@ -27,6 +27,7 @@ public class FullChapterListActivity extends AppCompatActivity {
     private int lastChapterId;
     private int comicId;
     private boolean isCurOrderAsc = false;
+    private String comicName, chapterPartTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,8 @@ public class FullChapterListActivity extends AppCompatActivity {
         });
         initData();
         recyclerView = findViewById(R.id.rv_full_chapter_list);
-        adapter = new ChapterListAdapter(FullChapterListActivity.this, dataBeans, lastChapterId, true, comicId);
+        adapter = new ChapterListAdapter(FullChapterListActivity.this, dataBeans, lastChapterId, true,
+                comicId, comicName, chapterPartTitle);
         GridLayoutManager layoutManager = new GridLayoutManager(FullChapterListActivity.this, 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -52,11 +54,20 @@ public class FullChapterListActivity extends AppCompatActivity {
 
     private void initData() {
 
+//        intent.putExtra("COMIC_ID", comicId);
+//        intent.putExtra("COMIC_NAME", comicName);
+//        intent.putExtra("CHAPTER_ID", dataBean.getChapterId());
+//        intent.putExtra("CHAPTER_UPDATE_TIME", chapterUpdateTime);
+//        intent.putExtra("CHAPTER_LONG_TITLE", chapterLongTitle);
+//        intent.putExtra("CHAPTER_PART_TITLE", chapterPartTitle);
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle == null) return;
         lastChapterId = bundle.getInt("LAST_CHAPTER_ID", 0);
         comicId = bundle.getInt("COMIC_ID", 0);
+        comicName = bundle.getString("COMIC_NAME", "COMIC_NAME");
+        chapterPartTitle = bundle.getString("CHAPTER_PART_TITLE", "CHAPTER_PART_TITLE");
         String jsonString = bundle.getString("FULL_DATA_LIST_JSON", "");
 
         try {

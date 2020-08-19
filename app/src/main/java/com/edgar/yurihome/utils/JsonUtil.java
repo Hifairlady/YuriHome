@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.edgar.yurihome.beans.JsonResponseItem;
-import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 
@@ -13,6 +12,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class JsonUtil {
+
+    private static final String TAG = "================" + JsonUtil.class.getSimpleName();
 
     //fetch main list json data
     public static void fetchJsonData(final Handler handler, String urlString) {
@@ -46,7 +47,7 @@ public class JsonUtil {
             String jsonString = response.body().string();
             responseItem.setJsonString(jsonString);
             result = HttpUtil.REQUEST_JSON_SUCCESS;
-        } catch (IOException | JsonSyntaxException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         responseItem.setResponseCode(result);

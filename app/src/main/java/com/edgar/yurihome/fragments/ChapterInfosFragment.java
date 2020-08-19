@@ -169,7 +169,8 @@ public class ChapterInfosFragment extends Fragment {
             RecyclerView rvChapterPartList = chapterView.findViewById(R.id.rv_chapter_list);
             GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
             rvChapterPartList.setLayoutManager(layoutManager);
-            ChapterListAdapter mAdapter = new ChapterListAdapter(getContext(), chaptersBean.getData(), mDetailsBean.getLastUpdateChapterId(), false, comicId);
+            ChapterListAdapter mAdapter = new ChapterListAdapter(getContext(), chaptersBean.getData(),
+                    mDetailsBean.getLastUpdateChapterId(), false, comicId, mDetailsBean.getTitle(), chaptersBean.getTitle());
             rvChapterPartList.setAdapter(mAdapter);
             listAdapters.add(mAdapter);
         }
@@ -177,7 +178,8 @@ public class ChapterInfosFragment extends Fragment {
     }
 
     private void switchSortOrder(int order) {
-        if (listAdapters.size() != mDetailsBean.getChapters().size()) return;
+        if (mDetailsBean == null || listAdapters.size() != mDetailsBean.getChapters().size())
+            return;
         for (ChapterListAdapter listAdapter : listAdapters) {
             listAdapter.switchOrder(order);
         }

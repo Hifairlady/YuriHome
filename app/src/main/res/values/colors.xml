@@ -9,4 +9,5 @@
     <color name="colorBlackText">#442c2e</color>
     <color name="colorBlackText77">#77000000</color>
     <color name="colorTransparent">#00FFFFFF</color>
+    <color name="colorDrawerBg">#FAFAFA</color>
 </resources>
