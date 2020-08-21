@@ -14,7 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".scenarios.ComicReaderActivity"></activity>
+        <activity
+            android:name=".scenarios.AuthorComicsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".scenarios.ComicReaderActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".scenarios.FullChapterListActivity"
             android:launchMode="singleTop"

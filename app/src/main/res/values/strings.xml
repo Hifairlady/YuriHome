@@ -55,4 +55,12 @@
     <string name="string_view_point_content_text">%1$s @P%2$d +%3$d</string>
     <string name="string_view_points_title_text">吐槽观点：</string>
     <string name="string_translator_loading_text">Loading...</string>
+    <string name="string_drawer_comic_title_text">漫画标题：</string>
+    <string name="string_drawer_comic_title_content">Comic Title</string>
+    <string name="string_drawer_chapter_title_content">Chapter Title</string>
+    <string name="string_drawer_comic_chapter_title_text">章节标题：</string>
+    <string name="string_drawer_update_time_content">Update Time</string>
+    <string name="string_drawer_update_time_text">更新时间：</string>
+    <string name="string_drawer_translator_text">汉化翻译：</string>
+    <string name="string_drawer_comic_translator_content">Comic Translator</string>
 </resources>

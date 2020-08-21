@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.edgar.yurihome.GlideApp;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ReaderImagesItem;
 import com.edgar.yurihome.utils.GlideUtil;
@@ -39,13 +37,7 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         PageHolder mHolder = (PageHolder) holder;
-        ImageView imageView = mHolder.ivImage;
-        GlideApp.with(imageView)
-                .load(GlideUtil.getGlideUrl(pageUrls.get(position)))
-                .placeholder(R.drawable.image_loading)
-                .error(R.drawable.image_error)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imageView);
+        GlideUtil.loadImageWithUrl(mHolder.ivImage, pageUrls.get(position));
     }
 
     @Override

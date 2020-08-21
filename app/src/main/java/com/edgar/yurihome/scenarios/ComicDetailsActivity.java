@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.edgar.yurihome.GlideApp;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.DetailsViewPagerAdapter;
 import com.edgar.yurihome.beans.ComicDetailsBean;
@@ -78,7 +76,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
                             initViewPager(mPagerAdapter);
                             initTextViews();
 
-                        } catch (JsonSyntaxException e) {
+                        } catch (JsonSyntaxException | NullPointerException e) {
                             e.printStackTrace();
                             Snackbar.make(detailsRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
                         }
@@ -110,10 +108,11 @@ public class ComicDetailsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        assert bundle != null;
-        comicDetailsUrl = bundle.getString("COMIC_DETAILS_URL", "");
-        coverUrl = bundle.getString("COMIC_COVER_URL", "");
-        comicTitle = bundle.getString("COMIC_TITLE", "");
+        if (bundle != null) {
+            comicDetailsUrl = bundle.getString("COMIC_DETAILS_URL", "");
+            coverUrl = bundle.getString("COMIC_COVER_URL", "");
+            comicTitle = bundle.getString("COMIC_TITLE", "");
+        }
 //        comicAuthors = bundle.getString("COMIC_AUTHORS", "");
 //        comicStatus = bundle.getString("COMIC_STATUS", "");
 //        comicTypes = bundle.getString("COMIC_TYPES", "");
@@ -144,13 +143,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
         tvLastUpdateTime.setText(getString(R.string.string_comic_details_last_update_time_text, "Loading..."));
         tvComicAuthors.setText(getString(R.string.string_comic_details_authors_text, "Loading..."));
 //        tvLastUpdateTime.setText(DateUtil.getTimeString(lastUpdateTime));
-
-        GlideApp.with(ivComicCover)
-                .load(GlideUtil.getGlideUrl(coverUrl))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.image_loading)
-                .error(R.drawable.image_error)
-                .into(ivComicCover);
+        GlideUtil.loadImageWithUrl(ivComicCover, coverUrl);
 
     }
 
@@ -189,7 +182,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
 //        SpannableStringUtil.setupSpannableString(getString(R.string.string_comic_details_authors_text, authorsText), comicDetailsBean, tvComicAuthors, 0);
 //        SpannableStringUtil.setupSpannableString(getString(R.string.string_comic_details_tags_text, tagTypeText), comicDetailsBean, tvComicTags, 1);
 
-        SpannableStringUtil.setAuthorSpanString(getString(R.string.string_comic_details_authors_text, authorsText), authorsBeans, tvComicAuthors);
+        SpannableStringUtil.setAuthorSpanString(this, getString(R.string.string_comic_details_authors_text, authorsText), authorsBeans, tvComicAuthors);
         SpannableStringUtil.setTagSpanString(getString(R.string.string_comic_details_tags_text, tagTypeText), typesBeans, tvComicTags);
 
     }

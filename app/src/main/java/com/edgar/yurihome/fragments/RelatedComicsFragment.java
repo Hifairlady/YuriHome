@@ -140,7 +140,7 @@ public class RelatedComicsFragment extends Fragment {
                             });
                             recyclerView.setAdapter(adapter);
 
-                        } catch (JsonSyntaxException e) {
+                        } catch (JsonSyntaxException | NullPointerException e) {
                             e.printStackTrace();
                             Snackbar.make(llContainer, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
                         }

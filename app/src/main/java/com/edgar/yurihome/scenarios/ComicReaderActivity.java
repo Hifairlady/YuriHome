@@ -36,6 +36,7 @@ import com.edgar.yurihome.utils.HttpUtil;
 import com.edgar.yurihome.utils.JsonUtil;
 import com.edgar.yurihome.utils.NetworkUtil;
 import com.edgar.yurihome.utils.ScreenUtil;
+import com.edgar.yurihome.utils.UnicodeUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -246,7 +247,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                             Log.d(TAG, "handleMessage: " + chapterName);
                             setBottomInfos();
                             initRecyclerView();
-                        } catch (JsonSyntaxException e) {
+                        } catch (JsonSyntaxException | NullPointerException e) {
                             e.printStackTrace();
                             Snackbar.make(flRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
                         }
@@ -287,7 +288,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                             ViewPointListAdapter adapter = new ViewPointListAdapter(ComicReaderActivity.this, dataList);
                             rvViewPointsList.setLayoutManager(layoutManager);
                             rvViewPointsList.setAdapter(adapter);
-                        } catch (JsonSyntaxException e) {
+                        } catch (JsonSyntaxException | NullPointerException e) {
                             e.printStackTrace();
                             Snackbar.make(flRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
                         }
@@ -391,6 +392,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                         int endPos = translatorHtmlString.indexOf("\",\"link\":");
                         String translatorName = translatorHtmlString.substring(startPos, endPos);
 //                        Log.d(TAG, "handleMessage: translatorName: " + translatorName);
+                        translatorName = UnicodeUtil.unicode2String(translatorName);
                         tvTranslator.setText(translatorName);
                         break;
 

@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                             filterBeans = gson.fromJson(jsonString, type);
                             SharedPreferenceUtil.storeFiltersFromNetwork(MainActivity.this, filterBeans);
 
-                        } catch (JsonSyntaxException e) {
+                        } catch (JsonSyntaxException | NullPointerException e) {
                             e.printStackTrace();
                             Snackbar.make(mainRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
                         }

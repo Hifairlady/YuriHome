@@ -76,7 +76,7 @@ public class FullChapterListActivity extends AppCompatActivity {
             }.getType();
             ArrayList<ComicDetailsBean.ChaptersBean.DataBean> temp = gson.fromJson(jsonString, type);
             dataBeans = new ArrayList<>(temp);
-        } catch (JsonSyntaxException e) {
+        } catch (JsonSyntaxException | NullPointerException e) {
             e.printStackTrace();
         }
 

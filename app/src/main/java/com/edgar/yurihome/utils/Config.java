@@ -58,16 +58,40 @@ public class Config {
     }
 
     public static String getComicsUrlByFilter(int typeCode, int regionCode, int groupCode, int statusCode, int sortCode, int page) {
-        String typeCodeStr = (typeCode == 0 ? "" : String.valueOf(typeCode));
-        String regionCodeStr = (regionCode == 0 ? "" : ("-" + regionCode));
-        String groupCodeStr = (groupCode == 0 ? "" : ("-" + groupCode));
-        String statusCodeStr = (statusCode == 0 ? "" : ("-" + statusCode));
 
-        if ((typeCode + regionCode + groupCode + statusCode) == 0) {
-            typeCodeStr = "3243";
+        StringBuilder resultBuilder = new StringBuilder();
+        resultBuilder.append("");
+
+        if (typeCode != 0) {
+            resultBuilder.append(typeCode);
         }
 
-        String result = BASE_URL_CLASSIFY + typeCodeStr + regionCodeStr + groupCodeStr + statusCodeStr + "/" + sortCode + "/" + page + ".json";
+        if (regionCode != 0) {
+            if (resultBuilder.length() != 0) {
+                resultBuilder.append("-");
+            }
+            resultBuilder.append(regionCode);
+        }
+
+        if (groupCode != 0) {
+            if (resultBuilder.length() != 0) {
+                resultBuilder.append("-");
+            }
+            resultBuilder.append(groupCode);
+        }
+
+        if (statusCode != 0) {
+            if (resultBuilder.length() != 0) {
+                resultBuilder.append("-");
+            }
+            resultBuilder.append(statusCode);
+        }
+
+        if (resultBuilder.length() == 0) {
+            resultBuilder.append(3243);
+        }
+
+        String result = BASE_URL_CLASSIFY + resultBuilder.toString() + "/" + sortCode + "/" + page + ".json";
         Log.d(TAG, "getComicsUrlByFilter: " + result);
         return result;
     }

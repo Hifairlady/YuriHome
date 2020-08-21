@@ -12,8 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.edgar.yurihome.GlideApp;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ComicItem;
 import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
@@ -70,12 +68,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             }
         });
-        GlideApp.with(normalHolder.ivCover)
-                .load(GlideUtil.getGlideUrl(item.getCover()))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.image_loading)
-                .error(R.drawable.image_error)
-                .into(normalHolder.ivCover);
+        GlideUtil.loadImageWithUrl(normalHolder.ivCover, item.getCover());
     }
 
     @Override

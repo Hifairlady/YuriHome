@@ -10,8 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.edgar.yurihome.GlideApp;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.RelatedComicBean;
 import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
@@ -69,12 +67,7 @@ public class RelatedComicListAdapter extends RecyclerView.Adapter<RecyclerView.V
             final RelatedComicBean.AuthorComicsBean.AuthorComicDataBean authorComicData = authorComicList.get(position);
             mHolder.tvTitle.setText(authorComicData.getName());
             mHolder.tvFinished.setVisibility(authorComicData.getStatus().equals("已完结") ? View.VISIBLE : View.GONE);
-            GlideApp.with(mHolder.ivCover)
-                    .load(GlideUtil.getGlideUrl(authorComicData.getCover()))
-                    .placeholder(R.drawable.image_loading)
-                    .error(R.drawable.image_error)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(mHolder.ivCover);
+            GlideUtil.loadImageWithUrl(mHolder.ivCover, authorComicData.getCover());
 
             mHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,12 +89,7 @@ public class RelatedComicListAdapter extends RecyclerView.Adapter<RecyclerView.V
             RelatedComicBean.ThemeComicsBean themeComicsBean = themeComicList.get(position);
             mHolder.tvTitle.setText(themeComicsBean.getName());
             mHolder.tvFinished.setVisibility(themeComicsBean.getStatus().equals("已完结") ? View.VISIBLE : View.GONE);
-            GlideApp.with(mHolder.ivCover)
-                    .load(GlideUtil.getGlideUrl(themeComicsBean.getCover()))
-                    .placeholder(R.drawable.image_loading)
-                    .error(R.drawable.image_error)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(mHolder.ivCover);
+            GlideUtil.loadImageWithUrl(mHolder.ivCover, themeComicsBean.getCover());
 
             mHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

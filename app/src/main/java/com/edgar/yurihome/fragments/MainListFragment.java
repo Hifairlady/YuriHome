@@ -213,6 +213,10 @@ public class MainListFragment extends Fragment {
                     ArrayList<ComicItem> comicItems = gson.fromJson(jsonString, type);
                     switch (msg.what) {
                         case HttpUtil.REQUEST_JSON_SUCCESS:
+//                            if (comicItems == null) {
+//                                Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
+//                                break;
+//                            }
                             if (comicItems.isEmpty()) {
                                 isFinalPage = true;
                                 Snackbar.make(recyclerView, R.string.string_no_more_data, Snackbar.LENGTH_SHORT).show();
@@ -246,7 +250,7 @@ public class MainListFragment extends Fragment {
                             }
                             break;
                     }
-                } catch (JsonSyntaxException e) {
+                } catch (JsonSyntaxException | NullPointerException e) {
                     e.printStackTrace();
                     Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
                     if (page >= 1) {
