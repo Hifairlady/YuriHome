@@ -63,4 +63,8 @@
     <string name="string_drawer_update_time_text">更新时间：</string>
     <string name="string_drawer_translator_text">汉化翻译：</string>
     <string name="string_drawer_comic_translator_content">Comic Translator</string>
+    <string name="string_copied_clipboard_text">已复制到剪切板</string>
+    <string name="string_comment_user_name_text">User Name</string>
+    <string name="string_comment_content_text">Comment Content</string>
+    <string name="string_comment_create_time_text">Create Time</string>
 </resources>

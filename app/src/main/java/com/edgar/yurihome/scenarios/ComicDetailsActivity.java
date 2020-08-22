@@ -61,6 +61,16 @@ public class ComicDetailsActivity extends AppCompatActivity {
 
     }
 
+//    @Override
+////    protected void onNewIntent(Intent intent) {
+////        super.onNewIntent(intent);
+////        if (intent != null) {
+////            setIntent(intent);
+////            initView();
+////            fetchComicDetails();
+////        }
+////    }
+
     private void fetchComicDetails() {
         fetchDetailsHandler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -159,8 +169,9 @@ public class ComicDetailsActivity extends AppCompatActivity {
 //        Log.d(TAG, "initTextViews: " + tagTypeText);
         tvComicTags.setText(getString(R.string.string_comic_details_tags_text, tagTypeText));
 
-        String lastUpdateChapterName = comicDetailsBean.getLastUpdateChapterName();
-        tvLastUpdateChapter.setText(getString(R.string.string_comic_details_last_chapter_text, lastUpdateChapterName));
+//        String lastUpdateChapterName = comicDetailsBean.getLastUpdateChapterName();
+//        tvLastUpdateChapter.setText(getString(R.string.string_comic_details_last_chapter_text, lastUpdateChapterName));
+        SpannableStringUtil.setLastChapterSpannable(tvLastUpdateChapter, comicDetailsBean);
 
         String comicStatusText = comicDetailsBean.getStatus().get(0).getTagName();
         tvComicStatus.setText(getString(R.string.string_comic_details_status_text, comicStatusText));

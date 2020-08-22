@@ -27,8 +27,8 @@ import java.util.List;
 public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int SHORT_LIST_LIMIT_NUM = 9;
-    private static final int SORT_ORDER_ASC = 0;
-    private static final int SORT_ORDER_DESC = 1;
+    public static final int SORT_ORDER_ASC = 0;
+    public static final int SORT_ORDER_DESC = 1;
     private Context mContext;
     private ArrayList<ComicDetailsBean.ChaptersBean.DataBean> shortDataList = new ArrayList<>();
     private ArrayList<ComicDetailsBean.ChaptersBean.DataBean> fullDataList = new ArrayList<>();
@@ -99,6 +99,11 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     readerIntent.putExtra("CHAPTER_ID", dataBean.getChapterId());
                     readerIntent.putExtra("CHAPTER_UPDATE_TIME", chapterUpdateTime);
                     readerIntent.putExtra("CHAPTER_LONG_TITLE", chapterLongTitle);
+                    readerIntent.putExtra("FULL_CHAPTER_LIST_JSON", getFullListJson());
+                    readerIntent.putExtra("CUR_CHAPTER_POSITION", position);
+                    int order = isCurOrderAsc ? SORT_ORDER_ASC : SORT_ORDER_DESC;
+                    readerIntent.putExtra("SORT_ORDER", order);
+                    readerIntent.putExtra("LAST_CHAPTER_ID", lastChapterId);
                     mContext.startActivity(readerIntent);
                 }
 

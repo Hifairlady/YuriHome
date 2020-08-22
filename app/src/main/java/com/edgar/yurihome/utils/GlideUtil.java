@@ -26,4 +26,14 @@ public class GlideUtil {
                 .error(R.drawable.image_error)
                 .into(imageView);
     }
+
+    public static void loadCircularImageWithUrl(ImageView imageView, String urlString) {
+        GlideApp.with(imageView)
+                .load(getGlideUrl(urlString))
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_loading)
+                .error(R.drawable.image_error)
+                .into(imageView);
+    }
 }

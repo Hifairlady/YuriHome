@@ -45,7 +45,11 @@ public class DetailsViewPagerAdapter extends FragmentStateAdapter {
                 return chapterInfosFragment;
 
             default:
-                return ComicCommentsFragment.newInstance(null, null);
+                int comicId1 = 0;
+                if (mDetailsBean != null) {
+                    comicId1 = mDetailsBean.getId();
+                }
+                return ComicCommentsFragment.newInstance(comicId1);
         }
     }
 

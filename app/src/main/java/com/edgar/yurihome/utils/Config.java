@@ -152,6 +152,12 @@ public class Config {
         return result;
     }
 
+    public static String getCommentBigImageUrl(int objId, String imageName) {
+        String result = BASE_URL_COMMENT_IMAGE + objId + "/" + imageName;
+        Log.d(TAG, "getCommentBigImageUrl: " + result);
+        return result;
+    }
+
     public static String getHotViewsUrl(int comicId, int chapterId) {
         String result = BASE_URL_HOT_VIEWS + comicId + "/" + chapterId + ".json";
         Log.d(TAG, "getHotViewsUrl: " + result);

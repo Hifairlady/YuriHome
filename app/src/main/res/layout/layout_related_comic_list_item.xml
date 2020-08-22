@@ -30,7 +30,7 @@
         android:background="@color/colorBlackAA"
         android:fontFamily="@font/rubik"
         android:gravity="center"
-        android:maxLines="1"
+        android:maxLines="2"
         android:padding="4dp"
         android:text="@string/string_related_comic_item_title"
         android:textColor="@android:color/white"

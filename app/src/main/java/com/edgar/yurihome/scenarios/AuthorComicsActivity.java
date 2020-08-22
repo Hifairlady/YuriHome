@@ -66,6 +66,16 @@ public class AuthorComicsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            setIntent(intent);
+            initData();
+            initView();
+        }
+    }
+
     private void initData() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();

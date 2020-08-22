@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -26,8 +27,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edgar.yurihome.R;
+import com.edgar.yurihome.adapters.ChapterListAdapter;
 import com.edgar.yurihome.adapters.ReaderListAdapter;
 import com.edgar.yurihome.adapters.ViewPointListAdapter;
+import com.edgar.yurihome.beans.ComicDetailsBean;
 import com.edgar.yurihome.beans.ReaderImagesItem;
 import com.edgar.yurihome.beans.ViewPointBean;
 import com.edgar.yurihome.utils.Config;
@@ -37,6 +40,7 @@ import com.edgar.yurihome.utils.JsonUtil;
 import com.edgar.yurihome.utils.NetworkUtil;
 import com.edgar.yurihome.utils.ScreenUtil;
 import com.edgar.yurihome.utils.UnicodeUtil;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -79,6 +83,12 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
 
     private Handler mHandler, mViewPointHandler;
 
+    private ArrayList<ComicDetailsBean.ChaptersBean.DataBean> fullChapterList = new ArrayList<>();
+    private String fullListJsonString;
+    private int curChapterPosition = 0, sortOrder = 0, lastChapterId;
+    private TextView btnNextChapter, btnLastChapter, btnAllChapters;
+    private MaterialCardView drawerBottomRootLayout;
+
     private int screenWidth, screenHeight;
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
@@ -93,6 +103,77 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                     break;
 
                 case R.id.reader_root_view:
+                    break;
+
+                case R.id.btn_drawer_all_chapters:
+
+//                    lastChapterId = bundle.getInt("LAST_CHAPTER_ID", 0);
+//                    comicId = bundle.getInt("COMIC_ID", 0);
+//                    comicName = bundle.getString("COMIC_NAME", "COMIC_NAME");
+//                    chapterPartTitle = bundle.getString("CHAPTER_PART_TITLE", "CHAPTER_PART_TITLE");
+//                    String jsonString = bundle.getString("FULL_DATA_LIST_JSON", "");
+
+                    Intent allChaptersIntent = new Intent(ComicReaderActivity.this, FullChapterListActivity.class);
+                    allChaptersIntent.putExtra("LAST_CHAPTER_ID", lastChapterId);
+                    allChaptersIntent.putExtra("COMIC_ID", comicId);
+                    allChaptersIntent.putExtra("COMIC_NAME", comicName);
+                    allChaptersIntent.putExtra("CHAPTER_PART_TITLE", chapterLongTitle.substring(0, chapterLongTitle.indexOf("/")));
+                    allChaptersIntent.putExtra("FULL_DATA_LIST_JSON", fullListJsonString);
+                    startActivity(allChaptersIntent);
+                    break;
+
+                case R.id.btn_drawer_next_chapter:
+                    if (sortOrder == ChapterListAdapter.SORT_ORDER_DESC) {
+                        curChapterPosition -= 1;
+                        if (curChapterPosition < 0) break;
+                    } else {
+                        curChapterPosition += 1;
+                        if (curChapterPosition >= fullChapterList.size()) break;
+                    }
+                    ComicDetailsBean.ChaptersBean.DataBean nextChapter = fullChapterList.get(curChapterPosition);
+                    Intent nextChapterIntent = new Intent(ComicReaderActivity.this, ComicReaderActivity.class);
+                    nextChapterIntent.putExtra("COMIC_ID", comicId);
+                    nextChapterIntent.putExtra("COMIC_NAME", comicName);
+                    nextChapterIntent.putExtra("CHAPTER_ID", nextChapter.getChapterId());
+                    nextChapterIntent.putExtra("CHAPTER_UPDATE_TIME", nextChapter.getUpdatetime());
+                    nextChapterIntent.putExtra("CHAPTER_LONG_TITLE", chapterLongTitle.substring(0, chapterLongTitle.indexOf("/") + 1) + nextChapter.getChapterTitle());
+                    nextChapterIntent.putExtra("FULL_CHAPTER_LIST_JSON", fullListJsonString);
+                    nextChapterIntent.putExtra("CUR_CHAPTER_POSITION", curChapterPosition);
+                    nextChapterIntent.putExtra("SORT_ORDER", sortOrder);
+                    nextChapterIntent.putExtra("LAST_CHAPTER_ID", lastChapterId);
+                    startActivity(nextChapterIntent);
+                    break;
+
+                case R.id.btn_drawer_last_chapter:
+                    if (sortOrder == ChapterListAdapter.SORT_ORDER_DESC) {
+                        curChapterPosition += 1;
+                        if (curChapterPosition >= fullChapterList.size()) break;
+                    } else {
+                        curChapterPosition -= 1;
+                        if (curChapterPosition < 0) break;
+                    }
+
+//                    comicId = bundle.getInt("COMIC_ID", 0);
+//                    comicName = bundle.getString("COMIC_NAME", "COMIC_NAME");
+//                    chapterId = bundle.getInt("CHAPTER_ID", 0);
+//                    chapterUpdateTime = bundle.getLong("CHAPTER_UPDATE_TIME", 0);
+//                    chapterLongTitle = bundle.getString("CHAPTER_LONG_TITLE", "CHAPTER_LONG_TITLE");
+//                    fullListJsonString = bundle.getString("FULL_CHAPTER_LIST_JSON", "");
+//                    curChapterPosition = bundle.getInt("CUR_CHAPTER_POSITION", 0);
+//                    sortOrder = bundle.getInt("SORT_ORDER", ChapterListAdapter.SORT_ORDER_DESC);
+//                    lastChapterId = bundle.getInt("LAST_CHAPTER_ID", 0);
+                    ComicDetailsBean.ChaptersBean.DataBean lastChapter = fullChapterList.get(curChapterPosition);
+                    Intent lastChapterIntent = new Intent(ComicReaderActivity.this, ComicReaderActivity.class);
+                    lastChapterIntent.putExtra("COMIC_ID", comicId);
+                    lastChapterIntent.putExtra("COMIC_NAME", comicName);
+                    lastChapterIntent.putExtra("CHAPTER_ID", lastChapter.getChapterId());
+                    lastChapterIntent.putExtra("CHAPTER_UPDATE_TIME", lastChapter.getUpdatetime());
+                    lastChapterIntent.putExtra("CHAPTER_LONG_TITLE", chapterLongTitle.substring(0, chapterLongTitle.indexOf("/") + 1) + lastChapter.getChapterTitle());
+                    lastChapterIntent.putExtra("FULL_CHAPTER_LIST_JSON", fullListJsonString);
+                    lastChapterIntent.putExtra("CUR_CHAPTER_POSITION", curChapterPosition);
+                    lastChapterIntent.putExtra("SORT_ORDER", sortOrder);
+                    lastChapterIntent.putExtra("LAST_CHAPTER_ID", lastChapterId);
+                    startActivity(lastChapterIntent);
                     break;
 
                 default:
@@ -158,6 +239,16 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            setIntent(intent);
+            initData();
+            initView();
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
         flRootView = findViewById(R.id.reader_root_view);
@@ -195,6 +286,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+        drawerLayout.closeDrawer(Gravity.RIGHT);
 
 //        drawerLayout.openDrawer(Gravity.END);
 
@@ -209,12 +301,49 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
 //            readerIntent.putExtra("CHAPTER_ID", dataBean.getChapterId());
 //            readerIntent.putExtra("CHAPTER_UPDATE_TIME", chapterUpdateTime);
 //            readerIntent.putExtra("CHAPTER_LONG_TITLE", chapterLongTitle);
+//            readerIntent.putExtra("FULL_CHAPTER_LIST_JSON", getFullListJson());
+//            curChapterPosition = bundle.getInt("CUR_CHAPTER_POSITION", 0);
+
             comicId = bundle.getInt("COMIC_ID", 0);
             comicName = bundle.getString("COMIC_NAME", "COMIC_NAME");
             chapterId = bundle.getInt("CHAPTER_ID", 0);
             chapterUpdateTime = bundle.getLong("CHAPTER_UPDATE_TIME", 0);
             chapterLongTitle = bundle.getString("CHAPTER_LONG_TITLE", "CHAPTER_LONG_TITLE");
             chapterUpdateString = DateUtil.getTimeString(chapterUpdateTime);
+            fullListJsonString = bundle.getString("FULL_CHAPTER_LIST_JSON", "");
+            curChapterPosition = bundle.getInt("CUR_CHAPTER_POSITION", 0);
+            sortOrder = bundle.getInt("SORT_ORDER", ChapterListAdapter.SORT_ORDER_DESC);
+            lastChapterId = bundle.getInt("LAST_CHAPTER_ID", 0);
+
+            btnLastChapter = findViewById(R.id.btn_drawer_last_chapter);
+            btnAllChapters = findViewById(R.id.btn_drawer_all_chapters);
+            btnNextChapter = findViewById(R.id.btn_drawer_next_chapter);
+            drawerBottomRootLayout = findViewById(R.id.drawer_bottom_root_layout);
+
+            try {
+                Gson gson = new Gson();
+                Type type = new TypeToken<ArrayList<ComicDetailsBean.ChaptersBean.DataBean>>() {
+                }.getType();
+                fullChapterList = gson.fromJson(fullListJsonString, type);
+                if (fullChapterList == null || fullChapterList.size() == 0) {
+                    drawerBottomRootLayout.setVisibility(View.GONE);
+                } else {
+                    if (sortOrder == ChapterListAdapter.SORT_ORDER_DESC) {
+                        btnNextChapter.setVisibility(curChapterPosition == 0 ? View.INVISIBLE : View.VISIBLE);
+                        btnLastChapter.setVisibility(curChapterPosition == fullChapterList.size() - 1 ? View.INVISIBLE : View.VISIBLE);
+                    }
+                    if (sortOrder == ChapterListAdapter.SORT_ORDER_ASC) {
+                        btnLastChapter.setVisibility(curChapterPosition == 0 ? View.INVISIBLE : View.VISIBLE);
+                        btnNextChapter.setVisibility(curChapterPosition == fullChapterList.size() - 1 ? View.INVISIBLE : View.VISIBLE);
+                    }
+                    btnNextChapter.setOnClickListener(mOnClickListener);
+                    btnLastChapter.setOnClickListener(mOnClickListener);
+                    btnAllChapters.setOnClickListener(mOnClickListener);
+                }
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+                drawerBottomRootLayout.setVisibility(View.GONE);
+            }
 
         }
         urlString = Config.getChapterImagesUrl(comicId, chapterId);
@@ -373,6 +502,15 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                 break;
         }
         return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void fetchTranslatorName() {

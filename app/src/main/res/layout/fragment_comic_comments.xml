@@ -3,16 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/fl_comment_frag_root_layout"
     tools:context=".fragments.ComicCommentsFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/rubik"
-        android:padding="8dp"
-        android:text="@string/string_test_text"
-        android:textColor="@color/colorBlackText"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+    <include layout="@layout/layout_top_comment" />
 
 </FrameLayout>
