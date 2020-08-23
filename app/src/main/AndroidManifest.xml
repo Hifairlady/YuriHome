@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".scenarios.SearchActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".scenarios.AuthorComicsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

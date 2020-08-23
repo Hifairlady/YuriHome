@@ -2,6 +2,9 @@ package com.edgar.yurihome.utils;
 
 import android.util.Log;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class Config {
 
     private static final String TAG = "=======================" + Config.class.getSimpleName();
@@ -173,6 +176,19 @@ public class Config {
     public static String getTranslatorUrl(int comicId, int chapterId) {
         String result = BASE_URL_TRANSLATOR + comicId + "/" + chapterId + ".html";
         Log.d(TAG, "getTranslatorUrl: " + result);
+        return result;
+    }
+
+    public static String getSearchQueryUrl(String queryContent, int page) {
+        String result = "";
+        try {
+            queryContent = URLEncoder.encode(queryContent, "UTF-8");
+            queryContent = queryContent.replaceAll("\\+", "%20");
+            result = BASE_URL_SEARCH + queryContent + "/" + page + ".json";
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "getSearchQueryUrl: " + result);
         return result;
     }
 

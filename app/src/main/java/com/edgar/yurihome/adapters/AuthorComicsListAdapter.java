@@ -37,7 +37,7 @@ public class AuthorComicsListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        AuthorHolder mHolder = (AuthorHolder) holder;
+        final AuthorHolder mHolder = (AuthorHolder) holder;
         AuthorComicsBean.AuthorComicData data = dataList.get(position);
         mHolder.tvFinished.setVisibility(data.getStatus().equals("已完结") ? View.VISIBLE : View.GONE);
         mHolder.tvTitle.setText(data.getName());
@@ -46,7 +46,7 @@ public class AuthorComicsListAdapter extends RecyclerView.Adapter<RecyclerView.V
             @Override
             public void onClick(View view) {
                 if (itemClickListener != null) {
-                    itemClickListener.onItemClick(position);
+                    itemClickListener.onItemClick(mHolder.getAdapterPosition());
                 }
             }
         });

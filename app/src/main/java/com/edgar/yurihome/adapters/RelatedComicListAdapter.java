@@ -62,7 +62,7 @@ public class RelatedComicListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        RelatedComicHolder mHolder = (RelatedComicHolder) holder;
+        final RelatedComicHolder mHolder = (RelatedComicHolder) holder;
         if (flag == FLAG_RELATED_AUTHOR_COMICS) {
             final RelatedComicBean.AuthorComicsBean.AuthorComicDataBean authorComicData = authorComicList.get(position);
             mHolder.tvTitle.setText(authorComicData.getName());
@@ -79,7 +79,7 @@ public class RelatedComicListAdapter extends RecyclerView.Adapter<RecyclerView.V
 ////                    intent.putExtra("COMIC_TITLE", authorComicData.getName());
 ////                    mContext.startActivity(intent);
                     if (itemClickListener != null) {
-                        itemClickListener.onItemClick(position);
+                        itemClickListener.onItemClick(mHolder.getAdapterPosition());
                     }
                 }
             });

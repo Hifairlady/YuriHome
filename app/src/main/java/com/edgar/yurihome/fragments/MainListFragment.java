@@ -31,6 +31,7 @@ import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.beans.ComicItem;
 import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
 import com.edgar.yurihome.scenarios.ComicDetailsActivity;
+import com.edgar.yurihome.scenarios.SearchActivity;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
 import com.edgar.yurihome.utils.JsonUtil;
@@ -152,6 +153,8 @@ public class MainListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_menu_action_search:
+                Intent searchIntent = new Intent(getContext(), SearchActivity.class);
+                startActivity(searchIntent);
                 break;
 
             case R.id.main_menu_action_filter:
@@ -320,11 +323,11 @@ public class MainListFragment extends Fragment {
         String[] statTagNames = SharedPreferenceUtil.getAllFilterStatTagName(mContext);
         String[] regionTagNames = SharedPreferenceUtil.getAllFilterRegionTagName(mContext);
 
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, typeTagNames);
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, typeTagNames);
         spType.setAdapter(typeAdapter);
-        ArrayAdapter<String> statAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, statTagNames);
+        ArrayAdapter<String> statAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, statTagNames);
         spStatus.setAdapter(statAdapter);
-        ArrayAdapter<String> regionAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, regionTagNames);
+        ArrayAdapter<String> regionAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, regionTagNames);
         spRegion.setAdapter(regionAdapter);
 
         int userFilterTypeIndex = SharedPreferenceUtil.getUserFilterTypeIndex(mContext);

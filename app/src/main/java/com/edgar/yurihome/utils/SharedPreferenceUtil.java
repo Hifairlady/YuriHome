@@ -173,4 +173,29 @@ public class SharedPreferenceUtil {
         return sharedPreferences.getInt("FILTER_USER_SETTING_SORT_INDEX", 1);
     }
 
+    public static void storeSearchHistories(Context context, ArrayList<String> histories) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("SP_SEARCH_HISTORY", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        StringBuilder builder = new StringBuilder();
+        int index = 0;
+        for (String history : histories) {
+            builder.append(history);
+            if (index != histories.size() - 1) {
+                builder.append("_");
+            }
+            index++;
+        }
+        editor.putString("ALL_SEARCH_HISTORY_STRING", builder.toString());
+        editor.apply();
+    }
+
+    public static String[] getSearchHistories(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("SP_SEARCH_HISTORY", Context.MODE_PRIVATE);
+        String allSearchHistoryString = sharedPreferences.getString("ALL_SEARCH_HISTORY_STRING", "");
+        if (allSearchHistoryString != null && allSearchHistoryString.length() != 0) {
+            return allSearchHistoryString.split("_");
+        }
+        return null;
+    }
+
 }

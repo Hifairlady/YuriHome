@@ -138,6 +138,10 @@ public class SpannableStringUtil {
 
 
     public static void addReadMore(final String text, final TextView textView) {
+        if (text.length() <= 100) {
+            textView.setText(text);
+            return;
+        }
         SpannableString ss = new SpannableString(text.substring(0, 100) + "... Read More");
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override

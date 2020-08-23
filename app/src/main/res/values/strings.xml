@@ -67,4 +67,8 @@
     <string name="string_comment_user_name_text">User Name</string>
     <string name="string_comment_content_text">Comment Content</string>
     <string name="string_comment_create_time_text">Create Time</string>
+    <string name="string_search_result_title_text">Title</string>
+    <string name="string_search_result_authors_text">作者：%s</string>
+    <string name="string_search_result_tags_text">标签：%s</string>
+    <string name="string_search_result_latest_chapter_text">更新至：%s</string>
 </resources>

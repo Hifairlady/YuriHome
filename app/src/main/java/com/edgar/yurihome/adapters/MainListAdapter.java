@@ -50,7 +50,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof FooterHolder) return;
         ComicItem item = comicItems.get(position);
-        NormalHolder normalHolder = (NormalHolder) holder;
+        final NormalHolder normalHolder = (NormalHolder) holder;
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.anim_slide_right);
         normalHolder.itemView.startAnimation(animation);
         normalHolder.tvAuthor.setText(item.getAuthors());
@@ -64,7 +64,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View view) {
                 if (clickListener != null) {
-                    clickListener.onItemClick(position);
+                    clickListener.onItemClick(normalHolder.getAdapterPosition());
                 }
             }
         });
