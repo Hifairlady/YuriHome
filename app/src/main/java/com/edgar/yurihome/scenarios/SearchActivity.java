@@ -1,20 +1,13 @@
 package com.edgar.yurihome.scenarios;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.PopupWindow;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -55,7 +48,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private RecyclerView rvHistoryList;
     private SearchHistoryListAdapter historyListAdapter;
-    private PopupWindow historyWindow;
     private boolean isFromHistory = false;
 
     private ConstraintLayout clRootLayout;
@@ -63,7 +55,7 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         public void onItemClick(int position) {
             String queryContent = historyListAdapter.getHistoryAt(position);
-            if (svSearch != null && queryContent != null && historyWindow != null) {
+            if (svSearch != null && queryContent != null) {
                 isFromHistory = true;
                 svSearch.setQuery(queryContent, true);
             }
@@ -94,7 +86,7 @@ public class SearchActivity extends AppCompatActivity {
 
         initView();
         initData();
-        initSearchHistoryWindow();
+        initSearchHistoryView();
     }
 
     private void initView() {
@@ -103,7 +95,11 @@ public class SearchActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if (rvHistoryList != null && rvHistoryList.getVisibility() != View.GONE) {
+                    rvHistoryList.setVisibility(View.GONE);
+                } else {
+                    finish();
+                }
             }
         });
 
@@ -194,14 +190,14 @@ public class SearchActivity extends AppCompatActivity {
                     historyListAdapter.appendHistory(queryContent);
                 }
                 isFromHistory = false;
-                historyWindow.dismiss();
+                hideHistoryView();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
                 historyListAdapter.filterMatchedList(s);
-                showHistoryWindow();
+                showHistoryView();
                 return false;
             }
         });
@@ -222,39 +218,18 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-//        svSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean b) {
-//                if (b) {
-//                    showHistoryWindow();
-//                }
-//            }
-//        });
+
 
         svSearch.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
-                    showHistoryWindow();
+                    showHistoryView();
                 }
             }
         });
 
-//        svSearch.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                Rect rect = new Rect();
-//                getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);//获取当前界面可视部分
-//                int screenHeight = getWindow().getDecorView().getRootView().getHeight();//获取屏幕高度
-//                int heiDifference = screenHeight - rect.bottom;//获取键盘高度，键盘没有弹出时，高度为0，键盘弹出时，高度为正数
-//                if (heiDifference == 0) {
-//                    //todo:键盘没有弹出时
-//                } else {
-//                    //todo：键盘弹出时
-//                    showHistoryWindow();
-//                }
-//            }
-//        });
+
 
     }
 
@@ -267,8 +242,8 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (historyWindow != null && historyWindow.isShowing()) {
-                historyWindow.dismiss();
+            if (rvHistoryList != null && rvHistoryList.getVisibility() != View.GONE) {
+                hideHistoryView();
                 return true;
             }
         }
@@ -281,17 +256,9 @@ public class SearchActivity extends AppCompatActivity {
         JsonUtil.fetchJsonData(mHandler, urlString);
     }
 
-    private void initSearchHistoryWindow() {
-        View view = LayoutInflater.from(this).inflate(R.layout.layout_search_history_popup_window, null, false);
-        historyWindow = new PopupWindow(SearchActivity.this);
-        historyWindow.setContentView(view);
-        historyWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        historyWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        historyWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        historyWindow.setOutsideTouchable(true);
-        historyWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    private void initSearchHistoryView() {
 
-        rvHistoryList = view.findViewById(R.id.rv_search_history_list);
+        rvHistoryList = findViewById(R.id.rv_search_history_list2);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         historyListAdapter = new SearchHistoryListAdapter(this);
@@ -299,19 +266,23 @@ public class SearchActivity extends AppCompatActivity {
         rvHistoryList.setItemAnimator(null);
         rvHistoryList.setAdapter(historyListAdapter);
         historyListAdapter.setOnHistoryItemClickListener(mOnHistoryItemClickListener);
-        svSearch.post(new Runnable() {
-            @Override
-            public void run() {
-                showHistoryWindow();
-            }
-        });
 
     }
 
-    private void showHistoryWindow() {
-        if (historyWindow != null && !historyWindow.isShowing()) {
-            historyWindow.showAsDropDown(svSearch, 0, 0, Gravity.BOTTOM);
+    private void showHistoryView() {
+
+        if (rvHistoryList != null && rvHistoryList.getVisibility() == View.GONE) {
+            rvHistoryList.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void hideHistoryView() {
+
+        if (rvHistoryList != null && rvHistoryList.getVisibility() != View.GONE) {
+            rvHistoryList.setVisibility(View.GONE);
         }
     }
+
 
 }

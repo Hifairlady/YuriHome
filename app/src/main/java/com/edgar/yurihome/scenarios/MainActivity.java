@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.edgar.yurihome.R;
+import com.edgar.yurihome.TestJson;
 import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.beans.JsonResponseItem;
 import com.edgar.yurihome.fragments.MainListFragment;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TestJson testJson = new TestJson();
 
         initView();
         fetchFilterData();

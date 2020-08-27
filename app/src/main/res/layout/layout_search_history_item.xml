@@ -9,6 +9,7 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,17 +27,20 @@
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:gravity="center_vertical"
         android:padding="8dp"
+        android:ellipsize="middle"
         android:text="@string/string_search_history_text"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
         app:layout_constraintEnd_toStartOf="@+id/btn_delete_search_history"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="@+id/imageView3"
+        android:singleLine="true"
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/btn_delete_search_history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackgroundBorderless"
