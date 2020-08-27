@@ -18,7 +18,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_search_history_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="256dp"
+            android:scrollbarSize="4dp"
+            android:scrollbars="vertical"
             android:background="@color/colorPrimary"
             tools:listitem="@layout/layout_search_history_item" />
 

@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/tv_reader_bottom_chapter"
-        style="@style/TextAppearance.MaterialComponents.Button"
+        style="@style/ReaderBottomTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -16,52 +16,45 @@
         android:paddingEnd="2dp"
         android:text="@string/string_reader_bottom_chapter_text"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_reader_bottom_page"
-        style="@style/TextAppearance.MaterialComponents.Button"
+        style="@style/ReaderBottomTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingStart="2dp"
         android:paddingEnd="2dp"
         android:text="@string/string_reader_bottom_page_text"
-        android:textAppearance="@style/ToolbarTitleTextStyle"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_reader_bottom_chapter" />
 
     <TextView
         android:id="@+id/tv_reader_bottom_network"
-        style="@style/TextAppearance.MaterialComponents.Button"
+        style="@style/ReaderBottomTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingStart="2dp"
         android:paddingEnd="2dp"
         android:text="@string/string_reader_bottom_network_text"
-        android:textAppearance="@style/ToolbarTitleTextStyle"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_reader_bottom_page" />
 
     <TextView
         android:id="@+id/tv_reader_bottom_time"
-        style="@style/TextAppearance.MaterialComponents.Button"
+        style="@style/ReaderBottomTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingStart="2dp"
         android:paddingEnd="4dp"
         android:text="@string/string_reader_bottom_time_text"
-        android:textAppearance="@style/ToolbarTitleTextStyle"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_reader_bottom_network" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
         android:elevation="8dp"
         android:gravity="center"
@@ -39,7 +39,7 @@
             android:closeIcon="@drawable/ic_close_24"
             android:iconifiedByDefault="false"
             android:imeOptions="actionSearch"
-            android:queryHint="Search author or comic" />
+            android:queryHint="@string/string_search_hint_text" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -24,18 +24,15 @@
 
     <TextView
         android:id="@+id/tv_related_comic_item_title"
-        style="@style/TextAppearance.MaterialComponents.Button"
+        style="@style/ComicItemTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorBlackAA"
-        android:fontFamily="@font/rubik"
         android:gravity="center"
         android:maxLines="2"
         android:padding="4dp"
         android:text="@string/string_related_comic_item_title"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

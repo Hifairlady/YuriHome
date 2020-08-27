@@ -17,7 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="224dp"
+            android:layout_height="216dp"
             android:layout_marginTop="?attr/actionBarSize">
 
             <ImageView
@@ -32,7 +32,7 @@
 
             <ImageView
                 android:id="@+id/iv_comic_details_cover"
-                android:layout_width="144dp"
+                android:layout_width="128dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -82,18 +82,15 @@
 
             <TextView
                 android:id="@+id/tv_comic_details_tags"
-                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                style="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/rubik"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@string/string_comic_details_tags_text"
                 android:textColor="@color/colorBlackText"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_comic_type_tags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_comic_type_tags"
@@ -101,18 +98,15 @@
 
             <TextView
                 android:id="@+id/tv_comic_details_status"
-                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                style="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/rubik"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@string/string_comic_details_status_text"
                 android:textColor="@color/colorBlackText"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView7"
@@ -120,18 +114,15 @@
 
             <TextView
                 android:id="@+id/tv_details_last_chapter"
-                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                style="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/rubik"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@string/string_comic_details_last_chapter_text"
                 android:textColor="@color/colorBlackText"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_comic_latest_chapter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_comic_latest_chapter"
@@ -139,18 +130,15 @@
 
             <TextView
                 android:id="@+id/tv_details_last_update_time"
-                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                style="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/rubik"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@string/string_comic_details_last_update_time_text"
                 android:textColor="@color/colorBlackText"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_comic_last_update_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_comic_last_update_time"
@@ -158,18 +146,15 @@
 
             <TextView
                 android:id="@+id/tv_comic_details_authors"
-                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                style="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/rubik"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@string/string_comic_details_authors_text"
                 android:textColor="@color/colorBlackText"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_comic_details_author"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_comic_details_author"

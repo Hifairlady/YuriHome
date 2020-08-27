@@ -71,4 +71,7 @@
     <string name="string_search_result_authors_text">作者：%s</string>
     <string name="string_search_result_tags_text">标签：%s</string>
     <string name="string_search_result_latest_chapter_text">更新至：%s</string>
+    <string name="string_comic_item_finish_text">完</string>
+    <string name="string_search_history_text">Search History</string>
+    <string name="string_search_hint_text">搜索作者或漫画</string>
 </resources>

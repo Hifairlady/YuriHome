@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/fl_comment_frag_root_layout"
+    android:fillViewport="true"
     tools:context=".fragments.ComicCommentsFragment">
 
-    <include layout="@layout/layout_top_comment" />
+    <FrameLayout
+        android:id="@+id/fl_comment_frag_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <include layout="@layout/layout_top_comment" />
+
+    </FrameLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -8,9 +8,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.SearchView;
@@ -199,9 +201,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 historyListAdapter.filterMatchedList(s);
-                if (!historyWindow.isShowing()) {
-                    showHistoryWindow();
-                }
+                showHistoryWindow();
                 return false;
             }
         });
@@ -222,20 +222,57 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        svSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//        svSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean b) {
+//                if (b) {
+//                    showHistoryWindow();
+//                }
+//            }
+//        });
+
+        svSearch.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (b && historyWindow != null && view.getId() == R.id.sv_search) {
+                if (b) {
                     showHistoryWindow();
                 }
             }
         });
+
+//        svSearch.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                Rect rect = new Rect();
+//                getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);//获取当前界面可视部分
+//                int screenHeight = getWindow().getDecorView().getRootView().getHeight();//获取屏幕高度
+//                int heiDifference = screenHeight - rect.bottom;//获取键盘高度，键盘没有弹出时，高度为0，键盘弹出时，高度为正数
+//                if (heiDifference == 0) {
+//                    //todo:键盘没有弹出时
+//                } else {
+//                    //todo：键盘弹出时
+//                    showHistoryWindow();
+//                }
+//            }
+//        });
+
     }
 
     private boolean isSlideToBottom(RecyclerView rvArg) {
         return rvArg != null &&
                 rvArg.computeVerticalScrollExtent() + rvArg.computeVerticalScrollOffset() >=
                         rvArg.computeVerticalScrollRange();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (historyWindow != null && historyWindow.isShowing()) {
+                historyWindow.dismiss();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void loadNextPage() {
@@ -251,7 +288,8 @@ public class SearchActivity extends AppCompatActivity {
         historyWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         historyWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         historyWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        historyWindow.setOutsideTouchable(false);
+        historyWindow.setOutsideTouchable(true);
+        historyWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         rvHistoryList = view.findViewById(R.id.rv_search_history_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -271,7 +309,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void showHistoryWindow() {
-        historyWindow.showAsDropDown(svSearch, 0, 0, Gravity.BOTTOM);
+        if (historyWindow != null && !historyWindow.isShowing()) {
+            historyWindow.showAsDropDown(svSearch, 0, 0, Gravity.BOTTOM);
+        }
     }
 
 }

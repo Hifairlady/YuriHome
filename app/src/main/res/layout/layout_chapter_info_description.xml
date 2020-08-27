@@ -36,7 +36,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="@string/string_desc_title_text"
-        android:textAppearance="@style/ToolbarTitleTextStyle"
+        android:textAppearance="@style/StrongTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -48,6 +48,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        style="@style/SmallNormalTextStyle"
         android:ellipsize="end"
         android:maxLines="3"
         android:text="@string/string_desc_intro_text"

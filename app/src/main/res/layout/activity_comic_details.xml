@@ -8,17 +8,23 @@
     tools:context=".scenarios.ComicDetailsActivity">
 
     <include layout="@layout/layout_comic_appbar" />
-    <androidx.core.widget.NestedScrollView
+    <!--    <androidx.core.widget.NestedScrollView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fillViewport="true"-->
+    <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+    <!--        <androidx.viewpager2.widget.ViewPager2-->
+    <!--            android:id="@+id/details_view_pager"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent" />-->
+
+    <!--    </androidx.core.widget.NestedScrollView>-->
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/details_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/details_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

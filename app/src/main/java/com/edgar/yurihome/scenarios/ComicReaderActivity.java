@@ -481,12 +481,12 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_DOWN:
                 float x = motionEvent.getX();
                 float y = motionEvent.getY();
                 int centerX = screenWidth / 2;
                 int centerY = screenHeight / 2;
-                if (((x > centerX - 150.0f) && (x < centerX + 150.0f)) && ((y > centerY - 400.0f) && (y < centerY + 0.0f))) {
+                if (((x > centerX - 150.0f) && (x < centerX + 150.0f)) && ((y > centerY - 500.0f) && (y < centerY - 200.0f))) {
                     if (isFullScreen) {
                         isFullScreen = false;
                         setActionsLayoutVisible(false);
