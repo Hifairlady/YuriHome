@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/tv_view_point_content"
-        style="@style/StrongTextStyle"
+        android:textAppearance="@style/StrongTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"

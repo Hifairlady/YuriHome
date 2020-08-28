@@ -11,15 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:elevation="8dp"
-        android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar">
+        android:background="@color/colorPrimaryDark"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Light">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/full_chapter_list_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back_24"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:title="全部章节"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents"
             app:titleTextAppearance="@style/ToolbarTitleTextStyle" />
 
     </com.google.android.material.appbar.AppBarLayout>

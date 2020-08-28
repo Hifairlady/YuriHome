@@ -12,8 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -26,7 +25,7 @@
 
         <TextView
             android:id="@+id/btn_drawer_last_chapter"
-            style="@style/ToolbarTitleTextStyle"
+            android:textAppearance="@style/ToolbarTitleTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -44,7 +43,7 @@
 
         <TextView
             android:id="@+id/btn_drawer_all_chapters"
-            style="@style/ToolbarTitleTextStyle"
+            android:textAppearance="@style/ToolbarTitleTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -71,7 +70,7 @@
 
         <TextView
             android:id="@+id/btn_drawer_next_chapter"
-            style="@style/ToolbarTitleTextStyle"
+            android:textAppearance="@style/ToolbarTitleTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"

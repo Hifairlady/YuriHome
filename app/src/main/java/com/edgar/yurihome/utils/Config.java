@@ -137,6 +137,7 @@ public class Config {
 
     public static String getTopCommentUrl(int comicId) {
         String result = BASE_URL_TOP_COMMENT + comicId + ".json";
+//        String result = BASE_URL_TOP_COMMENT_BOARD + comicId + ".json";
         Log.d(TAG, "getTopCommentUrl: " + result);
         return result;
     }

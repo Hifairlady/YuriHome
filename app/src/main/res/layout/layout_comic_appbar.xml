@@ -82,7 +82,7 @@
 
             <TextView
                 android:id="@+id/tv_comic_details_tags"
-                style="@style/StrongTextStyle"
+                android:textAppearance="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -98,7 +98,7 @@
 
             <TextView
                 android:id="@+id/tv_comic_details_status"
-                style="@style/StrongTextStyle"
+                android:textAppearance="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -114,7 +114,7 @@
 
             <TextView
                 android:id="@+id/tv_details_last_chapter"
-                style="@style/StrongTextStyle"
+                android:textAppearance="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -130,7 +130,7 @@
 
             <TextView
                 android:id="@+id/tv_details_last_update_time"
-                style="@style/StrongTextStyle"
+                android:textAppearance="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -146,7 +146,7 @@
 
             <TextView
                 android:id="@+id/tv_comic_details_authors"
-                style="@style/StrongTextStyle"
+                android:textAppearance="@style/StrongTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"

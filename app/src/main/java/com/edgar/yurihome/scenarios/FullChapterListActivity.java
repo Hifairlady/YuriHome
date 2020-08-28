@@ -26,13 +26,13 @@ public class FullChapterListActivity extends AppCompatActivity {
     private ChapterListAdapter adapter;
     private int lastChapterId;
     private int comicId;
-    private boolean isCurOrderAsc = false;
     private String comicName, chapterPartTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_full_chapter_list);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         MaterialToolbar toolbar = findViewById(R.id.full_chapter_list_toolbar);
         setSupportActionBar(toolbar);

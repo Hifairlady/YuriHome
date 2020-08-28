@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:elevation="2dp"
     android:background="@color/colorPrimary">
 
-    <Button
+    <TextView
         android:id="@+id/btn_chapter_item"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:clickable="true"
+        android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         android:maxLines="2"
-        android:text="@string/string_chapter_list_item_name"
+        android:gravity="center"
         android:textAppearance="@style/ToolbarTitleTextStyle"
-        android:textColor="@color/colorBlackText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/string_chapter_list_item_name"
+        android:textColor="@color/colorBlackText" />
 
     <TextView
         android:id="@+id/tv_chapter_new_label"
@@ -31,7 +28,6 @@
         android:text="@string/string_chapter_list_item_new_label_text"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_chapter_item"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="top|end" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

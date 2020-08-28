@@ -39,6 +39,8 @@
             android:closeIcon="@drawable/ic_close_24"
             android:iconifiedByDefault="false"
             android:imeOptions="actionSearch"
+            android:queryBackground="@null"
+            android:submitBackground="@null"
             android:queryHint="@string/string_search_hint_text" />
     </LinearLayout>
 
@@ -64,7 +66,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            app:cardElevation="4dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_search_history_list2"

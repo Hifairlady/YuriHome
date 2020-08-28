@@ -233,6 +233,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         super.onCreate(savedInstanceState);
         ScreenUtil.setNoTitleBar(ComicReaderActivity.this);
         setContentView(R.layout.activity_comic_reader);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         initData();
         initView();
