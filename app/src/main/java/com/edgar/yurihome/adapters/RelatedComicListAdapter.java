@@ -143,9 +143,9 @@ public class RelatedComicListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public RelatedComicHolder(@NonNull View itemView) {
             super(itemView);
-            ivCover = itemView.findViewById(R.id.iv_related_comic_item_cover);
-            tvTitle = itemView.findViewById(R.id.tv_related_comic_item_title);
-            tvFinished = itemView.findViewById(R.id.tv_related_comic_item_finished);
+            ivCover = itemView.findViewById(R.id.iv_author_comic_item_cover);
+            tvTitle = itemView.findViewById(R.id.tv_author_comic_item_title);
+            tvFinished = itemView.findViewById(R.id.tv_author_comic_item_finished);
         }
     }
 }

@@ -59,35 +59,35 @@ public class NormalCommentsBean {
          */
 
         @SerializedName("obj_id")
-        private String objId;
+        private int objId;
         private String content;
         @SerializedName("sender_uid")
         private String senderUid;
         @SerializedName("sender_ip")
         private String senderIp;
         @SerializedName("create_time")
-        private String createTime;
+        private long createTime;
         @SerializedName("is_goods")
         private String isGoods;
         @SerializedName("like_amount")
-        private String likeAmount;
+        private int likeAmount;
         @SerializedName("upload_images")
         private String uploadImages;
         @SerializedName("sender_terminal")
         private String senderTerminal;
         @SerializedName("origin_comment_id")
-        private String originCommentId;
-        private String id;
+        private int originCommentId;
+        private int id;
         @SerializedName("avatar_url")
         private String avatarUrl;
         private String nickname;
-        private String sex;
+        private int sex;
 
-        public String getObjId() {
+        public int getObjId() {
             return objId;
         }
 
-        public void setObjId(String objId) {
+        public void setObjId(int objId) {
             this.objId = objId;
         }
 
@@ -115,11 +115,11 @@ public class NormalCommentsBean {
             this.senderIp = senderIp;
         }
 
-        public String getCreateTime() {
+        public long getCreateTime() {
             return createTime;
         }
 
-        public void setCreateTime(String createTime) {
+        public void setCreateTime(long createTime) {
             this.createTime = createTime;
         }
 
@@ -131,11 +131,11 @@ public class NormalCommentsBean {
             this.isGoods = isGoods;
         }
 
-        public String getLikeAmount() {
+        public int getLikeAmount() {
             return likeAmount;
         }
 
-        public void setLikeAmount(String likeAmount) {
+        public void setLikeAmount(int likeAmount) {
             this.likeAmount = likeAmount;
         }
 
@@ -155,19 +155,19 @@ public class NormalCommentsBean {
             this.senderTerminal = senderTerminal;
         }
 
-        public String getOriginCommentId() {
+        public int getOriginCommentId() {
             return originCommentId;
         }
 
-        public void setOriginCommentId(String originCommentId) {
+        public void setOriginCommentId(int originCommentId) {
             this.originCommentId = originCommentId;
         }
 
-        public String getId() {
+        public int getId() {
             return id;
         }
 
-        public void setId(String id) {
+        public void setId(int id) {
             this.id = id;
         }
 
@@ -187,11 +187,11 @@ public class NormalCommentsBean {
             this.nickname = nickname;
         }
 
-        public String getSex() {
+        public int getSex() {
             return sex;
         }
 
-        public void setSex(String sex) {
+        public void setSex(int sex) {
             this.sex = sex;
         }
     }

@@ -30,7 +30,7 @@
         android:padding="8dp"
         android:singleLine="true"
         android:text="@string/string_search_history_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/NormalTextStyle"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
         app:layout_constraintEnd_toStartOf="@+id/btn_delete_search_history"
         app:layout_constraintStart_toEndOf="@+id/imageView3"

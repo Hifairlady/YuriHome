@@ -10,10 +10,11 @@
     android:layout_marginBottom="4dp"
     android:clickable="true"
     android:focusable="true"
+    android:elevation="2dp"
     android:foreground="?attr/selectableItemBackground">
 
     <ImageView
-        android:id="@+id/iv_related_comic_item_cover"
+        android:id="@+id/iv_author_comic_item_cover"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
@@ -26,7 +27,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tv_related_comic_item_title"
+        android:id="@+id/tv_author_comic_item_title"
         android:textAppearance="@style/ComicItemTextStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tv_related_comic_item_finished"
+        android:id="@+id/tv_author_comic_item_finished"
         android:textAppearance="@style/ToolbarTitleTextStyle"
         android:layout_width="28dp"
         android:layout_height="28dp"
@@ -49,6 +50,6 @@
         android:gravity="center"
         android:text="@string/string_related_comic_item_finished_text"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/tv_related_comic_item_title"
+        app:layout_constraintBottom_toTopOf="@+id/tv_author_comic_item_title"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

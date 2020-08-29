@@ -31,7 +31,7 @@ public class AuthorComicsListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_related_comic_list_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_author_comics_list_item, parent, false);
         return new AuthorHolder(view);
     }
 
@@ -73,9 +73,9 @@ public class AuthorComicsListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public AuthorHolder(@NonNull View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tv_related_comic_item_title);
-            tvFinished = itemView.findViewById(R.id.tv_related_comic_item_finished);
-            ivCover = itemView.findViewById(R.id.iv_related_comic_item_cover);
+            tvTitle = itemView.findViewById(R.id.tv_author_comic_item_title);
+            tvFinished = itemView.findViewById(R.id.tv_author_comic_item_finished);
+            ivCover = itemView.findViewById(R.id.iv_author_comic_item_cover);
         }
     }
 

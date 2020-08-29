@@ -31,7 +31,7 @@ public class ChapterFullListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_chapter_full_list);
+        setContentView(R.layout.activity_chapter_full_list);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         MaterialToolbar toolbar = findViewById(R.id.full_chapter_list_toolbar);

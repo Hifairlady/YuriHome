@@ -124,6 +124,7 @@ public class Config {
     }
 
     public static String getLatestCommentsUrl(int comicId, int page, int limit) {
+        page += 1;
         String result = BASE_URL_LATEST_COMMENTS + comicId + "?page_index=" + page + "&limit=" + limit;
         Log.d(TAG, "getLatestCommentsUrl: " + result);
         return result;
