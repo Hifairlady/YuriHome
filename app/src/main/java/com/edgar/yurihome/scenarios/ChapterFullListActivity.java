@@ -19,7 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class FullChapterListActivity extends AppCompatActivity {
+public class ChapterFullListActivity extends AppCompatActivity {
 
     private ArrayList<ComicDetailsBean.ChaptersBean.DataBean> dataBeans = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -31,7 +31,7 @@ public class FullChapterListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_full_chapter_list);
+        setContentView(R.layout.layout_chapter_full_list);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         MaterialToolbar toolbar = findViewById(R.id.full_chapter_list_toolbar);
@@ -44,9 +44,9 @@ public class FullChapterListActivity extends AppCompatActivity {
         });
         initData();
         recyclerView = findViewById(R.id.rv_full_chapter_list);
-        adapter = new ChapterListAdapter(FullChapterListActivity.this, dataBeans, lastChapterId, true,
+        adapter = new ChapterListAdapter(ChapterFullListActivity.this, dataBeans, lastChapterId, true,
                 comicId, comicName, chapterPartTitle);
-        GridLayoutManager layoutManager = new GridLayoutManager(FullChapterListActivity.this, 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(ChapterFullListActivity.this, 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 

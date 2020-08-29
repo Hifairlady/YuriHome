@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/tv_reader_bottom_chapter"
-        style="@style/ReaderBottomTextStyle"
+        android:textAppearance="@style/ReaderBottomTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/tv_reader_bottom_page"
-        style="@style/ReaderBottomTextStyle"
+        android:textAppearance="@style/ReaderBottomTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/tv_reader_bottom_network"
-        style="@style/ReaderBottomTextStyle"
+        android:textAppearance="@style/ReaderBottomTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -47,7 +47,7 @@
 
     <TextView
         android:id="@+id/tv_reader_bottom_time"
-        style="@style/ReaderBottomTextStyle"
+        android:textAppearance="@style/ReaderBottomTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

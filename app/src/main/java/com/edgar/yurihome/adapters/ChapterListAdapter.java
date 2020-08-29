@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ComicDetailsBean;
 import com.edgar.yurihome.interfaces.OnChapterListItemClickListener;
+import com.edgar.yurihome.scenarios.ChapterFullListActivity;
 import com.edgar.yurihome.scenarios.ComicReaderActivity;
-import com.edgar.yurihome.scenarios.FullChapterListActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -82,7 +82,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 chapterUpdateTime = dataBean.getUpdatetime();
                 chapterLongTitle = chapterPartTitle + "/" + dataBean.getChapterTitle();
                 if (dataBean.getItemType() == ComicDetailsBean.ChaptersBean.DataBean.MORE_ITEM_TYPE) {
-                    Intent intent = new Intent(mContext, FullChapterListActivity.class);
+                    Intent intent = new Intent(mContext, ChapterFullListActivity.class);
                     intent.putExtra("FULL_DATA_LIST_JSON", getFullListJson());
                     intent.putExtra("LAST_CHAPTER_ID", lastChapterId);
                     intent.putExtra("COMIC_ID", comicId);

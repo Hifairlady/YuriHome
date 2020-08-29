@@ -113,7 +113,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
 //                    chapterPartTitle = bundle.getString("CHAPTER_PART_TITLE", "CHAPTER_PART_TITLE");
 //                    String jsonString = bundle.getString("FULL_DATA_LIST_JSON", "");
 
-                    Intent allChaptersIntent = new Intent(ComicReaderActivity.this, FullChapterListActivity.class);
+                    Intent allChaptersIntent = new Intent(ComicReaderActivity.this, ChapterFullListActivity.class);
                     allChaptersIntent.putExtra("LAST_CHAPTER_ID", lastChapterId);
                     allChaptersIntent.putExtra("COMIC_ID", comicId);
                     allChaptersIntent.putExtra("COMIC_NAME", comicName);

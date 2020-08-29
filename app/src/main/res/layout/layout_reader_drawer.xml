@@ -8,10 +8,10 @@
     android:focusable="true"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_drawer_header" />
+    <include layout="@layout/layout_reader_drawer_header" />
 
     <include
-        layout="@layout/layout_drawer_view_points"
+        layout="@layout/layout_reader_drawer_view_points"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

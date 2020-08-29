@@ -27,7 +27,7 @@
             android:name=".scenarios.ComicReaderActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".scenarios.FullChapterListActivity"
+            android:name=".scenarios.ChapterFullListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MainListFragment">
 
-    <include layout="@layout/layout_appbar" />
+    <include layout="@layout/layout_main_appbar" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/srl_main"
