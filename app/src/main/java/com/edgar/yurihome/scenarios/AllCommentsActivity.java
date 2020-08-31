@@ -42,6 +42,7 @@ public class AllCommentsActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private FloatingActionButton fabTop;
     private SwipeRefreshLayout srlAllComments;
+    private int scrollDistance = 0;
 
     private boolean isLoading = false, isFinalPage = false;
 
@@ -51,7 +52,9 @@ public class AllCommentsActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.fab_all_comments_top:
                     if (rvAllComments != null) {
+                        scrollDistance = 0;
                         rvAllComments.scrollToPosition(0);
+                        fabTop.hide();
                     }
                     break;
 
@@ -65,6 +68,7 @@ public class AllCommentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_comments);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         initData();
         initView();
@@ -122,11 +126,11 @@ public class AllCommentsActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager1 = (LinearLayoutManager) rvAllComments.getLayoutManager();
-                if (!fabTop.isShown() && layoutManager1 != null && layoutManager1.findLastCompletelyVisibleItemPosition() >= 10) {
+                scrollDistance += dy;
+                if (!fabTop.isShown() && scrollDistance >= 1500) {
                     fabTop.show();
                 }
-                if (fabTop.isShown() && layoutManager1 != null && layoutManager1.findFirstCompletelyVisibleItemPosition() <= 1) {
+                if (fabTop.isShown() && scrollDistance < 1200) {
                     fabTop.hide();
                 }
             }

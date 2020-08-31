@@ -53,6 +53,8 @@ public class MainListFragment extends Fragment {
     private Handler mHandler;
     private Context mContext;
 
+    private int scrollDistance = 0;
+
     private boolean isLoading = false;
     private boolean isFinalPage = false;
     private boolean isRefreshing = false;
@@ -81,7 +83,11 @@ public class MainListFragment extends Fragment {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.fab_top:
-                    recyclerView.scrollToPosition(0);
+                    if (recyclerView != null) {
+                        scrollDistance = 0;
+                        recyclerView.scrollToPosition(0);
+                        fab.hide();
+                    }
                     break;
 
                 default:
@@ -282,12 +288,12 @@ public class MainListFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                GridLayoutManager layoutManager1 = (GridLayoutManager) recyclerView.getLayoutManager();
-                if (layoutManager1 != null && layoutManager1.findFirstCompletelyVisibleItemPosition() <= 9 && fab.isShown()) {
-                    fab.hide();
-                }
-                if (layoutManager1 != null && layoutManager1.findLastCompletelyVisibleItemPosition() > 14 && !fab.isShown()) {
+                scrollDistance += dy;
+                if (scrollDistance >= 1500 && !fab.isShown()) {
                     fab.show();
+                }
+                if (scrollDistance < 1200 && fab.isShown()) {
+                    fab.hide();
                 }
             }
         });
