@@ -17,6 +17,7 @@ import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.NormalCommentsBean;
 import com.edgar.yurihome.utils.DateUtil;
 import com.edgar.yurihome.utils.GlideUtil;
+import com.edgar.yurihome.utils.SpannableStringUtil;
 
 import java.util.ArrayList;
 
@@ -71,6 +72,7 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         mHolder.ivGender.setImageResource(commentsBean.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
         mHolder.tvNickname.setText(commentsBean.getNickname());
         mHolder.tvContent.setText(commentsBean.getContent());
+//        SpannableStringUtil.addReadMore(commentsBean.getContent(), mHolder.tvContent);
         mHolder.tvCreateTime.setText(DateUtil.getTimeString(commentsBean.getCreateTime()));
         mHolder.tvLikeAmount.setText(String.valueOf(commentsBean.getLikeAmount()));
 
@@ -88,7 +90,8 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ivChildGender.setImageResource(childComment.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
                 tvChildNickname.setText(childComment.getNickname());
                 tvChildFloor.setText(mContext.getString(R.string.string_comment_child_item_floor_text, startPos - i + 1));
-                tvChildContent.setText(childComment.getContent());
+//                tvChildContent.setText(childComment.getContent());
+                SpannableStringUtil.addReadMore(childComment.getContent(), tvChildContent);
                 mHolder.llChildCommentsContainer.addView(childCommentView);
             }
         }

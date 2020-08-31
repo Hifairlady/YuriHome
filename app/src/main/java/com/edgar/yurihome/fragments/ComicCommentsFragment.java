@@ -195,6 +195,7 @@ public class ComicCommentsFragment extends Fragment {
             ivGender.setImageResource(commentsBean.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
             tvNickname.setText(commentsBean.getNickname());
             tvContent.setText(commentsBean.getContent());
+//            SpannableStringUtil.addReadMore(commentsBean.getContent(), tvContent);
             tvCreateTime.setText(DateUtil.getTimeString(commentsBean.getCreateTime()));
             tvLikeAmount.setText(String.valueOf(commentsBean.getLikeAmount()));
 
@@ -214,7 +215,8 @@ public class ComicCommentsFragment extends Fragment {
                     ivChildGender.setImageResource(childComment.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
                     tvChildNickname.setText(childComment.getNickname());
                     tvChildFloor.setText(getString(R.string.string_comment_child_item_floor_text, startPos - i + 1));
-                    tvChildContent.setText(childComment.getContent());
+//                    tvChildContent.setText(childComment.getContent());
+                    SpannableStringUtil.addReadMore(childComment.getContent(), tvChildContent);
                     llChildCommentsContainer.addView(childCommentView);
                 }
             }
