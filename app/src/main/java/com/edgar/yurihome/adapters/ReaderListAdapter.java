@@ -18,12 +18,10 @@ import java.util.ArrayList;
 public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private ReaderImagesItem readerImagesItem;
     private ArrayList<String> pageUrls = new ArrayList<>();
 
     public ReaderListAdapter(Context mContext, ReaderImagesItem readerImagesItem) {
         this.mContext = mContext;
-        this.readerImagesItem = readerImagesItem;
         this.pageUrls = new ArrayList<>(readerImagesItem.getPageUrls());
     }
 
@@ -36,8 +34,15 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        PageHolder mHolder = (PageHolder) holder;
-        GlideUtil.loadImageWithUrl(mHolder.ivImage, pageUrls.get(position));
+        final PageHolder mHolder = (PageHolder) holder;
+        GlideUtil.loadImageWithUrlNoCache(mHolder.ivImage, pageUrls.get(position));
+        mHolder.ivImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                GlideUtil.loadImageWithUrlNoCache((ImageView) view, pageUrls.get(mHolder.getAdapterPosition()));
+                return true;
+            }
+        });
     }
 
     @Override

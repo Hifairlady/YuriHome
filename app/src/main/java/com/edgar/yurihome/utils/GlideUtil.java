@@ -27,6 +27,14 @@ public class GlideUtil {
                 .into(imageView);
     }
 
+    public static void loadImageWithUrlNoCache(ImageView imageView, String urlString) {
+        GlideApp.with(imageView)
+                .load(getGlideUrl(urlString))
+                .placeholder(R.drawable.reader_loading)
+                .error(R.drawable.reader_error)
+                .into(imageView);
+    }
+
     public static void loadCircularImageWithUrl(ImageView imageView, String urlString) {
         GlideApp.with(imageView)
                 .load(getGlideUrl(urlString))

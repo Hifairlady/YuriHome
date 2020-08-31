@@ -11,6 +11,7 @@
         android:layout_marginBottom="4dp"
         android:adjustViewBounds="true"
         android:scaleType="fitStart"
+        android:longClickable="true"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 </FrameLayout>

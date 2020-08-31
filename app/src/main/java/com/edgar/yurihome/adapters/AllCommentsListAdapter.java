@@ -29,7 +29,6 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final int FOOTER_VIEW_TYPE = 1;
 
     private Context mContext;
-    private NormalCommentsBean commentsBean;
     private ArrayList<NormalCommentsBean.CommentsBean> normalCommentsList = new ArrayList<>();
     private ArrayList<String> idsList = new ArrayList<>();
 
@@ -98,7 +97,7 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        return (idsList.equals("FOOTER_VIEW") ? FOOTER_VIEW_TYPE : NORMAL_VIEW_TYPE);
+        return (idsList.get(position).equals("FOOTER_VIEW") ? FOOTER_VIEW_TYPE : NORMAL_VIEW_TYPE);
     }
 
     public void appendItems(ArrayList<String> stringList, ArrayList<NormalCommentsBean.CommentsBean> commentList) {
