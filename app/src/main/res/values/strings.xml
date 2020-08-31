@@ -74,4 +74,5 @@
     <string name="string_comic_item_finish_text">完</string>
     <string name="string_search_history_text">Search History</string>
     <string name="string_search_hint_text">搜索作者或漫画</string>
+    <string name="string_all_comments_total_title_text">全部评论 (%1$d)</string>
 </resources>

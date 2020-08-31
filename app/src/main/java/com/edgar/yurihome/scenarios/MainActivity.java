@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.edgar.yurihome.R;
-import com.edgar.yurihome.TestJson;
 import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.beans.JsonResponseItem;
 import com.edgar.yurihome.fragments.MainListFragment;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
-        TestJson testJson = new TestJson();
+//        TestJson testJson = new TestJson();
 
         initView();
         fetchFilterData();

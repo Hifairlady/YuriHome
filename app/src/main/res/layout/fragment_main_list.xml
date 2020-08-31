@@ -26,10 +26,11 @@
         android:id="@+id/fab_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
         android:elevation="8dp"
-        android:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTintMode="src_over"
         android:src="@drawable/ic_top_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

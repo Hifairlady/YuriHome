@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:padding="4dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -71,9 +72,9 @@
             android:id="@+id/tv_normal_comment_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:text="Content"
             android:textAppearance="@style/NormalTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,9 +86,9 @@
             android:id="@+id/rv_normal_comment_images_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_normal_comment_content" />
@@ -96,7 +97,7 @@
             android:id="@+id/tv_normal_comment_create_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:text="Create Time"
             android:textAppearance="@style/ToolbarTitleTextStyle"
@@ -121,7 +122,7 @@
             android:id="@+id/tv_normal_comment_like_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:text="Like Amount"
             android:textAppearance="@style/ToolbarTitleTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/imageView12"

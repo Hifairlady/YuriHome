@@ -31,7 +31,7 @@
                 android:textColor="@color/colorBlackText77" />
 
             <Button
-                android:id="@+id/textView6"
+                android:id="@+id/btn_view_all_comments"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

@@ -49,6 +49,8 @@ public class JsonUtil {
             result = HttpUtil.REQUEST_JSON_SUCCESS;
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            response.close();
         }
         responseItem.setResponseCode(result);
     }

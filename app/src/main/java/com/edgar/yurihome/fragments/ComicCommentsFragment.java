@@ -1,5 +1,6 @@
 package com.edgar.yurihome.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.CommentImagesListAdapter;
 import com.edgar.yurihome.beans.NormalCommentsBean;
 import com.edgar.yurihome.beans.TopCommentBean;
+import com.edgar.yurihome.scenarios.AllCommentsActivity;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.DateUtil;
 import com.edgar.yurihome.utils.GlideUtil;
@@ -53,6 +56,8 @@ public class ComicCommentsFragment extends Fragment {
     private Handler topCommentHandler, latestCommentsHandler;
     private ArrayList<NormalCommentsBean.CommentsBean> latestCommentsList = new ArrayList<>();
     private NormalCommentsBean latestCommentsBean;
+
+    private Button btnViewAll;
 
     // TODO: Rename and change types of parameters
     private int comicId;
@@ -93,6 +98,15 @@ public class ComicCommentsFragment extends Fragment {
         rvTopCommentImagesList = view.findViewById(R.id.rv_top_comment_images_list);
         llRootLayout = view.findViewById(R.id.ll_comment_frag_root_layout);
         topCommentLayout = view.findViewById(R.id.top_comic_comment_layout);
+        btnViewAll = view.findViewById(R.id.btn_view_all_comments);
+        btnViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent allCommentsIntent = new Intent(getContext(), AllCommentsActivity.class);
+                allCommentsIntent.putExtra("COMIC_ID", comicId);
+                startActivity(allCommentsIntent);
+            }
+        });
 
         return view;
     }
@@ -161,15 +175,16 @@ public class ComicCommentsFragment extends Fragment {
     private void initLatestComments() {
         if (latestCommentsBean == null || latestCommentsBean.getComments() == null
                 || latestCommentsBean.getComments().isEmpty() || llRootLayout == null) return;
-        int index = 0;
         latestCommentsList = new ArrayList<>(latestCommentsBean.getComments());
         ArrayList<String> commentIdList = new ArrayList<>(latestCommentsBean.getCommentIds());
 
         int idIndex = 0;
-        int commentIndex = 0;
         for (String commentIdString : commentIdList) {
-            if (idIndex >= MAX_LIMIT || commentIndex >= latestCommentsList.size()) return;
-            NormalCommentsBean.CommentsBean commentsBean = latestCommentsList.get(commentIndex);
+            if (idIndex >= MAX_LIMIT) break;
+            String[] ids = commentIdString.split(",");
+            NormalCommentsBean.CommentsBean commentsBean = findCommentById(ids[0], latestCommentsList);
+            if (commentsBean == null) continue;
+
             View commentView = LayoutInflater.from(getContext()).inflate(R.layout.layout_comment_normal_list_item, null, false);
             ImageView ivAvatar = commentView.findViewById(R.id.iv_normal_comment_avatar);
             ImageView ivGender = commentView.findViewById(R.id.iv_normal_comment_gender);
@@ -186,60 +201,35 @@ public class ComicCommentsFragment extends Fragment {
             tvLikeAmount.setText(String.valueOf(commentsBean.getLikeAmount()));
 
             LinearLayout llChildCommentsContainer = commentView.findViewById(R.id.ll_normal_comment_child_container);
-            String[] ids = commentIdString.split(",");
+            llChildCommentsContainer.removeAllViews();
             if (ids.length >= 2) {
-                for (int i = 1; i < ids.length; i++) {
-                    commentIndex++;
-                    if (commentIndex >= latestCommentsList.size()) break;
-                    NormalCommentsBean.CommentsBean childComment = latestCommentsList.get(commentIndex);
+                int startPos = Math.min(ids.length, 4) - 1;
+                for (int i = startPos; i > 0; i--) {
+                    NormalCommentsBean.CommentsBean childComment = findCommentById(ids[i], latestCommentsList);
+                    if (childComment == null) continue;
+
                     View childCommentView = LayoutInflater.from(getContext()).inflate(R.layout.layout_comment_child_list_item, null, false);
-//                    ImageView ivChildAvatar = childCommentView.findViewById(R.id.iv_child_comment_avatar);
                     ImageView ivChildGender = childCommentView.findViewById(R.id.iv_child_comment_gender);
                     TextView tvChildNickname = childCommentView.findViewById(R.id.tv_child_comment_nickname);
                     TextView tvChildFloor = childCommentView.findViewById(R.id.tv_child_comment_floor);
                     TextView tvChildContent = childCommentView.findViewById(R.id.tv_child_comment_content);
-//                    GlideUtil.loadImageWithUrl(ivChildAvatar, childComment.getAvatarUrl());
                     ivChildGender.setImageResource(childComment.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
                     tvChildNickname.setText(childComment.getNickname());
-                    tvChildFloor.setText("#" + i);
+                    tvChildFloor.setText("#" + (startPos - i + 1));
                     tvChildContent.setText(childComment.getContent());
                     llChildCommentsContainer.addView(childCommentView);
                 }
             }
 
             llRootLayout.addView(commentView);
-            commentIndex++;
             idIndex++;
         }
 
-
-//        for (NormalCommentsBean.CommentsBean commentsBean : latestCommentsList) {
-//            if (index >= 5) return;
-//            View commentView = LayoutInflater.from(getContext()).inflate(R.layout.layout_comment_normal_list_item, null, false);
-//            ImageView ivAvatar = commentView.findViewById(R.id.iv_normal_comment_avatar);
-//            ImageView ivGender = commentView.findViewById(R.id.iv_normal_comment_gender);
-//            TextView tvNickname = commentView.findViewById(R.id.tv_normal_comment_nickname);
-//            TextView tvContent = commentView.findViewById(R.id.tv_normal_comment_content);
-//            TextView tvCreateTime = commentView.findViewById(R.id.tv_normal_comment_create_time);
-//            TextView tvLikeAmount = commentView.findViewById(R.id.tv_normal_comment_like_amount);
-//
-//            LinearLayout llChildCommentsContainer = commentView.findViewById(R.id.ll_normal_comment_child_container);
-//
-//            GlideUtil.loadImageWithUrl(ivAvatar, commentsBean.getAvatarUrl());
-//            ivGender.setImageResource(commentsBean.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
-//            tvNickname.setText(commentsBean.getNickname());
-//            tvContent.setText(commentsBean.getContent());
-//            tvCreateTime.setText(DateUtil.getTimeString(commentsBean.getCreateTime()));
-//            tvLikeAmount.setText(String.valueOf(commentsBean.getLikeAmount()));
-//            llRootLayout.addView(commentView);
-//            index++;
-//        }
     }
 
     private void initTopComment() {
         if (topCommentBean == null) return;
         topCommentLayout.setVisibility(View.VISIBLE);
-//        GlideUtil.loadCircularImageWithUrl(ivTopCommentAvatar, topCommentBean.getAvatarUrl());
         GlideUtil.loadImageWithUrl(ivTopCommentAvatar, topCommentBean.getAvatarUrl());
         tvTopCommentUserName.setText(topCommentBean.getNickname());
         ivTopCommentGender.setImageResource((topCommentBean.getSex() == 1) ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
@@ -255,4 +245,14 @@ public class ComicCommentsFragment extends Fragment {
         rvTopCommentImagesList.setLayoutManager(layoutManager);
         rvTopCommentImagesList.setAdapter(topListAdapter);
     }
+
+    private NormalCommentsBean.CommentsBean findCommentById(String idString, ArrayList<NormalCommentsBean.CommentsBean> list) {
+        for (NormalCommentsBean.CommentsBean commentsBean : list) {
+            if (String.valueOf(commentsBean.getId()).equals(idString)) {
+                return commentsBean;
+            }
+        }
+        return null;
+    }
+
 }
