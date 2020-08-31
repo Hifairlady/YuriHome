@@ -43,6 +43,7 @@
             app:layout_constraintTop_toTopOf="@+id/iv_top_comment_user_avatar" />
 
         <ImageView
+            android:contentDescription="@string/app_name"
             android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,6 +54,7 @@
             app:srcCompat="@drawable/ic_comment_top_24" />
 
         <ImageView
+            android:contentDescription="@string/app_name"
             android:id="@+id/iv_top_comment_user_gender"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -67,9 +69,9 @@
             android:id="@+id/tv_top_comment_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/string_comment_content_text"
             android:textAppearance="@style/NormalTextStyle"
             android:textColor="@android:color/primary_text_light"
@@ -82,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:maxLines="1"
             android:text="@string/string_comment_create_time_text"
@@ -95,9 +97,9 @@
             android:id="@+id/rv_top_comment_images_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"

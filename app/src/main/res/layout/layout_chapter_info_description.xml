@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:contentDescription="@string/app_name"
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,7 +22,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="center_vertical"
-        android:text="简介"
+        android:text="@string/string_chapter_info_brief_intro_title_text"
         android:textAppearance="@style/ToolbarTitleTextStyle"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,6 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_desc_comic_title" />
 
     <ImageButton
+        android:contentDescription="@string/app_name"
         android:id="@+id/btn_expand_desc"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"

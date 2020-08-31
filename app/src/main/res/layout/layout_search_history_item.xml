@@ -6,6 +6,7 @@
     android:elevation="4dp">
 
     <ImageView
+        android:contentDescription="@string/app_name"
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
+        android:contentDescription="@string/app_name"
         android:id="@+id/btn_delete_search_history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

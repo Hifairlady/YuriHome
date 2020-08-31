@@ -20,6 +20,7 @@
             android:background="@color/colorPrimary">
 
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:id="@+id/iv_related_comic_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

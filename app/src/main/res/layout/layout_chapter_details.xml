@@ -18,6 +18,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:id="@+id/iv_book_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -25,11 +25,6 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ArrayList<ComicItem> comicItems = new ArrayList<>();
     private OnComicListItemClickListener clickListener;
 
-    public MainListAdapter(Context mContext, ArrayList<ComicItem> comicItems) {
-        this.mContext = mContext;
-        this.comicItems = comicItems;
-    }
-
     public MainListAdapter(Context mContext) {
         this.mContext = mContext;
     }

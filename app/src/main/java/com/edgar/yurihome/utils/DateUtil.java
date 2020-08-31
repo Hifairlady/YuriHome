@@ -16,11 +16,6 @@ public class DateUtil {
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-//        try {
-//            Log.d(TAG, "getTimeFromLong: " + simpleDateFormat.parse("2020-8-15 23:13:00").getTime());
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
         Date date = new Date(timeStamp);
         return simpleDateFormat.format(date);
     }

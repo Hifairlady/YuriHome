@@ -35,7 +35,6 @@ public class RelatedComicsFragment extends Fragment {
 
     private static final String TAG = "=================" + RelatedComicsFragment.class.getSimpleName();
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_COMIC_ID = "ARG_COMIC_ID";
 
     private int comicId;
@@ -86,7 +85,6 @@ public class RelatedComicsFragment extends Fragment {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
                         try {
                             Gson gson = new Gson();
-//                    Type type = new TypeToken<RelatedComicBean>() {}.getType();
                             relatedComicBean = gson.fromJson(jsonString, RelatedComicBean.class);
                             ArrayList<RelatedComicBean.AuthorComicsBean> authorComicsBeans = new ArrayList<>(relatedComicBean.getAuthorComics());
                             for (RelatedComicBean.AuthorComicsBean authorComicsBean : authorComicsBeans) {
@@ -98,13 +96,11 @@ public class RelatedComicsFragment extends Fragment {
                                 RelatedComicListAdapter adapter = new RelatedComicListAdapter(view.getContext(), authorComicList, authorComicsBean.getAuthorName());
                                 RecyclerView recyclerView = authorView.findViewById(R.id.rv_related_theme_comic_list);
                                 GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 3);
-//                                layoutManager.setOrientation(RecyclerView.HORIZONTAL);
                                 recyclerView.setLayoutManager(layoutManager);
                                 adapter.setOnComicItemClickListener(new OnComicListItemClickListener() {
                                     @Override
                                     public void onItemClick(int position) {
                                         RelatedComicBean.AuthorComicsBean.AuthorComicDataBean authorComicData = authorComicList.get(position);
-//                                        Log.d(TAG, "onItemClick: " + authorComicData.getName());
                                         if (authorComicData == null || authorComicData.getId() == comicId)
                                             return;
                                         Intent intent = new Intent(getActivity(), ComicDetailsActivity.class);
@@ -130,7 +126,6 @@ public class RelatedComicsFragment extends Fragment {
                                     RelatedComicBean.ThemeComicsBean themeComicsBean = themeComicList.get(position);
                                     if (themeComicsBean == null || themeComicsBean.getId() == comicId)
                                         return;
-//                                    Log.d(TAG, "onItemClick: " + themeComicsBean.getName());
                                     Intent intent = new Intent(getActivity(), ComicDetailsActivity.class);
                                     intent.putExtra("COMIC_DETAILS_URL", Config.getComicDetailsUrl(themeComicsBean.getId()));
                                     intent.putExtra("COMIC_COVER_URL", themeComicsBean.getCover());

@@ -187,6 +187,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tv_sort" />
 
             <ImageButton
+                android:contentDescription="@string/app_name"
                 android:id="@+id/btn_refresh_filter"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="32dp"

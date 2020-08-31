@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ClassifyFilterBean;
-import com.edgar.yurihome.beans.JsonResponseItem;
 import com.edgar.yurihome.fragments.MainListFragment;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "======================" + MainActivity.class.getSimpleName();
 
-    private JsonResponseItem responseItem = new JsonResponseItem();
     private Handler mHandler;
     private ConstraintLayout mainRootView;
 
@@ -43,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
-//        TestJson testJson = new TestJson();
 
         initView();
         fetchFilterData();

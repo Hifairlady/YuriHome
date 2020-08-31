@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
+            android:contentDescription="@string/app_name"
             android:id="@+id/ib_reader_back"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="?attr/actionBarSize"

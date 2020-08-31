@@ -9,6 +9,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:contentDescription="@string/app_name"
             android:id="@+id/iv_child_comment_gender"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -25,7 +26,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:maxLines="2"
-            android:text="Nickname"
+            android:text="@string/string_comment_child_item_nickname_text"
             android:textAppearance="@style/StrongTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/iv_child_comment_gender"
             app:layout_constraintEnd_toStartOf="@+id/tv_child_comment_floor"
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="#1"
+            android:text="@string/string_comment_child_item_floor_text"
             android:textAppearance="@style/ToolbarTitleTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/iv_child_comment_gender"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,28 +52,13 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:text="Content"
+            android:text="@string/string_comment_child_item_content_text"
             android:textAppearance="@style/NormalTextStyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_child_comment_nickname" />
 
-        <!--        <androidx.recyclerview.widget.RecyclerView-->
-        <!--            android:id="@+id/rv_child_comment_images_list"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="8dp"-->
-        <!--            android:layout_marginTop="8dp"-->
-        <!--            android:layout_marginEnd="8dp"-->
-        <!--            android:layout_marginBottom="8dp"-->
-        <!--            tools:listitem="@layout/layout_comment_images_list_item"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="0.0"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/tv_child_comment_content"-->
-        <!--            app:layout_constraintVertical_bias="0.0" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

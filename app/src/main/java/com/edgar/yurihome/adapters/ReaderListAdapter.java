@@ -36,13 +36,6 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final PageHolder mHolder = (PageHolder) holder;
         GlideUtil.loadImageWithUrlNoCache(mHolder.ivImage, pageUrls.get(position));
-        mHolder.ivImage.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                GlideUtil.loadImageWithUrlNoCache((ImageView) view, pageUrls.get(mHolder.getAdapterPosition()));
-                return true;
-            }
-        });
     }
 
     @Override

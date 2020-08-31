@@ -1,7 +1,6 @@
 package com.edgar.yurihome.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +25,6 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
     private ArrayList<String> showHistoryList = new ArrayList<>();
     private ArrayList<String> fullHistoryList = new ArrayList<>();
     private OnHistoryItemClickListener itemClickListener;
-
-    public SearchHistoryListAdapter(Context mContext, ArrayList<String> showHistoryList) {
-        this.mContext = mContext;
-        this.showHistoryList = showHistoryList;
-        setFullHistories();
-    }
 
     public SearchHistoryListAdapter(Context mContext) {
         this.mContext = mContext;
@@ -76,7 +69,6 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     public void deleteHistory(int position) {
-        Log.d(TAG, "deleteHistory: " + position);
         if (showHistoryList.isEmpty() || position >= showHistoryList.size() || position < 0) return;
         fullHistoryList.remove(getHistoryAt(position));
         showHistoryList.remove(position);
@@ -89,7 +81,6 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
         fullHistoryList.add(0, history);
         showHistoryList.add(0, history);
         notifyItemInserted(0);
-//        setShowHistoryList(showHistoryList);
         storeHistories();
     }
 
@@ -99,7 +90,6 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     public void filterMatchedList(String s) {
-//        getFullHistories();
         if (s.length() == 0) {
             setShowHistoryList(fullHistoryList);
             return;
@@ -114,7 +104,6 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     private void storeHistories() {
-//        fullHistoryList = new ArrayList<>(showHistoryList);
         SharedPreferenceUtil.storeSearchHistories(mContext, fullHistoryList);
     }
 

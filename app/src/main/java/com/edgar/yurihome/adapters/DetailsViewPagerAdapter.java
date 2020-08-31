@@ -14,10 +14,6 @@ public class DetailsViewPagerAdapter extends FragmentStateAdapter {
     private static final int PAGE_NUM = 3;
     private ComicDetailsBean mDetailsBean;
 
-    public DetailsViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
-        super(fragmentActivity);
-    }
-
     public DetailsViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, ComicDetailsBean beans) {
         super(fragmentActivity);
         this.mDetailsBean = beans;

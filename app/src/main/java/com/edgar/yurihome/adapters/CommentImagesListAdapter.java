@@ -1,7 +1,6 @@
 package com.edgar.yurihome.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +24,11 @@ public class CommentImagesListAdapter extends RecyclerView.Adapter<RecyclerView.
     private ArrayList<String> imageUrls = new ArrayList<>();
     private TopCommentBean topCommentBean;
 
-    public CommentImagesListAdapter(Context mContext, ArrayList<String> imageUrls) {
-        this.mContext = mContext;
-        this.imageUrls = imageUrls;
-    }
-
     public CommentImagesListAdapter(Context mContext, TopCommentBean topCommentBean) {
         this.mContext = mContext;
         this.topCommentBean = topCommentBean;
         if (topCommentBean != null) {
             String imageNamesString = topCommentBean.getUploadImages();
-            Log.d(TAG, "CommentImagesListAdapter: " + imageNamesString);
             String[] imageNames = imageNamesString.split(",");
             for (String imageName : imageNames) {
                 this.imageUrls.add(Config.getCommentBigImageUrl(topCommentBean.getObjId(), imageName));

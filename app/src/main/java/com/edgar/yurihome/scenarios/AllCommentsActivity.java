@@ -45,10 +45,33 @@ public class AllCommentsActivity extends AppCompatActivity {
 
     private boolean isLoading = false, isFinalPage = false;
 
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.fab_all_comments_top:
+                    if (rvAllComments != null) {
+                        rvAllComments.scrollToPosition(0);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_comments);
+
+        initData();
+        initView();
+    }
+
+    private void initView() {
+
 
         toolbar = findViewById(R.id.all_comments_toolbar);
         if (getSupportActionBar() == null) {
@@ -61,14 +84,6 @@ public class AllCommentsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-//        allCommentsIntent.putExtra("COMIC_ID", comicId);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-            comicId = bundle.getInt("COMIC_ID", 0);
-            latestCommentsUrl = Config.getLatestCommentsUrl(comicId, 0, MAX_LIMIT);
-        }
 
         srlAllComments = findViewById(R.id.srl_all_comments);
         srlAllComments.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -84,15 +99,7 @@ public class AllCommentsActivity extends AppCompatActivity {
 
         fabTop = findViewById(R.id.fab_all_comments_top);
         fabTop.hide();
-        fabTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (rvAllComments != null) {
-                    rvAllComments.scrollToPosition(0);
-                    fabTop.hide();
-                }
-            }
-        });
+        fabTop.setOnClickListener(mOnClickListener);
 
         rvAllComments = findViewById(R.id.rv_all_comments_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -100,26 +107,27 @@ public class AllCommentsActivity extends AppCompatActivity {
         listAdapter = new AllCommentsListAdapter(this);
         rvAllComments.setLayoutManager(layoutManager);
         rvAllComments.setAdapter(listAdapter);
-
         rvAllComments.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    //load next page
+                    if (isSlideToBottom(recyclerView) && !isLoading && !isFinalPage && listAdapter.getItemCount() > 0) {
+                        loadNextPage();
+                    }
+                }
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager1 = (LinearLayoutManager) rvAllComments.getLayoutManager();
-                if (!fabTop.isShown() && layoutManager1 != null && layoutManager1.findLastCompletelyVisibleItemPosition() >= 5) {
+                if (!fabTop.isShown() && layoutManager1 != null && layoutManager1.findLastCompletelyVisibleItemPosition() >= 10) {
                     fabTop.show();
                 }
                 if (fabTop.isShown() && layoutManager1 != null && layoutManager1.findFirstCompletelyVisibleItemPosition() <= 1) {
                     fabTop.hide();
-                }
-
-                if (isSlideToBottom(recyclerView) && !isLoading && !isFinalPage) {
-                    loadNextPage();
                 }
             }
         });
@@ -182,8 +190,16 @@ public class AllCommentsActivity extends AppCompatActivity {
         };
 
         JsonUtil.fetchJsonData(mHandler, latestCommentsUrl);
+    }
 
-
+    private void initData() {
+//        allCommentsIntent.putExtra("COMIC_ID", comicId);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            comicId = bundle.getInt("COMIC_ID", 0);
+            latestCommentsUrl = Config.getLatestCommentsUrl(comicId, 0, MAX_LIMIT);
+        }
     }
 
     private void loadNextPage() {

@@ -59,7 +59,6 @@ public class ComicCommentsFragment extends Fragment {
 
     private Button btnViewAll;
 
-    // TODO: Rename and change types of parameters
     private int comicId;
 
     public ComicCommentsFragment() {
@@ -130,7 +129,6 @@ public class ComicCommentsFragment extends Fragment {
                         } catch (JsonSyntaxException e) {
                             e.printStackTrace();
                             topCommentLayout.setVisibility(View.GONE);
-//                            Snackbar.make(flRootLayout, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
                         }
                         break;
 
@@ -146,13 +144,13 @@ public class ComicCommentsFragment extends Fragment {
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
                 String jsonString = (String) msg.obj;
-                jsonString = jsonString.replace("\"comments\":{", "\"comments\":[");
-                jsonString = jsonString.replace("},\"total\"", "],\"total\"");
-                jsonString = jsonString.replaceAll("\"[0-9]*\":", "");
-                Log.d(TAG, "handleMessage: " + jsonString);
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
                         try {
+                            jsonString = jsonString.replace("\"comments\":{", "\"comments\":[");
+                            jsonString = jsonString.replace("},\"total\"", "],\"total\"");
+                            jsonString = jsonString.replaceAll("\"[0-9]*\":", "");
+                            Log.d(TAG, "handleMessage: " + jsonString);
                             Gson gson = new Gson();
                             latestCommentsBean = gson.fromJson(jsonString, NormalCommentsBean.class);
                             initLatestComments();
@@ -215,7 +213,7 @@ public class ComicCommentsFragment extends Fragment {
                     TextView tvChildContent = childCommentView.findViewById(R.id.tv_child_comment_content);
                     ivChildGender.setImageResource(childComment.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
                     tvChildNickname.setText(childComment.getNickname());
-                    tvChildFloor.setText("#" + (startPos - i + 1));
+                    tvChildFloor.setText(getString(R.string.string_comment_child_item_floor_text, startPos - i + 1));
                     tvChildContent.setText(childComment.getContent());
                     llChildCommentsContainer.addView(childCommentView);
                 }

@@ -20,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back_24"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:title="全部章节"
+            app:title="@string/string_all_chapters_title_text"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents"
             app:titleTextAppearance="@style/ToolbarTitleTextStyle" />
 

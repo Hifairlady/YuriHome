@@ -35,9 +35,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "======================" + ComicDetailsActivity.class.getSimpleName();
 
-    private String comicDetailsUrl, coverUrl, comicTitle, comicAuthors, comicStatus, comicTypes;
-    private long lastUpdateTime;
-    private String[] tabTitles;
+    private String comicDetailsUrl, coverUrl, comicTitle;
 
     private TextView tvComicTags, tvLastUpdateChapter, tvComicAuthors, tvComicStatus, tvLastUpdateTime;
     private ImageView ivComicCover;
@@ -167,11 +165,8 @@ public class ComicDetailsActivity extends AppCompatActivity {
         }
         String tagTypeText = tagTypeStringBuilder.toString();
         tagTypeText = tagTypeText.substring(0, tagTypeText.length() - 1);
-//        Log.d(TAG, "initTextViews: " + tagTypeText);
         tvComicTags.setText(getString(R.string.string_comic_details_tags_text, tagTypeText));
 
-//        String lastUpdateChapterName = comicDetailsBean.getLastUpdateChapterName();
-//        tvLastUpdateChapter.setText(getString(R.string.string_comic_details_last_chapter_text, lastUpdateChapterName));
         SpannableStringUtil.setLastChapterSpannable(tvLastUpdateChapter, comicDetailsBean);
 
         String comicStatusText = comicDetailsBean.getStatus().get(0).getTagName();
@@ -188,11 +183,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
         }
         String authorsText = authorsStringBuilder.toString();
         authorsText = authorsText.substring(0, authorsText.length() - 1);
-//        Log.d(TAG, "initTextViews: " + authorsText);
         tvComicAuthors.setText(getString(R.string.string_comic_details_tags_text, authorsText));
-
-//        SpannableStringUtil.setupSpannableString(getString(R.string.string_comic_details_authors_text, authorsText), comicDetailsBean, tvComicAuthors, 0);
-//        SpannableStringUtil.setupSpannableString(getString(R.string.string_comic_details_tags_text, tagTypeText), comicDetailsBean, tvComicTags, 1);
 
         SpannableStringUtil.setAuthorSpanString(this, getString(R.string.string_comic_details_authors_text, authorsText), authorsBeans, tvComicAuthors);
         SpannableStringUtil.setTagSpanString(getString(R.string.string_comic_details_tags_text, tagTypeText), typesBeans, tvComicTags);

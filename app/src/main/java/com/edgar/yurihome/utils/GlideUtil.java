@@ -18,7 +18,7 @@ public class GlideUtil {
         return url;
     }
 
-    public static void loadImageWithUrl(ImageView imageView, String urlString) {
+    public static void loadImageWithUrl(final ImageView imageView, final String urlString) {
         GlideApp.with(imageView)
                 .load(getGlideUrl(urlString))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -30,6 +30,7 @@ public class GlideUtil {
     public static void loadImageWithUrlNoCache(ImageView imageView, String urlString) {
         GlideApp.with(imageView)
                 .load(getGlideUrl(urlString))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .placeholder(R.drawable.reader_loading)
                 .error(R.drawable.reader_error)
                 .into(imageView);

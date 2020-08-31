@@ -42,7 +42,6 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public ChapterListAdapter(Context mContext, List<ComicDetailsBean.ChaptersBean.DataBean> dataList,
                               int lastChapterId, boolean fullList, int comicId, String comicName, String chapterPartTitle) {
         this.mContext = mContext;
-//        this.shortDataList = new ArrayList<>(dataList);
         this.fullDataList = new ArrayList<>(dataList);
         this.lastChapterId = lastChapterId;
         this.viewFullList = fullList;
@@ -76,9 +75,6 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         mHolder.btnChapterItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (itemClickListener != null) {
-//                    itemClickListener.onItemClick(position);
-//                }
                 chapterUpdateTime = dataBean.getUpdatetime();
                 chapterLongTitle = chapterPartTitle + "/" + dataBean.getChapterTitle();
                 if (dataBean.getItemType() == ComicDetailsBean.ChaptersBean.DataBean.MORE_ITEM_TYPE) {

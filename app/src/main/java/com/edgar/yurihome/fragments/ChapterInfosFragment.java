@@ -27,15 +27,12 @@ public class ChapterInfosFragment extends Fragment {
 
     private static final String TAG = "=====================" + ChapterInfosFragment.class.getSimpleName();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_COMIC_TITLE = "ARG_COMIC_TITLE";
     private static final String ARG_COMIC_DESCRIPTION = "ARG_COMIC_DESCRIPTION";
 
     private static final int SORT_ORDER_ASC = 0;
     private static final int SORT_ORDER_DESC = 1;
 
-    // TODO: Rename and change types of parameters
     private String mComicTitle;
     private String mComicDesc;
     private ComicDetailsBean mDetailsBean;
@@ -43,7 +40,7 @@ public class ChapterInfosFragment extends Fragment {
     private TextView tvDescTitle, tvDescIntro;
     private ImageButton btnDescExpand;
     private LinearLayout llChaptersContainer;
-    private LinearLayout rootView;
+//    private LinearLayout rootView;
 
     private RadioGroup rgOrderGroup;
     private RadioButton rbOrderDesc, rbOrderAsc;
@@ -59,7 +56,6 @@ public class ChapterInfosFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static ChapterInfosFragment newInstance(String comicTitle, String comicDesc) {
         ChapterInfosFragment fragment = new ChapterInfosFragment();
         Bundle args = new Bundle();
@@ -83,7 +79,7 @@ public class ChapterInfosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chapter_infos, container, false);
-        rootView = view.findViewById(R.id.chapter_details_root_view);
+//        rootView = view.findViewById(R.id.chapter_details_root_view);
         tvDescTitle = view.findViewById(R.id.tv_desc_comic_title);
         tvDescIntro = view.findViewById(R.id.tv_desc_brief_intro);
         btnDescExpand = view.findViewById(R.id.btn_expand_desc);
@@ -138,17 +134,6 @@ public class ChapterInfosFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        if (mDetailsBean == null) return;
-//        ComicDetailsBean.ChaptersBean chaptersBean = mDetailsBean.getChapters().get(0);
-//        View chapterView = LayoutInflater.from(view.getContext()).inflate(R.layout.layout_chapter_details, null, false);
-//        llChaptersContainer.addView(chapterView);
-//        TextView tvChapterPartTitle = chapterView.findViewById(R.id.tv_chapter_part_title);
-//        tvChapterPartTitle.setText(chaptersBean.getTitle());
-//        RecyclerView rvChapterPartList = chapterView.findViewById(R.id.rv_chapter_list);
-//        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
-//        rvChapterPartList.setLayoutManager(layoutManager);
-//        ChapterListAdapter mAdapter = new ChapterListAdapter(getContext(), chaptersBean.getData());
-//        rvChapterPartList.setAdapter(mAdapter);
         initChaptersData(view.getContext());
     }
 
@@ -161,7 +146,6 @@ public class ChapterInfosFragment extends Fragment {
         int comicId = mDetailsBean.getId();
         listAdapters = new ArrayList<>();
         for (ComicDetailsBean.ChaptersBean chaptersBean : mDetailsBean.getChapters()) {
-//            ComicDetailsBean.ChaptersBean chaptersBean = mDetailsBean.getChapters().get(0);
             View chapterView = LayoutInflater.from(context).inflate(R.layout.layout_chapter_details, null, false);
             llChaptersContainer.addView(chapterView);
             TextView tvChapterPartTitle = chapterView.findViewById(R.id.tv_chapter_part_title);

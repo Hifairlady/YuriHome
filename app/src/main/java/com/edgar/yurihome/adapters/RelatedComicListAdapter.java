@@ -26,20 +26,11 @@ public class RelatedComicListAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int FLAG_RELATED_THEME_COMICS = 1;
 
     private Context mContext;
-    private RelatedComicBean relatedComicBeans;
     private ArrayList<RelatedComicBean.AuthorComicsBean.AuthorComicDataBean> authorComicList = new ArrayList<>();
     private ArrayList<RelatedComicBean.ThemeComicsBean> themeComicList = new ArrayList<>();
     private int flag = 0;
 
     private OnComicListItemClickListener itemClickListener;
-
-//    public RelatedComicListAdapter(Context mContext, RelatedComicBean relatedComicBeans, int flag) {
-//        this.mContext = mContext;
-//        this.relatedComicBeans = relatedComicBeans;
-//        this.authorComicsBeans = new ArrayList<>(relatedComicBeans.getAuthorComics());
-//        this.themeComicList = new ArrayList<>(relatedComicBeans.getThemeComics());
-//        this.flag = flag;
-//    }
 
     public RelatedComicListAdapter(Context mContext, ArrayList<RelatedComicBean.ThemeComicsBean> themeComicList) {
         this.mContext = mContext;
@@ -72,12 +63,6 @@ public class RelatedComicListAdapter extends RecyclerView.Adapter<RecyclerView.V
             mHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Log.d(TAG, "onClick: " + authorComicData.getName());
-////                    Intent intent = new Intent(mContext, ComicDetailsActivity.class);
-////                    intent.putExtra("COMIC_DETAILS_URL", Config.getComicDetailsUrl(authorComicData.getId()));
-////                    intent.putExtra("COMIC_COVER_URL", authorComicData.getCover());
-////                    intent.putExtra("COMIC_TITLE", authorComicData.getName());
-////                    mContext.startActivity(intent);
                     if (itemClickListener != null) {
                         itemClickListener.onItemClick(mHolder.getAdapterPosition());
                     }

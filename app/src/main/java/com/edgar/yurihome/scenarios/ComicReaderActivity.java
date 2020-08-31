@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -67,10 +66,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
 
     private RecyclerView rvReaderList, rvViewPointsList;
     private ReaderListAdapter listAdapter;
-    private ViewPointListAdapter viewPointListAdapter;
     private ReaderImagesItem readerImagesItem;
-
-    private ArrayList<ViewPointBean> viewPointsList = new ArrayList<>();
 
     private String urlString;
     private int comicId, chapterId;
@@ -186,7 +182,6 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
             curPage = i;
             tvCurPage.setText(String.valueOf(i + 1));
-//            Log.d(TAG, "onProgressChanged: max: " + seekBar.getMax() + " cur: " + i);
         }
 
         @Override
@@ -203,8 +198,6 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         @Override
         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-            }
         }
 
         @Override
@@ -288,9 +281,6 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         drawerLayout.closeDrawer(Gravity.RIGHT);
-
-//        drawerLayout.openDrawer(Gravity.END);
-
     }
 
     private void initData() {
@@ -348,14 +338,11 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
 
         }
         urlString = Config.getChapterImagesUrl(comicId, chapterId);
-        Log.d(TAG, "initData: " + urlString);
 
         Point outSize = new Point();
         getWindowManager().getDefaultDisplay().getRealSize(outSize);
         screenWidth = outSize.x;
         screenHeight = outSize.y;
-
-//        Log.d(TAG, "initData: " + screenWidth + " " + screenHeight);
 
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -374,7 +361,6 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                             tvMaxPage.setText(String.valueOf(totalPageNum));
                             sbReader.setMax(totalPageNum - 1);
                             tvTitle.setText(chapterName);
-                            Log.d(TAG, "handleMessage: " + chapterName);
                             setBottomInfos();
                             initRecyclerView();
                         } catch (JsonSyntaxException | NullPointerException e) {
@@ -518,19 +504,16 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         final TextView tvTranslator = findViewById(R.id.tv_drawer_translator);
         tvTranslator.setText(R.string.string_translator_loading_text);
         String translatorUrl = Config.getTranslatorUrl(comicId, chapterId);
-//        Log.d(TAG, "fetchTranslatorName: " + translatorUrl);
         Handler translatorHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
                 String translatorHtmlString = (String) msg.obj;
-//                Log.d(TAG, "handleMessage: " + translatorHtmlString);
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
                         int startPos = translatorHtmlString.indexOf("\"translator\":") + 14;
                         int endPos = translatorHtmlString.indexOf("\",\"link\":");
                         String translatorName = translatorHtmlString.substring(startPos, endPos);
-//                        Log.d(TAG, "handleMessage: translatorName: " + translatorName);
                         translatorName = UnicodeUtil.unicode2String(translatorName);
                         tvTranslator.setText(translatorName);
                         break;

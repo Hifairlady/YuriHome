@@ -1,7 +1,6 @@
 package com.edgar.yurihome.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,14 +54,20 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         AllCommentsHolder mHolder = (AllCommentsHolder) holder;
         mHolder.llChildCommentsContainer.removeAllViews();
         String commentId = idsList.get(position);
-        Log.d(TAG, "onBindViewHolder: " + commentId);
         String[] ids = commentId.split(",");
-        NormalCommentsBean.CommentsBean commentsBean = findCommentById(ids[0], normalCommentsList);
+        final NormalCommentsBean.CommentsBean commentsBean = findCommentById(ids[0], normalCommentsList);
         if (commentsBean == null) return;
 
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.anim_from_bottom);
         mHolder.itemView.startAnimation(animation);
         GlideUtil.loadImageWithUrl(mHolder.ivAvatar, commentsBean.getAvatarUrl());
+//        mHolder.ivAvatar.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                GlideUtil.loadImageWithUrlNoCache((ImageView) view, commentsBean.getAvatarUrl());
+//                return false;
+//            }
+//        });
         mHolder.ivGender.setImageResource(commentsBean.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
         mHolder.tvNickname.setText(commentsBean.getNickname());
         mHolder.tvContent.setText(commentsBean.getContent());
@@ -71,7 +76,6 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         if (ids.length >= 2) {
             final int startPos = Math.min(ids.length, 4) - 1;
-            Log.d(TAG, "onBindViewHolder: startPos: " + startPos);
             for (int i = startPos; i > 0; i--) {
                 NormalCommentsBean.CommentsBean childComment = findCommentById(ids[i], normalCommentsList);
                 if (childComment == null) continue;
@@ -83,7 +87,7 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 TextView tvChildContent = childCommentView.findViewById(R.id.tv_child_comment_content);
                 ivChildGender.setImageResource(childComment.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
                 tvChildNickname.setText(childComment.getNickname());
-                tvChildFloor.setText("#" + (startPos - i + 1));
+                tvChildFloor.setText(mContext.getString(R.string.string_comment_child_item_floor_text, startPos - i + 1));
                 tvChildContent.setText(childComment.getContent());
                 mHolder.llChildCommentsContainer.addView(childCommentView);
             }

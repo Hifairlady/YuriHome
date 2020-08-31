@@ -16,10 +16,7 @@
     <string name="string_classify_status_text">进度</string>
     <string name="string_classify_sort_text">排序</string>
     <string name="title_activity_comic_details">ComicDetailsActivity</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
+
     <string name="hello_world">Hello Square World!</string>
     <string name="string_comic_details_tags_text">标签：%s</string>
     <string name="string_comic_details_status_text">状态：%s</string>
@@ -75,4 +72,21 @@
     <string name="string_search_history_text">Search History</string>
     <string name="string_search_hint_text">搜索作者或漫画</string>
     <string name="string_all_comments_total_title_text">全部评论 (%1$d)</string>
+    <string name="string_all_chapters_title_text">全部章节</string>
+    <string name="string_chapter_list_title_text">章节</string>
+    <string name="string_chapter_order_asc_text">正序</string>
+    <string name="string_chapter_order_desc_text">倒序</string>
+    <string name="string_latest_comments_title_text">Latest Comments</string>
+    <string name="string_view_all_comments_button_text">View All</string>
+    <string name="string_chapter_info_brief_intro_title_text">简介</string>
+    <string name="string_comment_child_item_nickname_text">Nickname</string>
+    <string name="string_comment_child_item_floor_text">#%1$d</string>
+    <string name="string_comment_child_item_content_text">Content</string>
+    <string name="string_comment_normal_item_nickname_text">Nickname</string>
+    <string name="string_comment_normal_item_content_text">Content</string>
+    <string name="string_comment_normal_item_create_time_text">Create Time</string>
+    <string name="string_comment_normal_item_like_amount_text">Like Amount</string>
+    <string name="string_reader_drawer_bottom_last_text">Last</string>
+    <string name="string_reader_drawer_bottom_all_chapters_text">全部章节</string>
+    <string name="string_reader_drawer_bottom_next_text">Next</string>
 </resources>

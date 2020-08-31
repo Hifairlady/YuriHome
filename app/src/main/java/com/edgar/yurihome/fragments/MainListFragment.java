@@ -27,7 +27,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.MainListAdapter;
-import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.beans.ComicItem;
 import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
 import com.edgar.yurihome.scenarios.ComicDetailsActivity;
@@ -47,15 +46,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MainListFragment extends Fragment {
-    private static final String ARG_CLASSIFY_FILTERS = "ARG_CLASSIFY_FILTERS";
-
-    private static final int MSG_LOAD_NEXT_PAGE = 1000;
-
     private RecyclerView recyclerView;
     private MainListAdapter adapter;
     private SwipeRefreshLayout srlMain;
     private FloatingActionButton fab;
-    private ArrayList<ClassifyFilterBean> classifyFilterBeans = new ArrayList<>();
     private Handler mHandler;
     private Context mContext;
 
@@ -64,7 +58,6 @@ public class MainListFragment extends Fragment {
     private boolean isRefreshing = false;
 
     private int typeCode = 3243, regionCode = 2304, groupCode = 0, statusCode = 0, sortCode = 1, page = 0;
-    private int[] classifyFilters = new int[5];
 
     public MainListFragment() {
         // Required empty public constructor
@@ -103,6 +96,7 @@ public class MainListFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main_list, container, false);
         MaterialToolbar toolbar = rootView.findViewById(R.id.full_chapter_list_toolbar);
+        if (getActivity() == null) return rootView;
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         initView(rootView);
         return rootView;
@@ -138,6 +132,7 @@ public class MainListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mContext = getContext();
+        if (mContext == null) return;
         int[] typeTagIds = SharedPreferenceUtil.getAllFilterTypeTagId(mContext);
         int[] statTagIds = SharedPreferenceUtil.getAllFilterStatTagId(mContext);
         int[] regionTagIds = SharedPreferenceUtil.getAllFilterRegionTagId(mContext);
@@ -216,10 +211,6 @@ public class MainListFragment extends Fragment {
                     ArrayList<ComicItem> comicItems = gson.fromJson(jsonString, type);
                     switch (msg.what) {
                         case HttpUtil.REQUEST_JSON_SUCCESS:
-//                            if (comicItems == null) {
-//                                Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
-//                                break;
-//                            }
                             if (comicItems.isEmpty()) {
                                 isFinalPage = true;
                                 Snackbar.make(recyclerView, R.string.string_no_more_data, Snackbar.LENGTH_SHORT).show();
