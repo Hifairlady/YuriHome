@@ -31,8 +31,8 @@ public class GlideUtil {
         GlideApp.with(imageView)
                 .load(getGlideUrl(urlString))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .placeholder(R.drawable.reader_loading)
-                .error(R.drawable.reader_error)
+                .placeholder(R.drawable.image_loading)
+                .error(R.drawable.image_error)
                 .into(imageView);
     }
 
