@@ -19,10 +19,12 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private Context mContext;
     private ArrayList<String> pageUrls = new ArrayList<>();
+    private int[] loadCodes;
 
     public ReaderListAdapter(Context mContext, ReaderImagesItem readerImagesItem) {
         this.mContext = mContext;
         this.pageUrls = new ArrayList<>(readerImagesItem.getPageUrls());
+        this.loadCodes = new int[pageUrls.size()];
     }
 
     @NonNull
@@ -33,9 +35,36 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final PageHolder mHolder = (PageHolder) holder;
-        GlideUtil.loadImageWithUrlNoCache(mHolder.ivImage, pageUrls.get(position));
+        GlideUtil.loadReaderImage(mHolder.ivImage, pageUrls.get(position), position, loadCodes);
+//        if (loadCodes[position] == -1) {
+//            GlideUtil.loadImageWithUrlNoCache(mHolder.ivImage, pageUrls.get(position));
+////            loadCodes[position] = 0;
+//        } else {
+//            String url = pageUrls.get(position);
+////            if (position % 5 == 1) {
+////                url = "test";
+////            }
+//            GlideApp.with(mHolder.ivImage)
+//                    .load(GlideUtil.getGlideUrl(url))
+//                    .addListener(new RequestListener<Drawable>() {
+//                        @Override
+//                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                            loadCodes[position] = -1;
+//                            return false;
+//                        }
+//
+//                        @Override
+//                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                            return false;
+//                        }
+//                    })
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .placeholder(R.drawable.image_loading)
+//                    .error(R.drawable.image_error)
+//                    .into(mHolder.ivImage);
+//        }
     }
 
     @Override

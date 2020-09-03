@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/browse_history_clear_list"
+        android:icon="@drawable/ic_clear_list_24"
+        android:orderInCategory="0"
+        android:title="@string/string_clear_browse_history_menu_title_text"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -86,4 +86,7 @@
     <string name="string_reader_drawer_bottom_last_text">Last</string>
     <string name="string_reader_drawer_bottom_all_chapters_text">全部章节</string>
     <string name="string_reader_drawer_bottom_next_text">Next</string>
+    <string name="string_menu_history">History</string>
+    <string name="string_browse_history_item_title_text">Title</string>
+    <string name="string_clear_browse_history_menu_title_text">Clear History</string>
 </resources>

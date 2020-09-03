@@ -70,7 +70,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
 
     private String urlString;
     private int comicId, chapterId;
-    private boolean isFullScreen = true;
+    private boolean isActionShown = false;
     private int curPage = 0;
     private int totalPageNum = 0;
     private String chapterName;
@@ -84,6 +84,8 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
     private int curChapterPosition = 0, sortOrder = 0, lastChapterId;
     private TextView btnNextChapter, btnLastChapter, btnAllChapters;
     private MaterialCardView drawerBottomRootLayout;
+
+    private boolean isScrolling = false;
 
     private int screenWidth, screenHeight;
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -198,6 +200,14 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         @Override
         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                isScrolling = false;
+                if (isActionShown) {
+                    showActionsLayout(false);
+                }
+            } else {
+                isScrolling = true;
+            }
         }
 
         @Override
@@ -212,10 +222,6 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                     sbReader.setProgress(curPage);
                 }
                 tvCurPage.setText(String.valueOf(curPage + 1));
-                if (!isFullScreen) {
-                    isFullScreen = true;
-                    setActionsLayoutVisible(true);
-                }
                 setBottomInfos();
             }
         }
@@ -275,7 +281,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         sbReader.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
         rvReaderList.setOnTouchListener(this);
 
-        setActionsLayoutVisible(true);
+        showActionsLayout(false);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -454,13 +460,15 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                         rvArg.computeVerticalScrollRange();
     }
 
-    private void setActionsLayoutVisible(boolean hide) {
-        if (hide) {
-            clActionsLayout.setVisibility(View.GONE);
-            ScreenUtil.setFullScreen(this);
-        } else {
+    private void showActionsLayout(boolean shouldShow) {
+        if (shouldShow) {
             ScreenUtil.cancelFullScreen(this);
             clActionsLayout.setVisibility(View.VISIBLE);
+            isActionShown = true;
+        } else {
+            clActionsLayout.setVisibility(View.GONE);
+            ScreenUtil.setFullScreen(this);
+            isActionShown = false;
         }
     }
 
@@ -473,15 +481,12 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                 float y = motionEvent.getY();
                 int centerX = screenWidth / 2;
                 int centerY = screenHeight / 2;
-                if (((x > centerX - 150.0f) && (x < centerX + 150.0f)) && ((y > centerY - 500.0f) && (y < centerY - 200.0f))) {
-                    if (isFullScreen) {
-                        isFullScreen = false;
-                        setActionsLayoutVisible(false);
+                if (!isScrolling && ((x > centerX - 150.0f) && (x < centerX + 150.0f)) && ((y > centerY - 150.0f) && (y < centerY + 150.0f))) {
+                    if (isActionShown) {
+                        showActionsLayout(false);
                     } else {
-                        isFullScreen = true;
-                        setActionsLayoutVisible(true);
+                        showActionsLayout(true);
                     }
-                    return true;
                 }
                 break;
 

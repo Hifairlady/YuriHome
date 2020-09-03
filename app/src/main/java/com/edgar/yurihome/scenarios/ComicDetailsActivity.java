@@ -16,11 +16,13 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.DetailsViewPagerAdapter;
+import com.edgar.yurihome.beans.BrowseHistoryBean;
 import com.edgar.yurihome.beans.ComicDetailsBean;
 import com.edgar.yurihome.utils.DateUtil;
 import com.edgar.yurihome.utils.GlideUtil;
 import com.edgar.yurihome.utils.HttpUtil;
 import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.SharedPreferenceUtil;
 import com.edgar.yurihome.utils.SpannableStringUtil;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.snackbar.Snackbar;
@@ -28,7 +30,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ComicDetailsActivity extends AppCompatActivity {
@@ -121,6 +125,34 @@ public class ComicDetailsActivity extends AppCompatActivity {
             comicDetailsUrl = bundle.getString("COMIC_DETAILS_URL", "");
             coverUrl = bundle.getString("COMIC_COVER_URL", "");
             comicTitle = bundle.getString("COMIC_TITLE", "");
+
+            BrowseHistoryBean historyBean = new BrowseHistoryBean(coverUrl, comicDetailsUrl, comicTitle);
+            String historyJson = SharedPreferenceUtil.getBrowseHistoryJson(this);
+            String storeJson = "";
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<BrowseHistoryBean>>() {
+            }.getType();
+
+            if (historyJson.isEmpty()) {
+                ArrayList<BrowseHistoryBean> historyList = new ArrayList<>();
+                historyList.add(historyBean);
+                storeJson = gson.toJson(historyList, type);
+            } else {
+                try {
+                    ArrayList<BrowseHistoryBean> storeList = gson.fromJson(historyJson, type);
+                    storeList.remove(historyBean);
+                    storeList.add(0, historyBean);
+                    storeJson = gson.toJson(storeList, type);
+                } catch (JsonSyntaxException e) {
+                    ArrayList<BrowseHistoryBean> historyList = new ArrayList<>();
+                    historyList.add(historyBean);
+                    storeJson = gson.toJson(historyList, type);
+                    e.printStackTrace();
+                }
+            }
+            SharedPreferenceUtil.storeBrowseHistoryJson(this, storeJson);
+
+
         }
 //        comicAuthors = bundle.getString("COMIC_AUTHORS", "");
 //        comicStatus = bundle.getString("COMIC_STATUS", "");

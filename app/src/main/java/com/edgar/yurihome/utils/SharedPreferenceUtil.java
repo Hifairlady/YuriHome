@@ -189,4 +189,16 @@ public class SharedPreferenceUtil {
         return null;
     }
 
+    public static String getBrowseHistoryJson(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("SP_BROWSE_HISTORY", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("BROWSE_HISTORY_JSON", "");
+    }
+
+    public static void storeBrowseHistoryJson(Context context, String jsonString) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("SP_BROWSE_HISTORY", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("BROWSE_HISTORY_JSON", jsonString);
+        editor.apply();
+    }
+
 }

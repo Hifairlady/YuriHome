@@ -29,6 +29,7 @@ import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.MainListAdapter;
 import com.edgar.yurihome.beans.ComicItem;
 import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
+import com.edgar.yurihome.scenarios.BrowseHistoryActivity;
 import com.edgar.yurihome.scenarios.ComicDetailsActivity;
 import com.edgar.yurihome.scenarios.SearchActivity;
 import com.edgar.yurihome.utils.Config;
@@ -166,6 +167,11 @@ public class MainListFragment extends Fragment {
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.setTitle("Filter");
                 dialog.show();
+                break;
+
+            case R.id.main_menu_action_history:
+                Intent historyIntent = new Intent(getContext(), BrowseHistoryActivity.class);
+                startActivity(historyIntent);
                 break;
 
             default:
