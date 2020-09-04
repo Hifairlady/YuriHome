@@ -30,7 +30,9 @@ public class BrowseHistoryActivity extends AppCompatActivity {
     private static final String TAG = "================" + BrowseHistoryActivity.class.getSimpleName();
 
     private RecyclerView rvHistoryList;
+    private MaterialToolbar toolbar;
     private BrowseHistoryListAdapter listAdapter;
+
     private OnComicListItemClickListener mOnItemClickListener = new OnComicListItemClickListener() {
         @Override
         public void onItemClick(int position) {
@@ -48,8 +50,15 @@ public class BrowseHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_history);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
-        MaterialToolbar toolbar = findViewById(R.id.history_toolbar);
+        initView();
+
+    }
+
+    private void initView() {
+
+        toolbar = findViewById(R.id.history_toolbar);
         if (getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
         }
@@ -81,6 +90,7 @@ public class BrowseHistoryActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.browse_history_clear_list) {
             listAdapter.setDataList(null);
             SharedPreferenceUtil.storeBrowseHistoryJson(this, "");
+            toolbar.setTitle(getString(R.string.string_browse_history_activity_appbar_title_text, 0));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -88,17 +98,19 @@ public class BrowseHistoryActivity extends AppCompatActivity {
     private void updateList() {
 
         String jsonString = SharedPreferenceUtil.getBrowseHistoryJson(this);
+        ArrayList<BrowseHistoryBean> list = new ArrayList<>();
         if (!jsonString.isEmpty()) {
             try {
                 Gson gson = new Gson();
                 Type type = new TypeToken<ArrayList<BrowseHistoryBean>>() {
                 }.getType();
-                ArrayList<BrowseHistoryBean> list = gson.fromJson(jsonString, type);
+                list = gson.fromJson(jsonString, type);
                 listAdapter.setDataList(list);
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();
             }
         }
+        toolbar.setTitle(getString(R.string.string_browse_history_activity_appbar_title_text, list.size()));
     }
 
     @Override

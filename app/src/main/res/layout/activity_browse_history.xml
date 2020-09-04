@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:elevation="8dp"
+        android:background="@color/colorPrimaryDark"
         android:theme="@style/ThemeOverlay.MaterialComponents">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -18,7 +19,7 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-            app:title="History"
+            app:title="@string/string_browse_history_activity_appbar_title_text"
             app:titleTextAppearance="@style/ToolbarTitleTextStyle" />
 
     </com.google.android.material.appbar.AppBarLayout>

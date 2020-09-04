@@ -69,7 +69,7 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     public void deleteHistory(int position) {
-        if (showHistoryList.isEmpty() || position >= showHistoryList.size() || position < 0) return;
+        if (showHistoryList == null || position >= showHistoryList.size() || position < 0) return;
         fullHistoryList.remove(getHistoryAt(position));
         showHistoryList.remove(position);
         notifyItemRemoved(position);
@@ -77,15 +77,24 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     public void appendHistory(String history) {
-        if (fullHistoryList.contains(history)) return;
-        fullHistoryList.add(0, history);
-        showHistoryList.add(0, history);
-        notifyItemInserted(0);
+        if (showHistoryList.isEmpty()) {
+            fullHistoryList.add(0, history);
+            showHistoryList.add(0, history);
+            notifyItemInserted(0);
+        } else {
+            if (fullHistoryList.remove(history)) {
+                fullHistoryList.add(0, history);
+            } else {
+                fullHistoryList.add(0, history);
+                showHistoryList.add(0, history);
+                notifyItemInserted(0);
+            }
+        }
         storeHistories();
     }
 
-    private void setShowHistoryList(ArrayList<String> showHistoryList) {
-        this.showHistoryList = new ArrayList<>(showHistoryList);
+    private void setShowHistoryList(ArrayList<String> list) {
+        this.showHistoryList = new ArrayList<>(list);
         notifyDataSetChanged();
     }
 

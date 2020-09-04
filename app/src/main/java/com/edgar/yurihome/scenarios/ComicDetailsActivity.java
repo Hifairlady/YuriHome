@@ -140,7 +140,11 @@ public class ComicDetailsActivity extends AppCompatActivity {
             } else {
                 try {
                     ArrayList<BrowseHistoryBean> storeList = gson.fromJson(historyJson, type);
-                    storeList.remove(historyBean);
+                    if (!storeList.remove(historyBean)) {
+                        if (storeList.size() >= 15) {
+                            storeList.remove(14);
+                        }
+                    }
                     storeList.add(0, historyBean);
                     storeJson = gson.toJson(storeList, type);
                 } catch (JsonSyntaxException e) {

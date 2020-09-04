@@ -42,6 +42,7 @@ public class JsonUtil {
         try {
             if (response.body() == null) {
                 responseItem.setResponseCode(result);
+                response.close();
                 return;
             }
             String jsonString = response.body().string();
@@ -50,7 +51,9 @@ public class JsonUtil {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            response.close();
+            if (response.body() != null) {
+                response.body().close();
+            }
         }
         responseItem.setResponseCode(result);
     }

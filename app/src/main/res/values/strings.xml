@@ -89,4 +89,5 @@
     <string name="string_menu_history">History</string>
     <string name="string_browse_history_item_title_text">Title</string>
     <string name="string_clear_browse_history_menu_title_text">Clear History</string>
+    <string name="string_browse_history_activity_appbar_title_text">History (%1$d)</string>
 </resources>

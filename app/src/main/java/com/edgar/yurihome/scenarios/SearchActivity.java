@@ -187,8 +187,8 @@ public class SearchActivity extends AppCompatActivity {
                 curPage = 0;
                 urlString = Config.getSearchQueryUrl(queryContent, curPage);
                 JsonUtil.fetchJsonData(mHandler, urlString);
+                historyListAdapter.appendHistory(queryContent);
                 if (!isFromHistory) {
-                    historyListAdapter.appendHistory(queryContent);
                 }
                 isFromHistory = false;
                 hideHistoryView();
