@@ -102,7 +102,7 @@ public class MainListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main_list, container, false);
-        MaterialToolbar toolbar = rootView.findViewById(R.id.full_chapter_list_toolbar);
+        MaterialToolbar toolbar = rootView.findViewById(R.id.main_frag_toolbar);
         if (getActivity() == null) return rootView;
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         initView(rootView);

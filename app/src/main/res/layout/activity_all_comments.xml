@@ -21,6 +21,7 @@
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents"
             app:title="全部评论"
+            app:contentInsetStart="0dp"
             app:titleTextAppearance="@style/ToolbarTitleTextStyle" />
 
     </com.google.android.material.appbar.AppBarLayout>

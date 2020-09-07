@@ -35,7 +35,10 @@ public class ChapterFullListActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         MaterialToolbar toolbar = findViewById(R.id.full_chapter_list_toolbar);
-        setSupportActionBar(toolbar);
+        if (getSupportActionBar() == null) {
+            setSupportActionBar(toolbar);
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

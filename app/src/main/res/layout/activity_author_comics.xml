@@ -20,6 +20,7 @@
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
             app:title="Author Name"
             app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:contentInsetStart="0dp"
             app:titleTextAppearance="@style/ToolbarTitleTextStyle" />
 
     </com.google.android.material.appbar.AppBarLayout>

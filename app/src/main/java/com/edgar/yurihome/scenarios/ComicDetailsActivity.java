@@ -171,7 +171,10 @@ public class ComicDetailsActivity extends AppCompatActivity {
         tvComicAuthors = findViewById(R.id.tv_comic_details_authors);
         ivComicCover = findViewById(R.id.iv_comic_details_cover);
         mToolbar = findViewById(R.id.comic_details_toolbar);
-        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() == null) {
+            setSupportActionBar(mToolbar);
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setTitle(comicTitle);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

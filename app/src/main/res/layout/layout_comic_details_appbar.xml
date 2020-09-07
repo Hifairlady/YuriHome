@@ -172,10 +172,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
-            app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:layout_collapseMode="pin"
-            app:navigationIcon="@drawable/ic_arrow_back_24"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
             app:title="Hello World!"
             app:titleTextAppearance="@style/ToolbarTitleTextStyle" />
