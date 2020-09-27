@@ -54,6 +54,7 @@ public class DetailsViewPagerAdapter extends FragmentStateAdapter {
         return PAGE_NUM;
     }
 
+
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);

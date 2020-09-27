@@ -35,7 +35,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_vertical|end"
                 android:text="@string/string_view_all_comments_button_text"
                 android:textColor="@color/colorAccent" />

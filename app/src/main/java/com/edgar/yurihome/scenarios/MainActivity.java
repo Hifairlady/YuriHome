@@ -95,4 +95,10 @@ public class MainActivity extends AppCompatActivity {
         String urlString = Config.getClassifyFiltersUrl();
         JsonUtil.fetchJsonData(mHandler, urlString);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 }

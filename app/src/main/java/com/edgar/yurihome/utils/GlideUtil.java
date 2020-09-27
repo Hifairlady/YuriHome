@@ -43,10 +43,19 @@ public class GlideUtil {
                 .into(imageView);
     }
 
+    public static void loadReaderImageWithUrlNoCache(ImageView imageView, String urlString) {
+        GlideApp.with(imageView)
+                .load(getGlideUrl(urlString))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .placeholder(R.drawable.reader_loading)
+                .error(R.drawable.reader_error)
+                .into(imageView);
+    }
+
 
     public static void loadReaderImage(final ImageView imageView, final String urlString, final int position, final int[] loadCodes) {
         if (loadCodes[position] == -1) {
-            GlideUtil.loadImageWithUrlNoCache(imageView, urlString);
+            GlideUtil.loadReaderImageWithUrlNoCache(imageView, urlString);
         } else {
             GlideApp.with(imageView)
                     .load(getGlideUrl(urlString))
@@ -63,8 +72,8 @@ public class GlideUtil {
                         }
                     })
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.image_loading)
-                    .error(R.drawable.image_error)
+                    .placeholder(R.drawable.reader_loading)
+                    .error(R.drawable.reader_error)
                     .into(imageView);
         }
     }

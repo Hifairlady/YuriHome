@@ -23,9 +23,8 @@ public class AuthorComicsListAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ArrayList<AuthorComicsBean.AuthorComicData> dataList = new ArrayList<>();
     private OnComicListItemClickListener itemClickListener;
 
-    public AuthorComicsListAdapter(Context mContext, ArrayList<AuthorComicsBean.AuthorComicData> dataList) {
+    public AuthorComicsListAdapter(Context mContext) {
         this.mContext = mContext;
-        this.dataList = dataList;
     }
 
     @NonNull
@@ -55,6 +54,13 @@ public class AuthorComicsListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemCount() {
         return (dataList == null ? 0 : dataList.size());
+    }
+
+    public AuthorComicsBean.AuthorComicData getItemAt(int position) {
+        if (dataList.isEmpty() || position >= dataList.size() || position < 0) {
+            return null;
+        }
+        return dataList.get(position);
     }
 
     public void setDataList(ArrayList<AuthorComicsBean.AuthorComicData> data) {

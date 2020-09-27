@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -38,7 +38,7 @@ public class ChapterInfosFragment extends Fragment {
     private ComicDetailsBean mDetailsBean;
 
     private TextView tvDescTitle, tvDescIntro;
-    private ImageButton btnDescExpand;
+    private ImageView ivDescExpand;
     private LinearLayout llChaptersContainer;
 //    private LinearLayout rootView;
 
@@ -82,7 +82,7 @@ public class ChapterInfosFragment extends Fragment {
 //        rootView = view.findViewById(R.id.chapter_details_root_view);
         tvDescTitle = view.findViewById(R.id.tv_desc_comic_title);
         tvDescIntro = view.findViewById(R.id.tv_desc_brief_intro);
-        btnDescExpand = view.findViewById(R.id.btn_expand_desc);
+        ivDescExpand = view.findViewById(R.id.btn_expand_desc);
         llChaptersContainer = view.findViewById(R.id.ll_chapters_container);
         rgOrderGroup = view.findViewById(R.id.rg_chapter_details_order);
         rbOrderAsc = view.findViewById(R.id.rb_order_asc);
@@ -113,16 +113,16 @@ public class ChapterInfosFragment extends Fragment {
         tvDescTitle.setText(getString(R.string.string_desc_title_text, mComicTitle));
         tvDescIntro.setText(getString(R.string.string_desc_intro_text, mComicDesc));
 
-        btnDescExpand.setOnClickListener(new View.OnClickListener() {
+        tvDescIntro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isDescExpand) {
                     tvDescIntro.setMaxLines(3);
-                    btnDescExpand.setImageResource(R.drawable.ic_expand_more_24);
+                    ivDescExpand.setImageResource(R.drawable.ic_expand_more_24);
                     isDescExpand = false;
                 } else {
                     tvDescIntro.setMaxLines(99);
-                    btnDescExpand.setImageResource(R.drawable.ic_expand_less_24);
+                    ivDescExpand.setImageResource(R.drawable.ic_expand_less_24);
                     isDescExpand = true;
                 }
             }

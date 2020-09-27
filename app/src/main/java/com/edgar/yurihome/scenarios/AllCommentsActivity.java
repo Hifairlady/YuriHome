@@ -229,5 +229,9 @@ public class AllCommentsActivity extends AppCompatActivity {
                         rvArg.computeVerticalScrollRange();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 }

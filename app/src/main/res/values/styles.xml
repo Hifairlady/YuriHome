@@ -37,6 +37,11 @@
     </style>
 
     <!--    16sp-->
+    <style name="NormalTextStyle2" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/rubik</item>
+    </style>
+
+    <!--    16sp-->
     <style name="TransparentTitleTextStyle" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">#00000000</item>
     </style>

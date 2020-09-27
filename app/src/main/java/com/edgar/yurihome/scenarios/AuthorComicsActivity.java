@@ -32,7 +32,6 @@ public class AuthorComicsActivity extends AppCompatActivity {
     private MaterialToolbar mToolbar;
 
     private AuthorComicsListAdapter listAdapter;
-    private ArrayList<AuthorComicsBean.AuthorComicData> dataList = new ArrayList<>();
     private Handler mHandler;
 
     private int authorId;
@@ -43,7 +42,7 @@ public class AuthorComicsActivity extends AppCompatActivity {
 //            comicDetailsUrl = bundle.getString("COMIC_DETAILS_URL", "");
 //            coverUrl = bundle.getString("COMIC_COVER_URL", "");
 //            comicTitle = bundle.getString("COMIC_TITLE", "");
-            AuthorComicsBean.AuthorComicData comicData = dataList.get(position);
+            AuthorComicsBean.AuthorComicData comicData = listAdapter.getItemAt(position);
             String comicDetailsUrl = Config.getComicDetailsUrl(comicData.getId());
             String coverUrl = comicData.getCover();
             String comicTitle = comicData.getName();
@@ -62,8 +61,8 @@ public class AuthorComicsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_author_comics);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
-        initData();
         initView();
+        initData();
 
     }
 
@@ -73,11 +72,11 @@ public class AuthorComicsActivity extends AppCompatActivity {
         if (intent != null) {
             setIntent(intent);
             initData();
-            initView();
         }
     }
 
     private void initData() {
+        mToolbar.setTitle(authorName);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
@@ -85,6 +84,7 @@ public class AuthorComicsActivity extends AppCompatActivity {
             authorName = bundle.getString("AUTHOR_NAME", "AUTHOR_NAME");
         }
         urlString = Config.getAuthorComicsUrl(authorId);
+        JsonUtil.fetchJsonData(mHandler, urlString);
     }
 
     private void initView() {
@@ -100,10 +100,9 @@ public class AuthorComicsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        mToolbar.setTitle(authorName);
 
         rvAuthorComics = findViewById(R.id.rv_author_comics);
-        listAdapter = new AuthorComicsListAdapter(this, dataList);
+        listAdapter = new AuthorComicsListAdapter(this);
         listAdapter.setItemClickListener(mOnComicListItemClickListener);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         rvAuthorComics.setLayoutManager(layoutManager);
@@ -119,10 +118,13 @@ public class AuthorComicsActivity extends AppCompatActivity {
                         try {
                             Gson gson = new Gson();
                             AuthorComicsBean authorComicsBean = gson.fromJson(jsonString, AuthorComicsBean.class);
-                            dataList = new ArrayList<>(authorComicsBean.getData());
+                            ArrayList<AuthorComicsBean.AuthorComicData> dataList = new ArrayList<>(authorComicsBean.getData());
                             listAdapter.setDataList(dataList);
                             authorName = authorComicsBean.getNickname();
                             mToolbar.setTitle(authorName);
+                            if (!dataList.isEmpty()) {
+                                rvAuthorComics.scrollToPosition(0);
+                            }
                         } catch (JsonSyntaxException | NullPointerException e) {
                             e.printStackTrace();
                             Snackbar.make(rvAuthorComics, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
@@ -144,7 +146,11 @@ public class AuthorComicsActivity extends AppCompatActivity {
             }
         };
 
-        JsonUtil.fetchJsonData(mHandler, urlString);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 }

@@ -21,10 +21,8 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private ArrayList<String> pageUrls = new ArrayList<>();
     private int[] loadCodes;
 
-    public ReaderListAdapter(Context mContext, ReaderImagesItem readerImagesItem) {
+    public ReaderListAdapter(Context mContext) {
         this.mContext = mContext;
-        this.pageUrls = new ArrayList<>(readerImagesItem.getPageUrls());
-        this.loadCodes = new int[pageUrls.size()];
     }
 
     @NonNull
@@ -70,6 +68,12 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemCount() {
         return (pageUrls == null ? 0 : pageUrls.size());
+    }
+
+    public void setData(ReaderImagesItem readerImagesItem) {
+        this.pageUrls = new ArrayList<>(readerImagesItem.getPageUrls());
+        this.loadCodes = new int[pageUrls.size()];
+        notifyDataSetChanged();
     }
 
     private class PageHolder extends RecyclerView.ViewHolder {

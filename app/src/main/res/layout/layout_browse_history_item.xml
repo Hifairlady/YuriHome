@@ -7,7 +7,7 @@
     android:layout_margin="4dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp">
 

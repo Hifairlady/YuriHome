@@ -87,6 +87,8 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 TextView tvChildNickname = childCommentView.findViewById(R.id.tv_child_comment_nickname);
                 TextView tvChildFloor = childCommentView.findViewById(R.id.tv_child_comment_floor);
                 TextView tvChildContent = childCommentView.findViewById(R.id.tv_child_comment_content);
+//                GridLayout gridLayout = childCommentView.findViewById(R.id.gridLayout);
+//                Config.getCommentBigImageUrl(childComment.getObjId(), childComment.getUploadImages().split(",")[0]);
                 ivChildGender.setImageResource(childComment.getSex() == 1 ? R.drawable.ic_gender_male_100 : R.drawable.ic_gender_female_100);
                 tvChildNickname.setText(childComment.getNickname());
                 tvChildFloor.setText(mContext.getString(R.string.string_comment_child_item_floor_text, startPos - i + 1));

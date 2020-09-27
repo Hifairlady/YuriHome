@@ -9,12 +9,12 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:contentDescription="@string/app_name"
             android:id="@+id/iv_child_comment_gender"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:contentDescription="@string/app_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_gender_male_100" />
@@ -56,8 +56,22 @@
             android:textAppearance="@style/NormalTextStyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_child_comment_nickname" />
+
+        <!--        <androidx.gridlayout.widget.GridLayout-->
+        <!--            android:id="@+id/gridLayout"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="16dp"-->
+        <!--            android:layout_marginEnd="16dp"-->
+        <!--            app:columnCount="3"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent">-->
+
+        <!--        </androidx.gridlayout.widget.GridLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

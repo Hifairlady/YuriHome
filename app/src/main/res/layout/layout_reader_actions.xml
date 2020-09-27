@@ -21,7 +21,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:foreground="?attr/selectableItemBackground"
             app:srcCompat="@drawable/ic_arrow_back_24" />
 
         <TextView
@@ -39,7 +39,7 @@
         <Button
             android:id="@+id/btn_reader_more_actions"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:foreground="?attr/selectableItemBackground"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/rubik"

@@ -47,11 +47,8 @@ public class ComicDetailsActivity extends AppCompatActivity {
     private CoordinatorLayout detailsRootView;
     private ViewPager2 mViewPager;
     private TabLayout mTabLayout;
-    private DetailsViewPagerAdapter mPagerAdapter;
 
     private Handler fetchDetailsHandler;
-
-    private ComicDetailsBean comicDetailsBean = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +57,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         initView();
-        fetchComicDetails();
+        initData();
 
     }
 
@@ -74,7 +71,25 @@ public class ComicDetailsActivity extends AppCompatActivity {
 ////        }
 ////    }
 
-    private void fetchComicDetails() {
+
+    //comic url, cover url, comic title
+    private void initView() {
+
+        detailsRootView = findViewById(R.id.details_root_view);
+        tvComicTags = findViewById(R.id.tv_comic_details_tags);
+        tvLastUpdateChapter = findViewById(R.id.tv_details_last_chapter);
+        tvComicStatus = findViewById(R.id.tv_comic_details_status);
+        tvLastUpdateTime = findViewById(R.id.tv_details_last_update_time);
+        tvComicAuthors = findViewById(R.id.tv_comic_details_authors);
+        ivComicCover = findViewById(R.id.iv_comic_details_cover);
+        mViewPager = findViewById(R.id.details_view_pager);
+        mTabLayout = findViewById(R.id.details_tab_layout);
+        mToolbar = findViewById(R.id.comic_details_toolbar);
+        if (getSupportActionBar() == null) {
+            setSupportActionBar(mToolbar);
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         fetchDetailsHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -84,11 +99,9 @@ public class ComicDetailsActivity extends AppCompatActivity {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
                         try {
                             Gson gson = new Gson();
-                            comicDetailsBean = gson.fromJson(jsonString, ComicDetailsBean.class);
-                            mPagerAdapter = new DetailsViewPagerAdapter(ComicDetailsActivity.this, comicDetailsBean);
-                            initViewPager(mPagerAdapter);
-                            initTextViews();
-
+                            ComicDetailsBean comicDetailsBean = gson.fromJson(jsonString, ComicDetailsBean.class);
+                            initViewPager(comicDetailsBean);
+                            setupTextViews(comicDetailsBean);
                         } catch (JsonSyntaxException | NullPointerException e) {
                             e.printStackTrace();
                             Snackbar.make(detailsRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
@@ -111,14 +124,9 @@ public class ComicDetailsActivity extends AppCompatActivity {
             }
         };
 
-        JsonUtil.fetchJsonData(fetchDetailsHandler, comicDetailsUrl);
-
     }
 
-
-    //comic url, cover url, comic title
-    private void initView() {
-
+    private void initData() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
@@ -162,19 +170,6 @@ public class ComicDetailsActivity extends AppCompatActivity {
 //        comicStatus = bundle.getString("COMIC_STATUS", "");
 //        comicTypes = bundle.getString("COMIC_TYPES", "");
 //        lastUpdateTime = bundle.getLong("COMIC_LAST_UPDATE_TIME", 0);
-
-        detailsRootView = findViewById(R.id.details_root_view);
-        tvComicTags = findViewById(R.id.tv_comic_details_tags);
-        tvLastUpdateChapter = findViewById(R.id.tv_details_last_chapter);
-        tvComicStatus = findViewById(R.id.tv_comic_details_status);
-        tvLastUpdateTime = findViewById(R.id.tv_details_last_update_time);
-        tvComicAuthors = findViewById(R.id.tv_comic_details_authors);
-        ivComicCover = findViewById(R.id.iv_comic_details_cover);
-        mToolbar = findViewById(R.id.comic_details_toolbar);
-        if (getSupportActionBar() == null) {
-            setSupportActionBar(mToolbar);
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setTitle(comicTitle);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,8 +177,6 @@ public class ComicDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        mViewPager = findViewById(R.id.details_view_pager);
-        mTabLayout = findViewById(R.id.details_tab_layout);
 
         tvComicTags.setText(getString(R.string.string_comic_details_tags_text, "Loading..."));
         tvLastUpdateChapter.setText(getString(R.string.string_comic_details_last_chapter_text, "Loading..."));
@@ -193,9 +186,10 @@ public class ComicDetailsActivity extends AppCompatActivity {
 //        tvLastUpdateTime.setText(DateUtil.getTimeString(lastUpdateTime));
         GlideUtil.loadImageWithUrl(ivComicCover, coverUrl);
 
+        JsonUtil.fetchJsonData(fetchDetailsHandler, comicDetailsUrl);
     }
 
-    private void initTextViews() {
+    private void setupTextViews(ComicDetailsBean comicDetailsBean) {
         StringBuilder tagTypeStringBuilder = new StringBuilder();
         ArrayList<ComicDetailsBean.TypesBean> typesBeans = new ArrayList<>(comicDetailsBean.getTypes());
         for (ComicDetailsBean.TypesBean typesBean : typesBeans) {
@@ -229,8 +223,9 @@ public class ComicDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void initViewPager(DetailsViewPagerAdapter pagerAdapter) {
-        mViewPager.setAdapter(pagerAdapter);
+    private void initViewPager(ComicDetailsBean comicDetailsBean) {
+        DetailsViewPagerAdapter mPagerAdapter = new DetailsViewPagerAdapter(ComicDetailsActivity.this, comicDetailsBean);
+        mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         mViewPager.setOffscreenPageLimit(2);
         new TabLayoutMediator(mTabLayout, mViewPager, true, new TabLayoutMediator.TabConfigurationStrategy() {
@@ -254,4 +249,9 @@ public class ComicDetailsActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(1, false);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fetchDetailsHandler.removeCallbacksAndMessages(null);
+    }
 }

@@ -21,21 +21,8 @@ public class ViewPointListAdapter extends RecyclerView.Adapter<RecyclerView.View
     private Context mContext;
     private ArrayList<ViewPointBean> viewPointBeans = new ArrayList<>();
 
-    public ViewPointListAdapter(Context mContext, ArrayList<ViewPointBean> viewPointBeans) {
+    public ViewPointListAdapter(Context mContext) {
         this.mContext = mContext;
-        this.viewPointBeans = viewPointBeans;
-        Collections.sort(viewPointBeans, new Comparator<ViewPointBean>() {
-            @Override
-            public int compare(ViewPointBean t1, ViewPointBean t2) {
-                if (t1.getNum() > t2.getNum()) return -1;
-                if (t1.getNum() < t2.getNum()) return 1;
-                if (t1.getPage() > t2.getPage()) return 1;
-                if (t1.getPage() < t2.getPage()) return -1;
-                if (t1.getViewPointId() > t2.getViewPointId()) return 1;
-                if (t1.getViewPointId() < t2.getViewPointId()) return -1;
-                return 0;
-            }
-        });
     }
 
     @NonNull
@@ -58,6 +45,23 @@ public class ViewPointListAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public int getItemCount() {
         return (viewPointBeans == null ? 0 : viewPointBeans.size());
+    }
+
+    public void setDataList(ArrayList<ViewPointBean> viewPointBeans) {
+        this.viewPointBeans = viewPointBeans;
+        Collections.sort(viewPointBeans, new Comparator<ViewPointBean>() {
+            @Override
+            public int compare(ViewPointBean t1, ViewPointBean t2) {
+                if (t1.getNum() > t2.getNum()) return -1;
+                if (t1.getNum() < t2.getNum()) return 1;
+                if (t1.getPage() > t2.getPage()) return 1;
+                if (t1.getPage() < t2.getPage()) return -1;
+                if (t1.getViewPointId() > t2.getViewPointId()) return 1;
+                if (t1.getViewPointId() < t2.getViewPointId()) return -1;
+                return 0;
+            }
+        });
+        notifyDataSetChanged();
     }
 
     private class ViewPointHolder extends RecyclerView.ViewHolder {

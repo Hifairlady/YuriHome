@@ -255,4 +255,17 @@ public class ComicCommentsFragment extends Fragment {
         return null;
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        topCommentHandler.removeCallbacksAndMessages(null);
+        latestCommentsHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        topCommentHandler.removeCallbacksAndMessages(null);
+        latestCommentsHandler.removeCallbacksAndMessages(null);
+    }
 }
