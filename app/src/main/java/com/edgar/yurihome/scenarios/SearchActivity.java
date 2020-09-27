@@ -24,10 +24,8 @@ import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
 import com.edgar.yurihome.interfaces.OnHistoryItemClickListener;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.JsonDataListUtil;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -41,6 +39,10 @@ public class SearchActivity extends AppCompatActivity {
     private SearchResultListAdapter listAdapter;
     private ArrayList<SearchResultBean> resultBeans = new ArrayList<>();
     private Handler mHandler;
+    private Type type = new TypeToken<ArrayList<SearchResultBean>>() {
+    }.getType();
+    private JsonDataListUtil<SearchResultBean> searchResultJsonDataListUtil = new JsonDataListUtil<>(type);
+
     private int curPage = 0;
     private String urlString, queryContent;
     private boolean isLoading = false;
@@ -96,11 +98,7 @@ public class SearchActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (rvHistoryList != null && rvHistoryList.getVisibility() != View.GONE) {
-                    rvHistoryList.setVisibility(View.GONE);
-                } else {
-                    finish();
-                }
+                finish();
             }
         });
 
@@ -122,34 +120,22 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String jsonString = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            Gson gson = new Gson();
-                            Type type = new TypeToken<ArrayList<SearchResultBean>>() {
-                            }.getType();
-                            resultBeans = gson.fromJson(jsonString, type);
-                            if (resultBeans.size() == 0) {
-                                isFinalPage = true;
-                                if (curPage > 0) {
-                                    curPage--;
-                                }
-                                Snackbar.make(clRootLayout, getString(R.string.string_no_more_data), Snackbar.LENGTH_SHORT).show();
-                                break;
-                            }
-
-                            if (curPage == 0) {
-                                listAdapter.setItems(resultBeans);
-                            } else {
-                                listAdapter.appendItems(resultBeans);
-                            }
-                        } catch (JsonSyntaxException e) {
-                            e.printStackTrace();
+                        ArrayList<SearchResultBean> resultBeans = searchResultJsonDataListUtil.getDataList();
+                        if (resultBeans.size() == 0) {
+                            isFinalPage = true;
                             if (curPage > 0) {
                                 curPage--;
                             }
-                            Snackbar.make(clRootLayout, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(clRootLayout, getString(R.string.string_no_more_data), Snackbar.LENGTH_SHORT).show();
+                            break;
+                        }
+
+                        if (curPage == 0) {
+                            listAdapter.setItems(resultBeans);
+                        } else {
+                            listAdapter.appendItems(resultBeans);
                         }
                         break;
 
@@ -186,11 +172,10 @@ public class SearchActivity extends AppCompatActivity {
                 queryContent = s;
                 curPage = 0;
                 urlString = Config.getSearchQueryUrl(queryContent, curPage);
-                JsonUtil.fetchJsonData(mHandler, urlString);
+                searchResultJsonDataListUtil.fetchJsonData(mHandler, urlString);
                 historyListAdapter.appendHistory(queryContent);
-                if (!isFromHistory) {
-                }
                 isFromHistory = false;
+                svSearch.clearFocus();
                 hideHistoryView();
                 return false;
             }
@@ -254,7 +239,7 @@ public class SearchActivity extends AppCompatActivity {
     private void loadNextPage() {
         curPage++;
         urlString = Config.getSearchQueryUrl(queryContent, curPage);
-        JsonUtil.fetchJsonData(mHandler, urlString);
+        searchResultJsonDataListUtil.fetchJsonData(mHandler, urlString);
     }
 
     private void initSearchHistoryView() {

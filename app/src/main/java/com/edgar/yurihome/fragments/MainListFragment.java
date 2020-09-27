@@ -34,13 +34,11 @@ import com.edgar.yurihome.scenarios.ComicDetailsActivity;
 import com.edgar.yurihome.scenarios.SearchActivity;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.JsonDataListUtil;
 import com.edgar.yurihome.utils.SharedPreferenceUtil;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -61,6 +59,10 @@ public class MainListFragment extends Fragment {
     private boolean isRefreshing = false;
 
     private int typeCode = 3243, regionCode = 2304, groupCode = 0, statusCode = 0, sortCode = 1, page = 0;
+
+    private Type type = new TypeToken<ArrayList<ComicItem>>() {
+    }.getType();
+    private JsonDataListUtil<ComicItem> comicItemJsonDataListUtil = new JsonDataListUtil<>(type);
 
     public MainListFragment() {
         // Required empty public constructor
@@ -128,8 +130,8 @@ public class MainListFragment extends Fragment {
         return fragment;
     }
 
-    private boolean isSlideToBottom(RecyclerView rvArg, boolean isLoadingArg) {
-        return !isLoadingArg && rvArg != null &&
+    private boolean isSlideToBottom(RecyclerView rvArg) {
+        return rvArg != null &&
                 rvArg.computeVerticalScrollExtent() + rvArg.computeVerticalScrollOffset() >=
                         rvArg.computeVerticalScrollRange();
     }
@@ -184,7 +186,7 @@ public class MainListFragment extends Fragment {
         if (isFinalPage) return;
         isLoading = true;
         String urlString = Config.getComicsUrlByFilter(type, region, group, status, sort, pageNum);
-        JsonUtil.fetchJsonData(handler, urlString);
+        comicItemJsonDataListUtil.fetchJsonData(handler, urlString);
     }
 
     private void initView(View rootView) {
@@ -215,64 +217,57 @@ public class MainListFragment extends Fragment {
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
                 adapter.removeFooterItem();
-                String jsonString = (String) msg.obj;
-                try {
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<ArrayList<ComicItem>>() {
-                    }.getType();
-                    ArrayList<ComicItem> comicItems = gson.fromJson(jsonString, type);
-                    switch (msg.what) {
-                        case HttpUtil.REQUEST_JSON_SUCCESS:
-                            if (comicItems.isEmpty()) {
-                                isFinalPage = true;
-                                Snackbar.make(recyclerView, R.string.string_no_more_data, Snackbar.LENGTH_SHORT).show();
+
+                switch (msg.what) {
+                    case HttpUtil.REQUEST_JSON_SUCCESS:
+                        ArrayList<ComicItem> comicItems = comicItemJsonDataListUtil.getDataList();
+                        if (comicItems.isEmpty()) {
+                            isFinalPage = true;
+                            Snackbar.make(recyclerView, R.string.string_no_more_data, Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            if (isRefreshing) {
+                                adapter.setComicItems(comicItems);
                             } else {
-                                if (isRefreshing) {
-                                    adapter.setComicItems(comicItems);
-                                } else {
-                                    adapter.appendComicItems(comicItems);
-                                }
+                                adapter.appendComicItems(comicItems);
                             }
-                            break;
+                        }
+                        break;
 
-                        case HttpUtil.REQUEST_JSON_FAILED:
-                            Snackbar.make(recyclerView, HttpUtil.MESSAGE_NETWORK_ERROR, Snackbar.LENGTH_SHORT).show();
-                            if (page >= 1) {
-                                page -= 1;
-                            }
-                            break;
+                    case HttpUtil.REQUEST_JSON_FAILED:
+                        Snackbar.make(recyclerView, HttpUtil.MESSAGE_NETWORK_ERROR, Snackbar.LENGTH_SHORT).show();
+                        if (page >= 1) {
+                            page -= 1;
+                        }
+                        break;
 
-                        case HttpUtil.PARSE_JSON_DATA_ERROR:
-                            Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
-                            if (page >= 1) {
-                                page -= 1;
-                            }
-                            break;
+                    case HttpUtil.PARSE_JSON_DATA_ERROR:
+                        Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
+                        if (page >= 1) {
+                            page -= 1;
+                        }
+                        break;
 
-                        default:
-                            Snackbar.make(recyclerView, HttpUtil.MESSAGE_UNKNOWN_ERROR, Snackbar.LENGTH_SHORT).show();
-                            if (page >= 1) {
-                                page -= 1;
-                            }
-                            break;
-                    }
-                } catch (JsonSyntaxException | NullPointerException e) {
-                    e.printStackTrace();
-                    Snackbar.make(recyclerView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
-                    if (page >= 1) {
-                        page -= 1;
-                    }
+                    default:
+                        Snackbar.make(recyclerView, HttpUtil.MESSAGE_UNKNOWN_ERROR, Snackbar.LENGTH_SHORT).show();
+                        if (page >= 1) {
+                            page -= 1;
+                        }
+                        break;
                 }
                 isLoading = false;
                 isRefreshing = false;
                 srlMain.setRefreshing(false);
+
             }
+
         };
 
         srlMain.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshPage();
+                if (!isLoading) {
+                    refreshPage();
+                }
             }
         });
 
@@ -283,7 +278,7 @@ public class MainListFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     //load next page
-                    if (isSlideToBottom(recyclerView, isLoading) && adapter.getItemCount() > 0 && !isFinalPage) {
+                    if (!isLoading && isSlideToBottom(recyclerView) && adapter.getItemCount() > 0 && !isFinalPage) {
                         page += 1;
                         adapter.addFooterItem();
                         loadPageData(mHandler, typeCode, regionCode, groupCode, statusCode, sortCode, page);
@@ -309,6 +304,7 @@ public class MainListFragment extends Fragment {
         page = 0;
         isFinalPage = false;
         isRefreshing = true;
+        isLoading = true;
         loadPageData(mHandler, typeCode, regionCode, groupCode, statusCode, sortCode, page);
     }
 

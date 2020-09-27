@@ -35,6 +35,8 @@ import com.edgar.yurihome.beans.ViewPointBean;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.DateUtil;
 import com.edgar.yurihome.utils.HttpUtil;
+import com.edgar.yurihome.utils.JsonDataListUtil;
+import com.edgar.yurihome.utils.JsonDataUtil;
 import com.edgar.yurihome.utils.JsonUtil;
 import com.edgar.yurihome.utils.NetworkUtil;
 import com.edgar.yurihome.utils.ScreenUtil;
@@ -77,7 +79,11 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
     private String comicName, chapterLongTitle, chapterUpdateString;
     private long chapterUpdateTime;
 
-    private Handler mHandler, mViewPointHandler;
+    private Handler mHandler, mViewPointHandler, translatorHandler;
+    private JsonDataUtil<ReaderImagesItem> readerImagesItemJsonDataUtil = new JsonDataUtil<>(ReaderImagesItem.class);
+    private Type type = new TypeToken<ArrayList<ViewPointBean>>() {
+    }.getType();
+    private JsonDataListUtil<ViewPointBean> viewPointJsonDataUtil = new JsonDataListUtil<>(type);
 
     private ArrayList<ComicDetailsBean.ChaptersBean.DataBean> fullChapterList = new ArrayList<>();
     private String fullListJsonString;
@@ -280,6 +286,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+        drawerLayout.closeDrawer(Gravity.RIGHT);
 
         btnLastChapter = findViewById(R.id.btn_drawer_last_chapter);
         btnAllChapters = findViewById(R.id.btn_drawer_all_chapters);
@@ -290,29 +297,22 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String jsonString = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            Gson gson = new Gson();
-                            ReaderImagesItem readerImagesItem = gson.fromJson(jsonString, ReaderImagesItem.class);
-                            totalPageNum = readerImagesItem.getPicnum();
-                            curPage = 0;
-                            chapterName = readerImagesItem.getTitle();
-                            tvCurPage.setText(String.valueOf(curPage + 1));
-                            tvMaxPage.setText(String.valueOf(totalPageNum));
-                            sbReader.setMax(totalPageNum - 1);
-                            tvTitle.setText(chapterName);
-                            listAdapter.setData(readerImagesItem);
-                            setBottomInfos();
-                            if (totalPageNum == 0) {
-                                Snackbar.make(rvReaderList, "This chapter is empty!", Snackbar.LENGTH_SHORT).show();
-                            } else {
-                                rvReaderList.scrollToPosition(0);
-                            }
-                        } catch (JsonSyntaxException | NullPointerException e) {
-                            e.printStackTrace();
-                            Snackbar.make(flRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
+                        ReaderImagesItem readerImagesItem = readerImagesItemJsonDataUtil.getData();
+                        totalPageNum = readerImagesItem.getPicnum();
+                        curPage = 0;
+                        chapterName = readerImagesItem.getTitle();
+                        tvCurPage.setText(String.valueOf(curPage + 1));
+                        tvMaxPage.setText(String.valueOf(totalPageNum));
+                        sbReader.setMax(totalPageNum - 1);
+                        tvTitle.setText(chapterName);
+                        listAdapter.setData(readerImagesItem);
+                        setBottomInfos();
+                        if (totalPageNum == 0) {
+                            Snackbar.make(rvReaderList, "This chapter is empty!", Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            rvReaderList.scrollToPosition(0);
                         }
                         break;
 
@@ -335,21 +335,12 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String viewPointJson = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            Gson gson = new Gson();
-                            Type type = new TypeToken<ArrayList<ViewPointBean>>() {
-                            }.getType();
-                            ArrayList<ViewPointBean> dataList = gson.fromJson(viewPointJson, type);
-                            viewPointListAdapter.setDataList(dataList);
-                            if (!dataList.isEmpty()) {
-                                rvViewPointsList.scrollToPosition(0);
-                            }
-                        } catch (JsonSyntaxException | NullPointerException e) {
-                            e.printStackTrace();
-                            Snackbar.make(flRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
+                        ArrayList<ViewPointBean> dataList = viewPointJsonDataUtil.getDataList();
+                        viewPointListAdapter.setDataList(dataList);
+                        if (!dataList.isEmpty()) {
+                            rvViewPointsList.scrollToPosition(0);
                         }
                         break;
 
@@ -367,13 +358,12 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                 }
             }
         };
-
         initRecyclerView();
     }
 
     private void initData() {
         showActionsLayout(false);
-        drawerLayout.closeDrawer(Gravity.RIGHT);
+//        drawerLayout.closeDrawer(Gravity.RIGHT);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -435,11 +425,13 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         screenHeight = outSize.y;
 
 
-        JsonUtil.fetchJsonData(mHandler, urlString);
+//        JsonUtil.fetchJsonData(mHandler, urlString);
+        readerImagesItemJsonDataUtil.fetchJsonData(mHandler, urlString);
 
         String viewPointUrl = Config.getAllViewsUrl(comicId, chapterId);
 
-        JsonUtil.fetchJsonData(mViewPointHandler, viewPointUrl);
+//        JsonUtil.fetchJsonData(mViewPointHandler, viewPointUrl);
+        viewPointJsonDataUtil.fetchJsonData(mViewPointHandler, viewPointUrl);
 
         fetchTranslatorName();
     }
@@ -522,7 +514,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         final TextView tvTranslator = findViewById(R.id.tv_drawer_translator);
         tvTranslator.setText(R.string.string_translator_loading_text);
         String translatorUrl = Config.getTranslatorUrl(comicId, chapterId);
-        Handler translatorHandler = new Handler(Looper.getMainLooper()) {
+        translatorHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
@@ -549,5 +541,6 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
         mViewPointHandler.removeCallbacksAndMessages(null);
+        translatorHandler.removeCallbacksAndMessages(null);
     }
 }

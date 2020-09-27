@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -19,12 +18,10 @@ import com.edgar.yurihome.adapters.AllCommentsListAdapter;
 import com.edgar.yurihome.beans.NormalCommentsBean;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.JsonDataUtil2;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 
@@ -39,6 +36,8 @@ public class AllCommentsActivity extends AppCompatActivity {
     private AllCommentsListAdapter listAdapter;
 
     private Handler mHandler;
+    private JsonDataUtil2<NormalCommentsBean> latestJsonDataUtil = new JsonDataUtil2<>(NormalCommentsBean.class);
+
     private MaterialToolbar toolbar;
     private FloatingActionButton fabTop;
     private SwipeRefreshLayout srlAllComments;
@@ -70,8 +69,8 @@ public class AllCommentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_all_comments);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
-        initData();
         initView();
+        initData();
     }
 
     private void initView() {
@@ -93,11 +92,14 @@ public class AllCommentsActivity extends AppCompatActivity {
         srlAllComments.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                curPage = 0;
-                isFinalPage = false;
-                isLoading = true;
-                latestCommentsUrl = Config.getLatestCommentsUrl(comicId, 0, MAX_LIMIT);
-                JsonUtil.fetchJsonData(mHandler, latestCommentsUrl);
+                if (!isLoading) {
+                    curPage = 0;
+                    isFinalPage = false;
+                    isLoading = true;
+                    latestCommentsUrl = Config.getLatestCommentsUrl(comicId, 0, MAX_LIMIT);
+//                JsonUtil.fetchJsonData(mHandler, latestCommentsUrl);
+                    latestJsonDataUtil.fetchJsonData(mHandler, latestCommentsUrl);
+                }
             }
         });
 
@@ -140,36 +142,24 @@ public class AllCommentsActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String jsonString = (String) msg.obj;
                 listAdapter.removeFooter();
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            jsonString = jsonString.replace("\"comments\":{", "\"comments\":[");
-                            jsonString = jsonString.replace("},\"total\"", "],\"total\"");
-                            jsonString = jsonString.replaceAll("\"[0-9]*\":", "");
-                            Log.d(TAG, "handleMessage: " + jsonString);
-                            Gson gson = new Gson();
-                            NormalCommentsBean latestCommentsBean = gson.fromJson(jsonString, NormalCommentsBean.class);
-                            if (curPage == 0) {
-                                initLatestComments(latestCommentsBean);
-                            } else {
-                                if (latestCommentsBean.getCommentIds().isEmpty()) {
-                                    if (curPage > 0) curPage -= 1;
-                                    isFinalPage = true;
-                                    Snackbar.make(srlAllComments, getString(R.string.string_no_more_data), Snackbar.LENGTH_SHORT).show();
-                                    break;
-                                }
-                                if (latestCommentsBean.getComments() == null || latestCommentsBean.getComments().isEmpty())
-                                    break;
-                                ArrayList<NormalCommentsBean.CommentsBean> latestCommentsList = new ArrayList<>(latestCommentsBean.getComments());
-                                ArrayList<String> commentIdList = new ArrayList<>(latestCommentsBean.getCommentIds());
-                                listAdapter.appendItems(commentIdList, latestCommentsList);
+                        NormalCommentsBean latestCommentsBean = latestJsonDataUtil.getData();
+                        if (curPage == 0) {
+                            initLatestComments(latestCommentsBean);
+                        } else {
+                            if (latestCommentsBean.getCommentIds().isEmpty()) {
+                                if (curPage > 0) curPage -= 1;
+                                isFinalPage = true;
+                                Snackbar.make(srlAllComments, getString(R.string.string_no_more_data), Snackbar.LENGTH_SHORT).show();
+                                break;
                             }
-                        } catch (JsonSyntaxException e) {
-                            e.printStackTrace();
-                            if (curPage > 0) curPage -= 1;
-                            Snackbar.make(srlAllComments, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
+                            if (latestCommentsBean.getComments() == null || latestCommentsBean.getComments().isEmpty())
+                                break;
+                            ArrayList<NormalCommentsBean.CommentsBean> latestCommentsList = new ArrayList<>(latestCommentsBean.getComments());
+                            ArrayList<String> commentIdList = new ArrayList<>(latestCommentsBean.getCommentIds());
+                            listAdapter.appendItems(commentIdList, latestCommentsList);
                         }
                         break;
 
@@ -192,8 +182,6 @@ public class AllCommentsActivity extends AppCompatActivity {
                 srlAllComments.setRefreshing(false);
             }
         };
-
-        JsonUtil.fetchJsonData(mHandler, latestCommentsUrl);
     }
 
     private void initData() {
@@ -204,6 +192,7 @@ public class AllCommentsActivity extends AppCompatActivity {
             comicId = bundle.getInt("COMIC_ID", 0);
             latestCommentsUrl = Config.getLatestCommentsUrl(comicId, 0, MAX_LIMIT);
         }
+        latestJsonDataUtil.fetchJsonData(mHandler, latestCommentsUrl);
     }
 
     private void loadNextPage() {
@@ -211,7 +200,7 @@ public class AllCommentsActivity extends AppCompatActivity {
         isLoading = true;
         listAdapter.addFooter();
         latestCommentsUrl = Config.getLatestCommentsUrl(comicId, curPage, MAX_LIMIT);
-        JsonUtil.fetchJsonData(mHandler, latestCommentsUrl);
+        latestJsonDataUtil.fetchJsonData(mHandler, latestCommentsUrl);
     }
 
     private void initLatestComments(NormalCommentsBean latestCommentsBean) {

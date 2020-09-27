@@ -24,10 +24,8 @@ import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
 import com.edgar.yurihome.scenarios.ComicDetailsActivity;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.JsonDataUtil;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 
@@ -42,7 +40,7 @@ public class RelatedComicsFragment extends Fragment {
     private LinearLayout llContainer;
     private Handler mHandler;
 
-    private RelatedComicBean relatedComicBean;
+    private JsonDataUtil<RelatedComicBean> relatedComicJsonDataUtil = new JsonDataUtil<>(RelatedComicBean.class);
 
     public RelatedComicsFragment() {
         // Required empty public constructor
@@ -80,65 +78,58 @@ public class RelatedComicsFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String jsonString = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            Gson gson = new Gson();
-                            relatedComicBean = gson.fromJson(jsonString, RelatedComicBean.class);
-                            ArrayList<RelatedComicBean.AuthorComicsBean> authorComicsBeans = new ArrayList<>(relatedComicBean.getAuthorComics());
-                            for (RelatedComicBean.AuthorComicsBean authorComicsBean : authorComicsBeans) {
-                                final ArrayList<RelatedComicBean.AuthorComicsBean.AuthorComicDataBean> authorComicList = new ArrayList<>(authorComicsBean.getData());
-                                View authorView = LayoutInflater.from(view.getContext()).inflate(R.layout.layout_related_author_comics, null, false);
-                                llContainer.addView(authorView);
-                                TextView authorTitle = authorView.findViewById(R.id.tv_related_comic_author_title);
-                                authorTitle.setText(getString(R.string.string_related_comic_author_title_text, authorComicsBean.getAuthorName()));
-                                RelatedComicListAdapter adapter = new RelatedComicListAdapter(view.getContext(), authorComicList, authorComicsBean.getAuthorName());
-                                RecyclerView recyclerView = authorView.findViewById(R.id.rv_related_theme_comic_list);
-                                GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 3);
-                                recyclerView.setLayoutManager(layoutManager);
-                                adapter.setOnComicItemClickListener(new OnComicListItemClickListener() {
-                                    @Override
-                                    public void onItemClick(int position) {
-                                        RelatedComicBean.AuthorComicsBean.AuthorComicDataBean authorComicData = authorComicList.get(position);
-                                        if (authorComicData == null || authorComicData.getId() == comicId)
-                                            return;
-                                        Intent intent = new Intent(getActivity(), ComicDetailsActivity.class);
-                                        intent.putExtra("COMIC_DETAILS_URL", Config.getComicDetailsUrl(authorComicData.getId()));
-                                        intent.putExtra("COMIC_COVER_URL", authorComicData.getCover());
-                                        intent.putExtra("COMIC_TITLE", authorComicData.getName());
-                                        startActivity(intent);
-                                    }
-                                });
-                                recyclerView.setAdapter(adapter);
-                            }
-
-                            final ArrayList<RelatedComicBean.ThemeComicsBean> themeComicList = new ArrayList<>(relatedComicBean.getThemeComics());
-                            View themeView = LayoutInflater.from(view.getContext()).inflate(R.layout.layout_related_theme_comics, null, false);
-                            llContainer.addView(themeView);
-                            RecyclerView recyclerView = themeView.findViewById(R.id.rv_related_theme_comic_list);
+                        RelatedComicBean relatedComicBean = relatedComicJsonDataUtil.getData();
+                        ArrayList<RelatedComicBean.AuthorComicsBean> authorComicsBeans = new ArrayList<>(relatedComicBean.getAuthorComics());
+                        for (RelatedComicBean.AuthorComicsBean authorComicsBean : authorComicsBeans) {
+                            final ArrayList<RelatedComicBean.AuthorComicsBean.AuthorComicDataBean> authorComicList = new ArrayList<>(authorComicsBean.getData());
+                            View authorView = LayoutInflater.from(view.getContext()).inflate(R.layout.layout_related_author_comics, null, false);
+                            llContainer.addView(authorView);
+                            TextView authorTitle = authorView.findViewById(R.id.tv_related_comic_author_title);
+                            authorTitle.setText(getString(R.string.string_related_comic_author_title_text, authorComicsBean.getAuthorName()));
+                            RelatedComicListAdapter adapter = new RelatedComicListAdapter(view.getContext(), authorComicList, authorComicsBean.getAuthorName());
+                            RecyclerView recyclerView = authorView.findViewById(R.id.rv_related_theme_comic_list);
                             GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 3);
-                            RelatedComicListAdapter adapter = new RelatedComicListAdapter(view.getContext(), themeComicList);
                             recyclerView.setLayoutManager(layoutManager);
                             adapter.setOnComicItemClickListener(new OnComicListItemClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
-                                    RelatedComicBean.ThemeComicsBean themeComicsBean = themeComicList.get(position);
-                                    if (themeComicsBean == null || themeComicsBean.getId() == comicId)
+                                    RelatedComicBean.AuthorComicsBean.AuthorComicDataBean authorComicData = authorComicList.get(position);
+                                    if (authorComicData == null || authorComicData.getId() == comicId)
                                         return;
                                     Intent intent = new Intent(getActivity(), ComicDetailsActivity.class);
-                                    intent.putExtra("COMIC_DETAILS_URL", Config.getComicDetailsUrl(themeComicsBean.getId()));
-                                    intent.putExtra("COMIC_COVER_URL", themeComicsBean.getCover());
-                                    intent.putExtra("COMIC_TITLE", themeComicsBean.getName());
+                                    intent.putExtra("COMIC_DETAILS_URL", Config.getComicDetailsUrl(authorComicData.getId()));
+                                    intent.putExtra("COMIC_COVER_URL", authorComicData.getCover());
+                                    intent.putExtra("COMIC_TITLE", authorComicData.getName());
                                     startActivity(intent);
                                 }
                             });
                             recyclerView.setAdapter(adapter);
-
-                        } catch (JsonSyntaxException | NullPointerException e) {
-                            e.printStackTrace();
-                            Snackbar.make(llContainer, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
                         }
+
+                        final ArrayList<RelatedComicBean.ThemeComicsBean> themeComicList = new ArrayList<>(relatedComicBean.getThemeComics());
+                        View themeView = LayoutInflater.from(view.getContext()).inflate(R.layout.layout_related_theme_comics, null, false);
+                        llContainer.addView(themeView);
+                        RecyclerView recyclerView = themeView.findViewById(R.id.rv_related_theme_comic_list);
+                        GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 3);
+                        RelatedComicListAdapter adapter = new RelatedComicListAdapter(view.getContext(), themeComicList);
+                        recyclerView.setLayoutManager(layoutManager);
+                        adapter.setOnComicItemClickListener(new OnComicListItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                RelatedComicBean.ThemeComicsBean themeComicsBean = themeComicList.get(position);
+                                if (themeComicsBean == null || themeComicsBean.getId() == comicId)
+                                    return;
+                                Intent intent = new Intent(getActivity(), ComicDetailsActivity.class);
+                                intent.putExtra("COMIC_DETAILS_URL", Config.getComicDetailsUrl(themeComicsBean.getId()));
+                                intent.putExtra("COMIC_COVER_URL", themeComicsBean.getCover());
+                                intent.putExtra("COMIC_TITLE", themeComicsBean.getName());
+                                startActivity(intent);
+                            }
+                        });
+                        recyclerView.setAdapter(adapter);
+
                         break;
 
                     case HttpUtil.REQUEST_JSON_FAILED:
@@ -160,7 +151,7 @@ public class RelatedComicsFragment extends Fragment {
         };
 
         String urlString = Config.getRelatedComicsUrl(comicId);
-        JsonUtil.fetchJsonData(mHandler, urlString);
+        relatedComicJsonDataUtil.fetchJsonData(mHandler, urlString);
 
     }
 

@@ -17,11 +17,9 @@ import com.edgar.yurihome.beans.ClassifyFilterBean;
 import com.edgar.yurihome.fragments.MainListFragment;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.JsonDataListUtil;
 import com.edgar.yurihome.utils.SharedPreferenceUtil;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -33,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler mHandler;
     private ConstraintLayout mainRootView;
-
-    private ArrayList<ClassifyFilterBean> filterBeans = new ArrayList<>();
+    private Type type = new TypeToken<ArrayList<ClassifyFilterBean>>() {
+    }.getType();
+    private JsonDataListUtil<ClassifyFilterBean> filterJsonDataListUtil = new JsonDataListUtil<>(type);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +58,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String jsonString = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            Gson gson = new Gson();
-                            Type type = new TypeToken<ArrayList<ClassifyFilterBean>>() {
-                            }.getType();
-                            filterBeans = gson.fromJson(jsonString, type);
-                            SharedPreferenceUtil.storeFiltersFromNetwork(MainActivity.this, filterBeans);
-
-                        } catch (JsonSyntaxException | NullPointerException e) {
-                            e.printStackTrace();
-                            Snackbar.make(mainRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
-                        }
+                        ArrayList<ClassifyFilterBean> filterBeans = filterJsonDataListUtil.getDataList();
+                        SharedPreferenceUtil.storeFiltersFromNetwork(MainActivity.this, filterBeans);
                         break;
 
                     case HttpUtil.REQUEST_JSON_FAILED:
@@ -93,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchFilterData() {
         String urlString = Config.getClassifyFiltersUrl();
-        JsonUtil.fetchJsonData(mHandler, urlString);
+        filterJsonDataListUtil.fetchJsonData(mHandler, urlString);
     }
 
     @Override

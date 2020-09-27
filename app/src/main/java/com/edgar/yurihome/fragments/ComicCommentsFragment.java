@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +28,10 @@ import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.DateUtil;
 import com.edgar.yurihome.utils.GlideUtil;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.JsonDataUtil;
+import com.edgar.yurihome.utils.JsonDataUtil2;
 import com.edgar.yurihome.utils.SpannableStringUtil;
 import com.google.android.material.card.MaterialCardView;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 
@@ -51,11 +49,13 @@ public class ComicCommentsFragment extends Fragment {
     private MaterialCardView topCommentLayout;
     private CommentImagesListAdapter topListAdapter;
 
-    private TopCommentBean topCommentBean;
     private String topCommentUrl, latestCommentsUrl;
     private Handler topCommentHandler, latestCommentsHandler;
+
+    private JsonDataUtil<TopCommentBean> topCommentJsonDataUtil = new JsonDataUtil<>(TopCommentBean.class);
+    private JsonDataUtil2<NormalCommentsBean> latestCommentJsonDataUtil = new JsonDataUtil2<>(NormalCommentsBean.class);
+
     private ArrayList<NormalCommentsBean.CommentsBean> latestCommentsList = new ArrayList<>();
-    private NormalCommentsBean latestCommentsBean;
 
     private Button btnViewAll;
 
@@ -118,18 +118,11 @@ public class ComicCommentsFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String jsonString = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            Gson gson = new Gson();
-                            topCommentBean = gson.fromJson(jsonString, TopCommentBean.class);
-                            topListAdapter = new CommentImagesListAdapter(getContext(), topCommentBean);
-                            initTopComment();
-                        } catch (JsonSyntaxException e) {
-                            e.printStackTrace();
-                            topCommentLayout.setVisibility(View.GONE);
-                        }
+                        TopCommentBean topCommentBean = topCommentJsonDataUtil.getData();
+                        topListAdapter = new CommentImagesListAdapter(getContext(), topCommentBean);
+                        initTopComment(topCommentBean);
                         break;
 
                     default:
@@ -143,20 +136,10 @@ public class ComicCommentsFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String jsonString = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            jsonString = jsonString.replace("\"comments\":{", "\"comments\":[");
-                            jsonString = jsonString.replace("},\"total\"", "],\"total\"");
-                            jsonString = jsonString.replaceAll("\"[0-9]*\":", "");
-                            Log.d(TAG, "handleMessage: " + jsonString);
-                            Gson gson = new Gson();
-                            latestCommentsBean = gson.fromJson(jsonString, NormalCommentsBean.class);
-                            initLatestComments();
-                        } catch (JsonSyntaxException e) {
-                            e.printStackTrace();
-                        }
+                        NormalCommentsBean latestCommentsBean = latestCommentJsonDataUtil.getData();
+                        initLatestComments(latestCommentsBean);
                         break;
 
                     default:
@@ -165,12 +148,12 @@ public class ComicCommentsFragment extends Fragment {
             }
         };
 
-        JsonUtil.fetchJsonData(topCommentHandler, topCommentUrl);
-        JsonUtil.fetchJsonData(latestCommentsHandler, latestCommentsUrl);
+        topCommentJsonDataUtil.fetchJsonData(topCommentHandler, topCommentUrl);
+        latestCommentJsonDataUtil.fetchJsonData(latestCommentsHandler, latestCommentsUrl);
 
     }
 
-    private void initLatestComments() {
+    private void initLatestComments(NormalCommentsBean latestCommentsBean) {
         if (latestCommentsBean == null || latestCommentsBean.getComments() == null
                 || latestCommentsBean.getComments().isEmpty() || llRootLayout == null) return;
         latestCommentsList = new ArrayList<>(latestCommentsBean.getComments());
@@ -227,7 +210,7 @@ public class ComicCommentsFragment extends Fragment {
 
     }
 
-    private void initTopComment() {
+    private void initTopComment(TopCommentBean topCommentBean) {
         if (topCommentBean == null) return;
         topCommentLayout.setVisibility(View.VISIBLE);
         GlideUtil.loadImageWithUrl(ivTopCommentAvatar, topCommentBean.getAvatarUrl());

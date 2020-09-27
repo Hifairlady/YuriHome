@@ -18,11 +18,9 @@ import com.edgar.yurihome.beans.AuthorComicsBean;
 import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.JsonDataUtil;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 
@@ -33,6 +31,7 @@ public class AuthorComicsActivity extends AppCompatActivity {
 
     private AuthorComicsListAdapter listAdapter;
     private Handler mHandler;
+    private JsonDataUtil<AuthorComicsBean> authorComicsJsonDataUtil = new JsonDataUtil<>(AuthorComicsBean.class);
 
     private int authorId;
     private String urlString, authorName;
@@ -84,7 +83,7 @@ public class AuthorComicsActivity extends AppCompatActivity {
             authorName = bundle.getString("AUTHOR_NAME", "AUTHOR_NAME");
         }
         urlString = Config.getAuthorComicsUrl(authorId);
-        JsonUtil.fetchJsonData(mHandler, urlString);
+        authorComicsJsonDataUtil.fetchJsonData(mHandler, urlString);
     }
 
     private void initView() {
@@ -112,22 +111,15 @@ public class AuthorComicsActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String jsonString = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            Gson gson = new Gson();
-                            AuthorComicsBean authorComicsBean = gson.fromJson(jsonString, AuthorComicsBean.class);
-                            ArrayList<AuthorComicsBean.AuthorComicData> dataList = new ArrayList<>(authorComicsBean.getData());
-                            listAdapter.setDataList(dataList);
-                            authorName = authorComicsBean.getNickname();
-                            mToolbar.setTitle(authorName);
-                            if (!dataList.isEmpty()) {
-                                rvAuthorComics.scrollToPosition(0);
-                            }
-                        } catch (JsonSyntaxException | NullPointerException e) {
-                            e.printStackTrace();
-                            Snackbar.make(rvAuthorComics, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
+                        AuthorComicsBean authorComicsBean = authorComicsJsonDataUtil.getData();
+                        ArrayList<AuthorComicsBean.AuthorComicData> dataList = new ArrayList<>(authorComicsBean.getData());
+                        listAdapter.setDataList(dataList);
+                        authorName = authorComicsBean.getNickname();
+                        mToolbar.setTitle(authorName);
+                        if (!dataList.isEmpty()) {
+                            rvAuthorComics.scrollToPosition(0);
                         }
                         break;
 

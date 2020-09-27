@@ -21,7 +21,7 @@ import com.edgar.yurihome.beans.ComicDetailsBean;
 import com.edgar.yurihome.utils.DateUtil;
 import com.edgar.yurihome.utils.GlideUtil;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonUtil;
+import com.edgar.yurihome.utils.JsonDataUtil;
 import com.edgar.yurihome.utils.SharedPreferenceUtil;
 import com.edgar.yurihome.utils.SpannableStringUtil;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -49,6 +49,7 @@ public class ComicDetailsActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
 
     private Handler fetchDetailsHandler;
+    private JsonDataUtil<ComicDetailsBean> comicDetailsJsonDataUtil = new JsonDataUtil<>(ComicDetailsBean.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,18 +95,11 @@ public class ComicDetailsActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String jsonString = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        try {
-                            Gson gson = new Gson();
-                            ComicDetailsBean comicDetailsBean = gson.fromJson(jsonString, ComicDetailsBean.class);
-                            initViewPager(comicDetailsBean);
-                            setupTextViews(comicDetailsBean);
-                        } catch (JsonSyntaxException | NullPointerException e) {
-                            e.printStackTrace();
-                            Snackbar.make(detailsRootView, HttpUtil.MESSAGE_JSON_ERROR, Snackbar.LENGTH_SHORT).show();
-                        }
+                        ComicDetailsBean comicDetailsBean = comicDetailsJsonDataUtil.getData();
+                        initViewPager(comicDetailsBean);
+                        setupTextViews(comicDetailsBean);
                         break;
 
                     case HttpUtil.REQUEST_JSON_FAILED:
@@ -186,7 +180,8 @@ public class ComicDetailsActivity extends AppCompatActivity {
 //        tvLastUpdateTime.setText(DateUtil.getTimeString(lastUpdateTime));
         GlideUtil.loadImageWithUrl(ivComicCover, coverUrl);
 
-        JsonUtil.fetchJsonData(fetchDetailsHandler, comicDetailsUrl);
+//        JsonUtil.fetchJsonData(fetchDetailsHandler, comicDetailsUrl);
+        comicDetailsJsonDataUtil.fetchJsonData(fetchDetailsHandler, comicDetailsUrl);
     }
 
     private void setupTextViews(ComicDetailsBean comicDetailsBean) {
