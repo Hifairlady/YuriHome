@@ -28,7 +28,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.MainListAdapter;
 import com.edgar.yurihome.beans.ComicItem;
-import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.scenarios.BrowseHistoryActivity;
 import com.edgar.yurihome.scenarios.ComicDetailsActivity;
 import com.edgar.yurihome.scenarios.SearchActivity;
@@ -68,7 +68,7 @@ public class MainListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private OnComicListItemClickListener mListItemClickListener = new OnComicListItemClickListener() {
+    private OnListItemClickListener mOnListItemClickListener = new OnListItemClickListener() {
         @Override
         public void onItemClick(int position) {
             ComicItem comicItem = adapter.getComicItemAt(position);
@@ -195,7 +195,7 @@ public class MainListFragment extends Fragment {
         fab.hide();
         recyclerView = rootView.findViewById(R.id.rv_main);
         adapter = new MainListAdapter(mContext);
-        adapter.setOnMainListItemClickListener(mListItemClickListener);
+        adapter.setOnMainListItemClickListener(mOnListItemClickListener);
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override

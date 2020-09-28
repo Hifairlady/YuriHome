@@ -37,10 +37,8 @@ import com.edgar.yurihome.utils.DateUtil;
 import com.edgar.yurihome.utils.HttpUtil;
 import com.edgar.yurihome.utils.JsonDataListUtil;
 import com.edgar.yurihome.utils.JsonDataUtil;
-import com.edgar.yurihome.utils.JsonUtil;
 import com.edgar.yurihome.utils.NetworkUtil;
 import com.edgar.yurihome.utils.ScreenUtil;
-import com.edgar.yurihome.utils.UnicodeUtil;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -84,6 +82,7 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
     private Type type = new TypeToken<ArrayList<ViewPointBean>>() {
     }.getType();
     private JsonDataListUtil<ViewPointBean> viewPointJsonDataUtil = new JsonDataListUtil<>(type);
+    private JsonDataUtil<String> translatorJsonDataUtil = new JsonDataUtil<>(Config.FETCH_JSON_DATA_TYPE_TRANSLATOR);
 
     private ArrayList<ComicDetailsBean.ChaptersBean.DataBean> fullChapterList = new ArrayList<>();
     private String fullListJsonString;
@@ -518,22 +517,19 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                String translatorHtmlString = (String) msg.obj;
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
-                        int startPos = translatorHtmlString.indexOf("\"translator\":") + 14;
-                        int endPos = translatorHtmlString.indexOf("\",\"link\":");
-                        String translatorName = translatorHtmlString.substring(startPos, endPos);
-                        translatorName = UnicodeUtil.unicode2String(translatorName);
+                        String translatorName = (String) msg.obj;
                         tvTranslator.setText(translatorName);
                         break;
 
                     default:
+                        tvTranslator.setText(R.string.string_translator_not_found_text);
                         break;
                 }
             }
         };
-        JsonUtil.fetchJsonData(translatorHandler, translatorUrl);
+        translatorJsonDataUtil.fetchJsonData(translatorHandler, translatorUrl);
     }
 
     @Override

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ComicItem;
-import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.utils.GlideUtil;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context mContext;
     private ArrayList<ComicItem> comicItems = new ArrayList<>();
-    private OnComicListItemClickListener clickListener;
+    private OnListItemClickListener clickListener;
 
     public MainListAdapter(Context mContext) {
         this.mContext = mContext;
@@ -138,7 +138,7 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public void setOnMainListItemClickListener(OnComicListItemClickListener itemClickListener) {
+    public void setOnMainListItemClickListener(OnListItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
 

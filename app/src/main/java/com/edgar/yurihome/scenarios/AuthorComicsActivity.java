@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.AuthorComicsListAdapter;
 import com.edgar.yurihome.beans.AuthorComicsBean;
-import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
 import com.edgar.yurihome.utils.JsonDataUtil;
@@ -35,7 +35,7 @@ public class AuthorComicsActivity extends AppCompatActivity {
 
     private int authorId;
     private String urlString, authorName;
-    private OnComicListItemClickListener mOnComicListItemClickListener = new OnComicListItemClickListener() {
+    private OnListItemClickListener mOnListItemClickListener = new OnListItemClickListener() {
         @Override
         public void onItemClick(int position) {
 //            comicDetailsUrl = bundle.getString("COMIC_DETAILS_URL", "");
@@ -102,7 +102,7 @@ public class AuthorComicsActivity extends AppCompatActivity {
 
         rvAuthorComics = findViewById(R.id.rv_author_comics);
         listAdapter = new AuthorComicsListAdapter(this);
-        listAdapter.setItemClickListener(mOnComicListItemClickListener);
+        listAdapter.setItemClickListener(mOnListItemClickListener);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         rvAuthorComics.setLayoutManager(layoutManager);
         rvAuthorComics.setAdapter(listAdapter);

@@ -18,7 +18,7 @@ import com.edgar.yurihome.adapters.AllCommentsListAdapter;
 import com.edgar.yurihome.beans.NormalCommentsBean;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
-import com.edgar.yurihome.utils.JsonDataUtil2;
+import com.edgar.yurihome.utils.JsonDataUtil;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,7 +36,7 @@ public class AllCommentsActivity extends AppCompatActivity {
     private AllCommentsListAdapter listAdapter;
 
     private Handler mHandler;
-    private JsonDataUtil2<NormalCommentsBean> latestJsonDataUtil = new JsonDataUtil2<>(NormalCommentsBean.class);
+    private JsonDataUtil<NormalCommentsBean> latestJsonDataUtil = new JsonDataUtil<>(NormalCommentsBean.class, Config.FETCH_JSON_DATA_TYPE_COMMENT);
 
     private MaterialToolbar toolbar;
     private FloatingActionButton fabTop;
@@ -97,7 +97,6 @@ public class AllCommentsActivity extends AppCompatActivity {
                     isFinalPage = false;
                     isLoading = true;
                     latestCommentsUrl = Config.getLatestCommentsUrl(comicId, 0, MAX_LIMIT);
-//                JsonUtil.fetchJsonData(mHandler, latestCommentsUrl);
                     latestJsonDataUtil.fetchJsonData(mHandler, latestCommentsUrl);
                 }
             }

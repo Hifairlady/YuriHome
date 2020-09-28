@@ -180,7 +180,6 @@ public class ComicDetailsActivity extends AppCompatActivity {
 //        tvLastUpdateTime.setText(DateUtil.getTimeString(lastUpdateTime));
         GlideUtil.loadImageWithUrl(ivComicCover, coverUrl);
 
-//        JsonUtil.fetchJsonData(fetchDetailsHandler, comicDetailsUrl);
         comicDetailsJsonDataUtil.fetchJsonData(fetchDetailsHandler, comicDetailsUrl);
     }
 

@@ -20,8 +20,7 @@ import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.SearchHistoryListAdapter;
 import com.edgar.yurihome.adapters.SearchResultListAdapter;
 import com.edgar.yurihome.beans.SearchResultBean;
-import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
-import com.edgar.yurihome.interfaces.OnHistoryItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
 import com.edgar.yurihome.utils.JsonDataListUtil;
@@ -50,15 +49,13 @@ public class SearchActivity extends AppCompatActivity {
 
     private RecyclerView rvHistoryList;
     private SearchHistoryListAdapter historyListAdapter;
-    private boolean isFromHistory = false;
 
     private ConstraintLayout clRootLayout;
-    private OnHistoryItemClickListener mOnHistoryItemClickListener = new OnHistoryItemClickListener() {
+    private OnListItemClickListener mOnHistoryItemClickListener = new OnListItemClickListener() {
         @Override
         public void onItemClick(int position) {
             String queryContent = historyListAdapter.getHistoryAt(position);
             if (svSearch != null && queryContent != null) {
-                isFromHistory = true;
                 svSearch.setQuery(queryContent, true);
             }
         }
@@ -67,7 +64,7 @@ public class SearchActivity extends AppCompatActivity {
     //    comicDetailsUrl = bundle.getString("COMIC_DETAILS_URL", "");
 //    coverUrl = bundle.getString("COMIC_COVER_URL", "");
 //    comicTitle = bundle.getString("COMIC_TITLE", "");
-    private OnComicListItemClickListener mOnComicListItemClickListener = new OnComicListItemClickListener() {
+    private OnListItemClickListener mOnListItemClickListener = new OnListItemClickListener() {
         @Override
         public void onItemClick(int position) {
             SearchResultBean resultBean = listAdapter.getItemAt(position);
@@ -109,7 +106,7 @@ public class SearchActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         listAdapter = new SearchResultListAdapter(this);
-        listAdapter.setOnComicListItemClickListener(mOnComicListItemClickListener);
+        listAdapter.setOnComicListItemClickListener(mOnListItemClickListener);
         rvResultList.setLayoutManager(layoutManager);
         rvResultList.setAdapter(listAdapter);
     }
@@ -134,6 +131,7 @@ public class SearchActivity extends AppCompatActivity {
 
                         if (curPage == 0) {
                             listAdapter.setItems(resultBeans);
+                            rvResultList.scrollToPosition(0);
                         } else {
                             listAdapter.appendItems(resultBeans);
                         }
@@ -174,7 +172,6 @@ public class SearchActivity extends AppCompatActivity {
                 urlString = Config.getSearchQueryUrl(queryContent, curPage);
                 searchResultJsonDataListUtil.fetchJsonData(mHandler, urlString);
                 historyListAdapter.appendHistory(queryContent);
-                isFromHistory = false;
                 svSearch.clearFocus();
                 hideHistoryView();
                 return false;

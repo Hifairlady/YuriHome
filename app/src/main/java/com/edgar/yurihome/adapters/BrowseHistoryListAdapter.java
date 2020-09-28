@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.BrowseHistoryBean;
-import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.utils.GlideUtil;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class BrowseHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private Context mContext;
     private ArrayList<BrowseHistoryBean> dataList = new ArrayList<>();
-    private OnComicListItemClickListener itemClickListener;
+    private OnListItemClickListener itemClickListener;
 
     public BrowseHistoryListAdapter(Context mContext) {
         this.mContext = mContext;
@@ -71,7 +71,7 @@ public class BrowseHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickListener(OnComicListItemClickListener listener) {
+    public void setOnItemClickListener(OnListItemClickListener listener) {
         this.itemClickListener = listener;
     }
 

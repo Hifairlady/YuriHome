@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.RelatedComicListAdapter;
 import com.edgar.yurihome.beans.RelatedComicBean;
-import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.scenarios.ComicDetailsActivity;
 import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.HttpUtil;
@@ -92,7 +92,7 @@ public class RelatedComicsFragment extends Fragment {
                             RecyclerView recyclerView = authorView.findViewById(R.id.rv_related_theme_comic_list);
                             GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 3);
                             recyclerView.setLayoutManager(layoutManager);
-                            adapter.setOnComicItemClickListener(new OnComicListItemClickListener() {
+                            adapter.setOnComicItemClickListener(new OnListItemClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
                                     RelatedComicBean.AuthorComicsBean.AuthorComicDataBean authorComicData = authorComicList.get(position);
@@ -115,7 +115,7 @@ public class RelatedComicsFragment extends Fragment {
                         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 3);
                         RelatedComicListAdapter adapter = new RelatedComicListAdapter(view.getContext(), themeComicList);
                         recyclerView.setLayoutManager(layoutManager);
-                        adapter.setOnComicItemClickListener(new OnComicListItemClickListener() {
+                        adapter.setOnComicItemClickListener(new OnListItemClickListener() {
                             @Override
                             public void onItemClick(int position) {
                                 RelatedComicBean.ThemeComicsBean themeComicsBean = themeComicList.get(position);

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.ComicDetailsBean;
-import com.edgar.yurihome.interfaces.OnChapterListItemClickListener;
 import com.edgar.yurihome.scenarios.ChapterFullListActivity;
 import com.edgar.yurihome.scenarios.ComicReaderActivity;
 import com.google.gson.Gson;
@@ -34,7 +33,6 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int lastChapterId;
     private boolean isCurOrderAsc = false;
     private boolean viewFullList = false;
-    private OnChapterListItemClickListener itemClickListener;
     private int comicId;
     private String comicName, chapterLongTitle, chapterPartTitle;
     private long chapterUpdateTime;
@@ -144,10 +142,6 @@ public class ChapterListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }.getType();
         jsonString = gson.toJson(fullDataList, type);
         return jsonString;
-    }
-
-    public void setOnChapterItemClickListener(OnChapterListItemClickListener listener) {
-        this.itemClickListener = listener;
     }
 
     private class ChapterHolder extends RecyclerView.ViewHolder {

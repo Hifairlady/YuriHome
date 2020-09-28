@@ -67,7 +67,7 @@ public class GlideUtil {
 
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            loadCodes[position] = 0;
+//                            loadCodes[position] = 0;
                             return false;
                         }
                     })

@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edgar.yurihome.R;
-import com.edgar.yurihome.interfaces.OnHistoryItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.utils.SharedPreferenceUtil;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
     private Context mContext;
     private ArrayList<String> showHistoryList = new ArrayList<>();
     private ArrayList<String> fullHistoryList = new ArrayList<>();
-    private OnHistoryItemClickListener itemClickListener;
+    private OnListItemClickListener itemClickListener;
 
     public SearchHistoryListAdapter(Context mContext) {
         this.mContext = mContext;
@@ -132,7 +132,7 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
         return showHistoryList.get(position);
     }
 
-    public void setOnHistoryItemClickListener(OnHistoryItemClickListener listener) {
+    public void setOnHistoryItemClickListener(OnListItemClickListener listener) {
         this.itemClickListener = listener;
     }
 

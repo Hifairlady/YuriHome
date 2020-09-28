@@ -1,5 +1,5 @@
 package com.edgar.yurihome.interfaces;
 
-public interface OnHistoryItemClickListener {
+public interface OnListItemClickListener {
     void onItemClick(int position);
 }

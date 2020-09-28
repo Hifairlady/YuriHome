@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.BrowseHistoryListAdapter;
 import com.edgar.yurihome.beans.BrowseHistoryBean;
-import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.utils.SharedPreferenceUtil;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
@@ -33,7 +33,7 @@ public class BrowseHistoryActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private BrowseHistoryListAdapter listAdapter;
 
-    private OnComicListItemClickListener mOnItemClickListener = new OnComicListItemClickListener() {
+    private OnListItemClickListener mOnListItemClickListener = new OnListItemClickListener() {
         @Override
         public void onItemClick(int position) {
             BrowseHistoryBean historyBean = listAdapter.getItemAt(position);
@@ -74,7 +74,7 @@ public class BrowseHistoryActivity extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         rvHistoryList.setLayoutManager(layoutManager);
         listAdapter = new BrowseHistoryListAdapter(this);
-        listAdapter.setOnItemClickListener(mOnItemClickListener);
+        listAdapter.setOnItemClickListener(mOnListItemClickListener);
         rvHistoryList.setAdapter(listAdapter);
 
     }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.SearchResultBean;
-import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.utils.GlideUtil;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class SearchResultListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private Context mContext;
     private ArrayList<SearchResultBean> resultList = new ArrayList<>();
-    private OnComicListItemClickListener clickListener;
+    private OnListItemClickListener clickListener;
 
     public SearchResultListAdapter(Context mContext) {
         this.mContext = mContext;
@@ -80,7 +80,7 @@ public class SearchResultListAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    public void setOnComicListItemClickListener(OnComicListItemClickListener listener) {
+    public void setOnComicListItemClickListener(OnListItemClickListener listener) {
         this.clickListener = listener;
     }
 

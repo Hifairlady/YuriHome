@@ -9,6 +9,10 @@ public class Config {
 
     private static final String TAG = "=======================" + Config.class.getSimpleName();
 
+    public static final int FETCH_JSON_DATA_TYPE_NORMAL = 0;
+    public static final int FETCH_JSON_DATA_TYPE_COMMENT = 1;
+    public static final int FETCH_JSON_DATA_TYPE_TRANSLATOR = 2;
+
     //https://v3api.dmzj.com/classify/3243-2304-26310-3263/1/0.json
     public static final String BASE_URL_CLASSIFY = "https://v3api.dmzj.com/classify/";
 

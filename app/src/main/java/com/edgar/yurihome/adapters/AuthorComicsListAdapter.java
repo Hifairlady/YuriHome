@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edgar.yurihome.R;
 import com.edgar.yurihome.beans.AuthorComicsBean;
-import com.edgar.yurihome.interfaces.OnComicListItemClickListener;
+import com.edgar.yurihome.interfaces.OnListItemClickListener;
 import com.edgar.yurihome.utils.GlideUtil;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class AuthorComicsListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private Context mContext;
     private ArrayList<AuthorComicsBean.AuthorComicData> dataList = new ArrayList<>();
-    private OnComicListItemClickListener itemClickListener;
+    private OnListItemClickListener itemClickListener;
 
     public AuthorComicsListAdapter(Context mContext) {
         this.mContext = mContext;
@@ -68,7 +68,7 @@ public class AuthorComicsListAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
-    public void setItemClickListener(OnComicListItemClickListener listener) {
+    public void setItemClickListener(OnListItemClickListener listener) {
         this.itemClickListener = listener;
     }
 

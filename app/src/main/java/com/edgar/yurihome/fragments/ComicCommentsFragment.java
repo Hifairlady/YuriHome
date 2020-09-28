@@ -29,7 +29,6 @@ import com.edgar.yurihome.utils.DateUtil;
 import com.edgar.yurihome.utils.GlideUtil;
 import com.edgar.yurihome.utils.HttpUtil;
 import com.edgar.yurihome.utils.JsonDataUtil;
-import com.edgar.yurihome.utils.JsonDataUtil2;
 import com.edgar.yurihome.utils.SpannableStringUtil;
 import com.google.android.material.card.MaterialCardView;
 
@@ -53,7 +52,7 @@ public class ComicCommentsFragment extends Fragment {
     private Handler topCommentHandler, latestCommentsHandler;
 
     private JsonDataUtil<TopCommentBean> topCommentJsonDataUtil = new JsonDataUtil<>(TopCommentBean.class);
-    private JsonDataUtil2<NormalCommentsBean> latestCommentJsonDataUtil = new JsonDataUtil2<>(NormalCommentsBean.class);
+    private JsonDataUtil<NormalCommentsBean> latestCommentJsonDataUtil = new JsonDataUtil<>(NormalCommentsBean.class, Config.FETCH_JSON_DATA_TYPE_COMMENT);
 
     private ArrayList<NormalCommentsBean.CommentsBean> latestCommentsList = new ArrayList<>();
 
