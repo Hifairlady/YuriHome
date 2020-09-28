@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private Type type = new TypeToken<ArrayList<ClassifyFilterBean>>() {
     }.getType();
     private JsonDataListUtil<ClassifyFilterBean> filterJsonDataListUtil = new JsonDataListUtil<>(type);
+
+    private boolean canExit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,24 @@ public class MainActivity extends AppCompatActivity {
     private void fetchFilterData() {
         String urlString = Config.getClassifyFiltersUrl();
         filterJsonDataListUtil.fetchJsonData(mHandler, urlString);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (!canExit) {
+                Snackbar.make(mainRootView, R.string.string_one_click_to_exit_text, Snackbar.LENGTH_SHORT).show();
+                canExit = true;
+                mainRootView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        canExit = false;
+                    }
+                }, 2000);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

@@ -91,4 +91,5 @@
     <string name="string_clear_browse_history_menu_title_text">Clear History</string>
     <string name="string_browse_history_activity_appbar_title_text">浏览记录 (%1$d)</string>
     <string name="string_translator_not_found_text">NONE</string>
+    <string name="string_one_click_to_exit_text">再次点击返回键退出应用！</string>
 </resources>
