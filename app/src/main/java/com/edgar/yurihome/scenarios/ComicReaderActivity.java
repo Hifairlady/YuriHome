@@ -249,7 +249,10 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (intent != null) {
-            fullChapterList.clear();
+//            fullChapterList.clear();
+            mHandler.removeCallbacksAndMessages(null);
+            mViewPointHandler.removeCallbacksAndMessages(null);
+            translatorHandler.removeCallbacksAndMessages(null);
             setIntent(intent);
             initData();
         }
@@ -364,7 +367,6 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
     private void initData() {
         showActionsLayout(false);
 //        drawerLayout.closeDrawer(Gravity.RIGHT);
-
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
@@ -391,29 +393,33 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
             tvDrawerChapterTitle.setText(chapterLongTitle);
             tvDrawerUpdateTime.setText(chapterUpdateString);
 
-            try {
-                Gson gson = new Gson();
-                Type type = new TypeToken<ArrayList<ComicDetailsBean.ChaptersBean.DataBean>>() {
-                }.getType();
-                fullChapterList = gson.fromJson(fullListJsonString, type);
-                if (fullChapterList == null || fullChapterList.size() == 0) {
+            if (fullChapterList == null || fullChapterList.size() == 0) {
+                try {
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<ArrayList<ComicDetailsBean.ChaptersBean.DataBean>>() {
+                    }.getType();
+                    fullChapterList = gson.fromJson(fullListJsonString, type);
+
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
                     drawerBottomRootLayout.setVisibility(View.GONE);
-                } else {
-                    if (sortOrder == ChapterListAdapter.SORT_ORDER_DESC) {
-                        btnNextChapter.setVisibility(curChapterPosition == 0 ? View.INVISIBLE : View.VISIBLE);
-                        btnLastChapter.setVisibility(curChapterPosition == fullChapterList.size() - 1 ? View.INVISIBLE : View.VISIBLE);
-                    }
-                    if (sortOrder == ChapterListAdapter.SORT_ORDER_ASC) {
-                        btnLastChapter.setVisibility(curChapterPosition == 0 ? View.INVISIBLE : View.VISIBLE);
-                        btnNextChapter.setVisibility(curChapterPosition == fullChapterList.size() - 1 ? View.INVISIBLE : View.VISIBLE);
-                    }
-                    btnNextChapter.setOnClickListener(mOnClickListener);
-                    btnLastChapter.setOnClickListener(mOnClickListener);
-                    btnAllChapters.setOnClickListener(mOnClickListener);
                 }
-            } catch (JsonSyntaxException e) {
-                e.printStackTrace();
+            }
+
+            if (fullChapterList == null || fullChapterList.size() == 0) {
                 drawerBottomRootLayout.setVisibility(View.GONE);
+            } else {
+                if (sortOrder == ChapterListAdapter.SORT_ORDER_DESC) {
+                    btnNextChapter.setVisibility(curChapterPosition == 0 ? View.INVISIBLE : View.VISIBLE);
+                    btnLastChapter.setVisibility(curChapterPosition == fullChapterList.size() - 1 ? View.INVISIBLE : View.VISIBLE);
+                }
+                if (sortOrder == ChapterListAdapter.SORT_ORDER_ASC) {
+                    btnLastChapter.setVisibility(curChapterPosition == 0 ? View.INVISIBLE : View.VISIBLE);
+                    btnNextChapter.setVisibility(curChapterPosition == fullChapterList.size() - 1 ? View.INVISIBLE : View.VISIBLE);
+                }
+                btnNextChapter.setOnClickListener(mOnClickListener);
+                btnLastChapter.setOnClickListener(mOnClickListener);
+                btnAllChapters.setOnClickListener(mOnClickListener);
             }
 
         }
@@ -424,15 +430,9 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
         screenWidth = outSize.x;
         screenHeight = outSize.y;
 
-
-//        JsonUtil.fetchJsonData(mHandler, urlString);
         readerImagesItemJsonDataUtil.fetchJsonData(mHandler, urlString);
-
         String viewPointUrl = Config.getAllViewsUrl(comicId, chapterId);
-
-//        JsonUtil.fetchJsonData(mViewPointHandler, viewPointUrl);
         viewPointJsonDataUtil.fetchJsonData(mViewPointHandler, viewPointUrl);
-
         fetchTranslatorName();
     }
 
