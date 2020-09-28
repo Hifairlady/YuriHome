@@ -157,7 +157,7 @@ public class MainListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_menu_action_search:
-                Intent searchIntent = new Intent(getContext(), SearchActivity.class);
+                Intent searchIntent = new Intent(mContext, SearchActivity.class);
                 startActivity(searchIntent);
                 break;
 
@@ -172,7 +172,7 @@ public class MainListFragment extends Fragment {
                 break;
 
             case R.id.main_menu_action_history:
-                Intent historyIntent = new Intent(getContext(), BrowseHistoryActivity.class);
+                Intent historyIntent = new Intent(mContext, BrowseHistoryActivity.class);
                 startActivity(historyIntent);
                 break;
 
@@ -374,6 +374,12 @@ public class MainListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         mHandler.removeCallbacksAndMessages(null);
     }
 }

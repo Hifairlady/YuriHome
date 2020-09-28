@@ -1,5 +1,6 @@
 package com.edgar.yurihome.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,6 +59,8 @@ public class ComicCommentsFragment extends Fragment {
 
     private Button btnViewAll;
 
+    private Context mContext;
+
     private int comicId;
 
     public ComicCommentsFragment() {
@@ -87,7 +90,7 @@ public class ComicCommentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_comic_comments, container, false);
-
+        mContext = getContext();
         ivTopCommentAvatar = view.findViewById(R.id.iv_top_comment_user_avatar);
         ivTopCommentGender = view.findViewById(R.id.iv_top_comment_user_gender);
         tvTopCommentContent = view.findViewById(R.id.tv_top_comment_content);
@@ -100,7 +103,7 @@ public class ComicCommentsFragment extends Fragment {
         btnViewAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent allCommentsIntent = new Intent(getContext(), AllCommentsActivity.class);
+                Intent allCommentsIntent = new Intent(mContext, AllCommentsActivity.class);
                 allCommentsIntent.putExtra("COMIC_ID", comicId);
                 startActivity(allCommentsIntent);
             }
@@ -112,7 +115,6 @@ public class ComicCommentsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         topCommentHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -120,7 +122,7 @@ public class ComicCommentsFragment extends Fragment {
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
                         TopCommentBean topCommentBean = topCommentJsonDataUtil.getData();
-                        topListAdapter = new CommentImagesListAdapter(getContext(), topCommentBean);
+                        topListAdapter = new CommentImagesListAdapter(mContext, topCommentBean);
                         initTopComment(topCommentBean);
                         break;
 
@@ -165,7 +167,7 @@ public class ComicCommentsFragment extends Fragment {
             NormalCommentsBean.CommentsBean commentsBean = findCommentById(ids[0], latestCommentsList);
             if (commentsBean == null) continue;
 
-            View commentView = LayoutInflater.from(getContext()).inflate(R.layout.layout_comment_normal_list_item, null, false);
+            View commentView = LayoutInflater.from(mContext).inflate(R.layout.layout_comment_normal_list_item, null, false);
             ImageView ivAvatar = commentView.findViewById(R.id.iv_normal_comment_avatar);
             ImageView ivGender = commentView.findViewById(R.id.iv_normal_comment_gender);
             TextView tvNickname = commentView.findViewById(R.id.tv_normal_comment_nickname);
@@ -189,7 +191,7 @@ public class ComicCommentsFragment extends Fragment {
                     NormalCommentsBean.CommentsBean childComment = findCommentById(ids[i], latestCommentsList);
                     if (childComment == null) continue;
 
-                    View childCommentView = LayoutInflater.from(getContext()).inflate(R.layout.layout_comment_child_list_item, null, false);
+                    View childCommentView = LayoutInflater.from(mContext).inflate(R.layout.layout_comment_child_list_item, null, false);
                     ImageView ivChildGender = childCommentView.findViewById(R.id.iv_child_comment_gender);
                     TextView tvChildNickname = childCommentView.findViewById(R.id.tv_child_comment_nickname);
                     TextView tvChildFloor = childCommentView.findViewById(R.id.tv_child_comment_floor);
@@ -223,7 +225,7 @@ public class ComicCommentsFragment extends Fragment {
             return;
         }
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
         rvTopCommentImagesList.setLayoutManager(layoutManager);
         rvTopCommentImagesList.setAdapter(topListAdapter);
     }
@@ -247,6 +249,13 @@ public class ComicCommentsFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        topCommentHandler.removeCallbacksAndMessages(null);
+        latestCommentsHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         topCommentHandler.removeCallbacksAndMessages(null);
         latestCommentsHandler.removeCallbacksAndMessages(null);
     }

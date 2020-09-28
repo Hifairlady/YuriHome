@@ -18,6 +18,7 @@ import com.edgar.yurihome.R;
 import com.edgar.yurihome.adapters.DetailsViewPagerAdapter;
 import com.edgar.yurihome.beans.BrowseHistoryBean;
 import com.edgar.yurihome.beans.ComicDetailsBean;
+import com.edgar.yurihome.utils.Config;
 import com.edgar.yurihome.utils.DateUtil;
 import com.edgar.yurihome.utils.GlideUtil;
 import com.edgar.yurihome.utils.HttpUtil;
@@ -143,8 +144,8 @@ public class ComicDetailsActivity extends AppCompatActivity {
                 try {
                     ArrayList<BrowseHistoryBean> storeList = gson.fromJson(historyJson, type);
                     if (!storeList.remove(historyBean)) {
-                        if (storeList.size() >= 15) {
-                            storeList.remove(14);
+                        if (storeList.size() >= Config.BROWSE_HISTORY_MAX_STORE_NUM) {
+                            storeList.remove(Config.BROWSE_HISTORY_MAX_STORE_NUM - 1);
                         }
                     }
                     storeList.add(0, historyBean);

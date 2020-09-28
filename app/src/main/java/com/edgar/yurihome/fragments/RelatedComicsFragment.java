@@ -1,5 +1,6 @@
 package com.edgar.yurihome.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,8 +40,9 @@ public class RelatedComicsFragment extends Fragment {
 
     private LinearLayout llContainer;
     private Handler mHandler;
-
     private JsonDataUtil<RelatedComicBean> relatedComicJsonDataUtil = new JsonDataUtil<>(RelatedComicBean.class);
+
+    private Context mContext;
 
     public RelatedComicsFragment() {
         // Required empty public constructor
@@ -67,6 +69,7 @@ public class RelatedComicsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_related_comics, container, false);
+        mContext = getContext();
         llContainer = view.findViewById(R.id.ll_related_comics_container);
         return view;
     }
@@ -84,13 +87,13 @@ public class RelatedComicsFragment extends Fragment {
                         ArrayList<RelatedComicBean.AuthorComicsBean> authorComicsBeans = new ArrayList<>(relatedComicBean.getAuthorComics());
                         for (RelatedComicBean.AuthorComicsBean authorComicsBean : authorComicsBeans) {
                             final ArrayList<RelatedComicBean.AuthorComicsBean.AuthorComicDataBean> authorComicList = new ArrayList<>(authorComicsBean.getData());
-                            View authorView = LayoutInflater.from(view.getContext()).inflate(R.layout.layout_related_author_comics, null, false);
+                            View authorView = LayoutInflater.from(mContext).inflate(R.layout.layout_related_author_comics, null, false);
                             llContainer.addView(authorView);
                             TextView authorTitle = authorView.findViewById(R.id.tv_related_comic_author_title);
                             authorTitle.setText(getString(R.string.string_related_comic_author_title_text, authorComicsBean.getAuthorName()));
-                            RelatedComicListAdapter adapter = new RelatedComicListAdapter(view.getContext(), authorComicList, authorComicsBean.getAuthorName());
+                            RelatedComicListAdapter adapter = new RelatedComicListAdapter(mContext, authorComicList, authorComicsBean.getAuthorName());
                             RecyclerView recyclerView = authorView.findViewById(R.id.rv_related_theme_comic_list);
-                            GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 3);
+                            GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
                             recyclerView.setLayoutManager(layoutManager);
                             adapter.setOnComicItemClickListener(new OnListItemClickListener() {
                                 @Override
@@ -109,11 +112,11 @@ public class RelatedComicsFragment extends Fragment {
                         }
 
                         final ArrayList<RelatedComicBean.ThemeComicsBean> themeComicList = new ArrayList<>(relatedComicBean.getThemeComics());
-                        View themeView = LayoutInflater.from(view.getContext()).inflate(R.layout.layout_related_theme_comics, null, false);
+                        View themeView = LayoutInflater.from(mContext).inflate(R.layout.layout_related_theme_comics, null, false);
                         llContainer.addView(themeView);
                         RecyclerView recyclerView = themeView.findViewById(R.id.rv_related_theme_comic_list);
-                        GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 3);
-                        RelatedComicListAdapter adapter = new RelatedComicListAdapter(view.getContext(), themeComicList);
+                        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
+                        RelatedComicListAdapter adapter = new RelatedComicListAdapter(mContext, themeComicList);
                         recyclerView.setLayoutManager(layoutManager);
                         adapter.setOnComicItemClickListener(new OnListItemClickListener() {
                             @Override
@@ -164,6 +167,12 @@ public class RelatedComicsFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         mHandler.removeCallbacksAndMessages(null);
     }
 }

@@ -79,7 +79,7 @@ public class ChapterInfosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chapter_infos, container, false);
-//        rootView = view.findViewById(R.id.chapter_details_root_view);
+        mContext = getContext();
         tvDescTitle = view.findViewById(R.id.tv_desc_comic_title);
         tvDescIntro = view.findViewById(R.id.tv_desc_brief_intro);
         ivDescExpand = view.findViewById(R.id.btn_expand_desc);
@@ -134,7 +134,7 @@ public class ChapterInfosFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initChaptersData(view.getContext());
+        initChaptersData(mContext);
     }
 
     public void setComicDetailsBean(ComicDetailsBean comicDetailsBean) {
@@ -151,9 +151,9 @@ public class ChapterInfosFragment extends Fragment {
             TextView tvChapterPartTitle = chapterView.findViewById(R.id.tv_chapter_part_title);
             tvChapterPartTitle.setText(chaptersBean.getTitle());
             RecyclerView rvChapterPartList = chapterView.findViewById(R.id.rv_chapter_list);
-            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+            GridLayoutManager layoutManager = new GridLayoutManager(context, 3);
             rvChapterPartList.setLayoutManager(layoutManager);
-            ChapterListAdapter mAdapter = new ChapterListAdapter(getContext(), chaptersBean.getData(),
+            ChapterListAdapter mAdapter = new ChapterListAdapter(context, chaptersBean.getData(),
                     mDetailsBean.getLastUpdateChapterId(), false, comicId, mDetailsBean.getTitle(), chaptersBean.getTitle());
             rvChapterPartList.setAdapter(mAdapter);
             listAdapters.add(mAdapter);

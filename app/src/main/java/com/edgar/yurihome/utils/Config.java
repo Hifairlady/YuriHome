@@ -13,6 +13,8 @@ public class Config {
     public static final int FETCH_JSON_DATA_TYPE_COMMENT = 1;
     public static final int FETCH_JSON_DATA_TYPE_TRANSLATOR = 2;
 
+    public static final int BROWSE_HISTORY_MAX_STORE_NUM = 21;
+
     //https://v3api.dmzj.com/classify/3243-2304-26310-3263/1/0.json
     public static final String BASE_URL_CLASSIFY = "https://v3api.dmzj.com/classify/";
 

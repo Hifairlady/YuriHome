@@ -27,7 +27,6 @@
         android:background="@android:color/black"
         android:text="@string/string_chapter_list_item_new_label_text"
         android:textAppearance="@style/ComicItemTextStyle"
-        android:textColor="@android:color/white"
-        android:textSize="14sp" />
+        android:textColor="@android:color/white" />
 
 </FrameLayout>
