@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_related_comic_icon"
                 app:layout_constraintVertical_bias="0.0"
-                tools:listitem="@layout/layout_related_comic_list_item" />
+                tools:listitem="@layout/item_layout_related_comic_list" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

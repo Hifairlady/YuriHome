@@ -77,7 +77,7 @@
                 android:fadeScrollbars="false"
                 android:scrollbarSize="3dp"
                 android:scrollbars="vertical"
-                tools:listitem="@layout/layout_search_history_item" />
+                tools:listitem="@layout/item_layout_search_history" />
 
         </com.google.android.material.card.MaterialCardView>
 

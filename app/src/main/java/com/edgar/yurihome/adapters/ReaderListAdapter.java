@@ -19,7 +19,7 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private Context mContext;
     private ArrayList<String> pageUrls = new ArrayList<>();
-    private int[] loadCodes;
+    private int[] loadStatCodes;
 
     public ReaderListAdapter(Context mContext) {
         this.mContext = mContext;
@@ -28,41 +28,14 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_reader_list_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_layout_reader_list, parent, false);
         return new PageHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final PageHolder mHolder = (PageHolder) holder;
-        GlideUtil.loadReaderImage(mHolder.ivImage, pageUrls.get(position), position, loadCodes);
-//        if (loadCodes[position] == -1) {
-//            GlideUtil.loadImageWithUrlNoCache(mHolder.ivImage, pageUrls.get(position));
-////            loadCodes[position] = 0;
-//        } else {
-//            String url = pageUrls.get(position);
-////            if (position % 5 == 1) {
-////                url = "test";
-////            }
-//            GlideApp.with(mHolder.ivImage)
-//                    .load(GlideUtil.getGlideUrl(url))
-//                    .addListener(new RequestListener<Drawable>() {
-//                        @Override
-//                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                            loadCodes[position] = -1;
-//                            return false;
-//                        }
-//
-//                        @Override
-//                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                            return false;
-//                        }
-//                    })
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .placeholder(R.drawable.image_loading)
-//                    .error(R.drawable.image_error)
-//                    .into(mHolder.ivImage);
-//        }
+        GlideUtil.loadReaderImage(mHolder.ivImage, pageUrls.get(position), position, loadStatCodes);
     }
 
     @Override
@@ -72,7 +45,7 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void setData(ReaderImagesItem readerImagesItem) {
         this.pageUrls = new ArrayList<>(readerImagesItem.getPageUrls());
-        this.loadCodes = new int[pageUrls.size()];
+        this.loadStatCodes = new int[pageUrls.size()];
         notifyDataSetChanged();
     }
 
@@ -84,5 +57,19 @@ public class ReaderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             ivImage = itemView.findViewById(R.id.iv_reader_item);
         }
+    }
+
+    public int getLoadStatCodeAt(int position) {
+        if (pageUrls.isEmpty() || position >= pageUrls.size() || position < 0) {
+            return 0;
+        }
+        return loadStatCodes[position];
+    }
+
+    public void setLoadStatCodeAt(int position, int value) {
+        if (pageUrls.isEmpty() || position >= pageUrls.size() || position < 0) {
+            return;
+        }
+        loadStatCodes[position] = value;
     }
 }

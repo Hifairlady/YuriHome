@@ -34,10 +34,10 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
         if (viewType == ComicItem.ITEM_TYPE_FOOTER) {
-            itemView = LayoutInflater.from(mContext).inflate(R.layout.layout_footer_item, parent, false);
+            itemView = LayoutInflater.from(mContext).inflate(R.layout.item_layout_footer, parent, false);
             return new FooterHolder(itemView);
         }
-        itemView = LayoutInflater.from(mContext).inflate(R.layout.layout_main_list_item, parent, false);
+        itemView = LayoutInflater.from(mContext).inflate(R.layout.item_layout_main_list, parent, false);
         return new NormalHolder(itemView);
     }
 

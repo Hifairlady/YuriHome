@@ -173,7 +173,7 @@ public class ComicCommentsFragment extends Fragment {
             NormalCommentsBean.CommentsBean commentsBean = findCommentById(ids[0], latestCommentsList);
             if (commentsBean == null) continue;
 
-            View commentView = LayoutInflater.from(mContext).inflate(R.layout.layout_comment_normal_list_item, null, false);
+            View commentView = LayoutInflater.from(mContext).inflate(R.layout.item_layout_comment_normal_list, null, false);
             ImageView ivAvatar = commentView.findViewById(R.id.iv_normal_comment_avatar);
             ImageView ivGender = commentView.findViewById(R.id.iv_normal_comment_gender);
             TextView tvNickname = commentView.findViewById(R.id.tv_normal_comment_nickname);
@@ -197,7 +197,7 @@ public class ComicCommentsFragment extends Fragment {
                     NormalCommentsBean.CommentsBean childComment = findCommentById(ids[i], latestCommentsList);
                     if (childComment == null) continue;
 
-                    View childCommentView = LayoutInflater.from(mContext).inflate(R.layout.layout_comment_child_list_item, null, false);
+                    View childCommentView = LayoutInflater.from(mContext).inflate(R.layout.item_layout_comment_child_list, null, false);
                     ImageView ivChildGender = childCommentView.findViewById(R.id.iv_child_comment_gender);
                     TextView tvChildNickname = childCommentView.findViewById(R.id.tv_child_comment_nickname);
                     TextView tvChildFloor = childCommentView.findViewById(R.id.tv_child_comment_floor);

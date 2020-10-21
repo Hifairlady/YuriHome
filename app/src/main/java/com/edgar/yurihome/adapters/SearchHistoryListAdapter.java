@@ -37,7 +37,7 @@ public class SearchHistoryListAdapter extends RecyclerView.Adapter<RecyclerView.
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_search_history_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_layout_search_history, parent, false);
         return new HistoryHolder(view);
     }
 

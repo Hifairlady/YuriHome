@@ -41,10 +41,10 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         if (viewType == FOOTER_VIEW_TYPE) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.layout_footer_item, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_layout_footer, parent, false);
             return new FooterHolder(view);
         }
-        view = LayoutInflater.from(mContext).inflate(R.layout.layout_comment_normal_list_item, parent, false);
+        view = LayoutInflater.from(mContext).inflate(R.layout.item_layout_comment_normal_list, parent, false);
         return new AllCommentsHolder(view);
     }
 
@@ -82,7 +82,7 @@ public class AllCommentsListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 NormalCommentsBean.CommentsBean childComment = findCommentById(ids[i], normalCommentsList);
                 if (childComment == null) continue;
 
-                View childCommentView = LayoutInflater.from(mContext).inflate(R.layout.layout_comment_child_list_item, null, false);
+                View childCommentView = LayoutInflater.from(mContext).inflate(R.layout.item_layout_comment_child_list, null, false);
                 ImageView ivChildGender = childCommentView.findViewById(R.id.iv_child_comment_gender);
                 TextView tvChildNickname = childCommentView.findViewById(R.id.tv_child_comment_nickname);
                 TextView tvChildFloor = childCommentView.findViewById(R.id.tv_child_comment_floor);

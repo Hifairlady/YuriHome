@@ -229,6 +229,13 @@ public class ComicReaderActivity extends AppCompatActivity implements View.OnTou
                 }
                 tvCurPage.setText(String.valueOf(curPage + 1));
                 setBottomInfos();
+
+                int position = layoutManager.findFirstCompletelyVisibleItemPosition();
+                int loadStatCode = listAdapter.getLoadStatCodeAt(position);
+                if (loadStatCode == -1) {
+                    listAdapter.setLoadStatCodeAt(position, 0);
+                    listAdapter.notifyItemChanged(position);
+                }
             }
         }
     };

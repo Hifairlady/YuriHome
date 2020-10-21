@@ -54,6 +54,7 @@ public class GlideUtil {
 
     public static void loadReaderImage(final ImageView imageView, final String urlString, final int position, final int[] loadCodes) {
         if (loadCodes[position] == -1) {
+//            loadCodes[position] = 0;
             GlideUtil.loadReaderImageWithUrlNoCache(imageView, urlString);
         } else {
             GlideApp.with(imageView)
@@ -67,7 +68,7 @@ public class GlideUtil {
 
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                            loadCodes[position] = 0;
+                            loadCodes[position] = 1;
                             return false;
                         }
                     })
@@ -77,4 +78,6 @@ public class GlideUtil {
                     .into(imageView);
         }
     }
+
+
 }
