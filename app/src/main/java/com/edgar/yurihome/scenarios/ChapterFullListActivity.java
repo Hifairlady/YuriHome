@@ -1,6 +1,7 @@
 package com.edgar.yurihome.scenarios;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,8 +33,9 @@ public class ChapterFullListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chapter_full_list);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
         MaterialToolbar toolbar = findViewById(R.id.full_chapter_list_toolbar);
         if (getSupportActionBar() == null) {
             setSupportActionBar(toolbar);

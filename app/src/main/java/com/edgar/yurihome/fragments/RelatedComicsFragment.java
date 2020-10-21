@@ -81,6 +81,9 @@ public class RelatedComicsFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
+                if (!isAdded() || isDetached()) {
+                    return;
+                }
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
                         RelatedComicBean relatedComicBean = relatedComicJsonDataUtil.getData();

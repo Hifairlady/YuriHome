@@ -119,6 +119,9 @@ public class ComicCommentsFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
+                if (!isAdded() || isDetached()) {
+                    return;
+                }
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
                         TopCommentBean topCommentBean = topCommentJsonDataUtil.getData();
@@ -137,6 +140,9 @@ public class ComicCommentsFragment extends Fragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
+                if (!isAdded() || isDetached()) {
+                    return;
+                }
                 switch (msg.what) {
                     case HttpUtil.REQUEST_JSON_SUCCESS:
                         NormalCommentsBean latestCommentsBean = latestCommentJsonDataUtil.getData();
